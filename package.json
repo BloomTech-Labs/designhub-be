@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The back-end server for the Labs16 Design Hub Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/labs16-designhub/backend.git"
+  },
+  "keywords": [
+    "DesignHub",
+    "UX",
+    "PostgreSQL",
+    "Express",
+    "UI"
+  ],
+  "author": "Cecil John Tantay, Javontay McElroy, Bradley Ball, Ian Belknap, Zeke Kooyer, Michael VanSleen, Landon Bassett",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/labs16-designhub/backend/issues"
+  },
+  "homepage": "https://github.com/labs16-designhub/backend#readme",
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}
