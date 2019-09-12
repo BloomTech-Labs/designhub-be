@@ -6,7 +6,7 @@ exports.createUser = async (req, res) => {
     const findUser = await go.getById('users', response);
     res
       .status(201)
-      .json({ message: 'Account successfully created!', user: findUser });
+      .json({ message: 'Account successfully created!', findUser });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create account", error: error });
   }
