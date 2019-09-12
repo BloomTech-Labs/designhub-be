@@ -1,4 +1,5 @@
 require('dotenv').config();
+const go = require('./resources/utils/crud');
 // middleware imports
 const express = require('express');
 const morgan = require('morgan');
@@ -15,6 +16,18 @@ server.use(morgan('dev'));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
+// ************************ TEST ENDPOINT ************
+
+server.post('/', async (req, res) => {
+  try {
+    const response = await go.createOne('users', 'id', req.body);
+    res
+      .status(201)
+      .json({ message: 'Account successfully created!', response });
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't create account", error: error });
+  }
+});
 
 //******************** Routes *******************************/
 
