@@ -12,8 +12,8 @@ exports.up = function(knex) {
 
     tbl.string('projectName').notNullable();
 
-    users.timestamp('created_at').defaultTo(knex.fn.now());
-    users.timestamp('updated_at').defaultTo(knex.fn.now());
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+    tbl.timestamp('updated_at').defaultTo(knex.fn.now());
   });
 };
 
