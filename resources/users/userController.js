@@ -32,8 +32,8 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   try {
-    const { id } = await go.updateById('users', req.body, req.params.id);
-    const data = await go.getById('users', id);
+    const data = await go.updateById('users', req.body, req.params.id);
+
     res.status(200).json({ data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't update user.", error: error });
