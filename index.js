@@ -18,7 +18,7 @@ server.use(cors());
 server.use(helmet());
 // ************************ TEST ENDPOINT ************
 
-server.post('/', async (req, res) => {
+server.get('/', async (req, res) => {
   try {
     const response = await go.getMany('user_projects');
     res.status(200).json({ response });
