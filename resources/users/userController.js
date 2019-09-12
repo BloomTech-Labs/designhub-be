@@ -3,7 +3,7 @@ const go = require('../utils/crud');
 exports.createUser = async (req, res) => {
   try {
     const [id] = await go.createOne('users', 'id', req.body);
-    const user = await go.getById('users', id);
+    const data = await go.getById('users', id);
     res.status(201).json({ message: 'Account successfully created!', data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create account", error: error });
@@ -22,7 +22,7 @@ exports.getUserById = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const data = await go.getMany('users');
+    const data = await go.getMany('users').orderBy('id', 'desc');
 
     res.status(200).json({ data });
   } catch (error) {
@@ -31,9 +31,9 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.updateUserById = async (req, res) => {
-  const { id } = req.params;
   try {
-    const data = await go.updateById('users', req.body, id);
+    const [id] = await go.updateById('users', req.body, req.params.id);
+    const data = await go.getById('users', id);
     res.status(200).json({ data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't update user.", error: error });
