@@ -5,7 +5,7 @@ pg.defaults.ssl = true;
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: 'postgres://localhost/<examples>',
     pool: {
       min: 2,
       max: 10
