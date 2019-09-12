@@ -22,10 +22,8 @@ exports.getUserById = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const data = await go
-      .getMany('users')
-      .limit(5)
-      .offset(5);
+    const data = await go.getMany('users');
+
     res.status(200).json({ data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't get users.", error: error });
