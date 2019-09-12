@@ -32,7 +32,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   try {
-    const data = await go.updateById('users', req.body, req.params.id);
+    const data = await go.updateById('users', req.body, req.params.id, 'id');
 
     res.status(200).json({ data });
   } catch (error) {
