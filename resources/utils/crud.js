@@ -1,3 +1,5 @@
+const db = require('../../data/dbConfig');
+
 exports.createOne = (table, returning, object) => {
   return db(table)
     .returning(returning)
