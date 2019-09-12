@@ -30,19 +30,19 @@ exports.getAllProjects = async (req, res) => {
   }
 };
 
-exports.getProjectsByName = async (req, res) => {
-  const { projectName } = req.headers;
-  try {
-    const data = await getMany('user_projects').where(
-      'projectName',
-      'like',
-      `%${projectName}%`
-    );
-    res.status(200).json({ data });
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't find project.", error: error });
-  }
-};
+// exports.getProjectsByName = async (req, res) => {
+//   const { projectName } = req.headers;
+//   try {
+//     const data = await getMany('user_projects').where(
+//       'projectName',
+//       'like',
+//       `%${projectName}%`
+//     );
+//     res.status(200).json({ data });
+//   } catch (error) {
+//     res.status(400).json({ message: "Couldn't find project.", error: error });
+//   }
+// };
 
 exports.updateProjectById = async (req, res) => {
   const { id } = req.params;
