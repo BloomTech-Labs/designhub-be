@@ -1,6 +1,6 @@
 exports.createOne = (table, returning, object) => {
   return db(table)
-    .returning(returning.length > 1 ? returning : [returning])
+    .returning(returning)
     .insert(object);
 };
 
