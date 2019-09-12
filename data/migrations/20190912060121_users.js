@@ -10,6 +10,14 @@ exports.up = function(knex) {
       .unique()
       .notNullable();
     users
+      .string('email')
+      .unique()
+      .defaultTo(null);
+    users
+      .string('phoneNumber')
+      .unique()
+      .defaultTo(null);
+    users
       .string('firstName')
       .defaultTo(null)
       .nullable();

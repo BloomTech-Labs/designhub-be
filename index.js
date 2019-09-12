@@ -20,10 +20,8 @@ server.use(helmet());
 
 server.post('/', async (req, res) => {
   try {
-    const response = await go.createOne('users', 'id', req.body);
-    res
-      .status(201)
-      .json({ message: 'Account successfully created!', response });
+    const response = await go.getMany('user_projects');
+    res.status(200).json({ response });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create account", error: error });
   }
