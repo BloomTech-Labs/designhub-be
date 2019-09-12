@@ -24,11 +24,18 @@ To get the server running locally:
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/users`         | N/A                 | returns list of users in ascending order           |
-| GET    | `/api/v1/users/:id`     | N/A                 | returns single user                                |
-| POST   | `/api/v1/users/:id`     | N/A                 | posts a user and returns user object               |
-| PUT    | `/api/v1/users/:id`     | N/A                 | updates user and returns user object               |
-| DELETE | `/api/v1/users/:id`     | N/A                 | deletes user and sends success message             |                                      
+| GET    | `/api/v1/users/:id`     | N/A                 | expects user (id) in params                        |
+| POST   | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with user info                |
+| PUT    | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with updated object and (id)  |
+| DELETE | `/api/v1/users/:id`     | N/A                 | expects (id) of the user that needs to delete      |        
 
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/v1/projects`      | N/A                 | returns list of projects in ascending order        |
+| GET    | `/api/v1/projects/:id`  | N/A                 | expects user (id) in params                        |
+| POST   | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with project info             |
+| PUT    | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with updates and id           |
+| DELETE | `/api/v1/projects/:id`  | N/A                 | expects (id) of the project that needs to delete   |      
 
 # Data Model
 
@@ -43,6 +50,8 @@ To get the server running locally:
   id: AUTO increment
   auth0Id: required: references users auth0 id
   username: required and unique
+  email: STRING
+  phoneNumber: STRING
   firstName: STRING
   lastName: STRING
   location: STRING
@@ -50,6 +59,23 @@ To get the server running locally:
   website: STRING
   avatar: STRING
   created_at: AUTO timestamp
+  
+}
+```
+
+#### USERS
+
+---
+
+```
+{
+  id: AUTO increment
+  userId: required: references users id who made the post
+  private: boolean for if its a private repository or not. Default to false
+  projectName: required: name of project
+  created_at: AUTO timestamp
+  updated_at: AUTO timestamp should be updated every time there is an update to the project
+  
   
 }
 ```
