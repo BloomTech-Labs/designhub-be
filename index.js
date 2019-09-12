@@ -5,10 +5,10 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const db = require('./data/dbConfig');
 const server = express();
 // router imports
 const userRouter = require('./resources/users/userRouter');
+const projectRouter = require('./resources/userProjects/userProjectsRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -30,6 +30,7 @@ server.post('/', async (req, res) => {
 //******************** Routes *******************************/
 
 server.use('/api/v1/users', userRouter);
+server.use('/api/v1/projects', projectRouter);
 
 // ****************** PORT SET UP *************************
 
