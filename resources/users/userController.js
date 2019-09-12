@@ -7,7 +7,6 @@ exports.createUser = async (req, res) => {
       .status(201)
       .json({ message: 'Account successfully created!', response });
   } catch (error) {
-    console.error(err);
     res.status(400).json({ message: "Couldn't create account", error: error });
   }
 };
