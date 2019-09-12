@@ -11,10 +11,11 @@ exports.createUser = async (req, res) => {
   //     res.status(400).json({ message: "Couldn't create account", err });
   //   }
   go.createOne('users', 'id', req.body)
-    .then(response =>
-      res
+    .then(response => {
+      console.log(response);
+      return res
         .status(201)
-        .json({ message: 'Account successfully created!', response })
-    )
-    .catch(err => console.error(err));
+        .json({ message: 'Account successfully created!', response });
+    })
+    .catch(err => res.send(err));
 };
