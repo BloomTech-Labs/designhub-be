@@ -31,7 +31,7 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.getProjectsByName = async (req, res) => {
-  const { projectName } = req.body;
+  const { projectName } = req.headers;
   try {
     const data = await getByRawWhere(
       'user_projects',
