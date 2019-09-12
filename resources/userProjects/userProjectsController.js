@@ -31,13 +31,13 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.getProjectsByName = async (req, res) => {
-  const { projectName } = req.body;
+  const term = req.body.projectName;
   try {
-    const data = await db('user_projects').where(
-      'projectName',
-      'like',
-      `%${projectName}%`
+    const data = await knex('user_projects').whereRaw(
+      "projectName like '%??%'",
+      [term]
     );
+
     res.status(200).json({ data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't find project.", error: error });
