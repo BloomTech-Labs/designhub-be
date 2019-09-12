@@ -17,5 +17,5 @@ exports.createUser = async (req, res) => {
         .status(201)
         .json({ message: 'Account successfully created!', response });
     })
-    .catch(err => res.send(err));
+    .catch(err => res.status(400).send(err));
 };
