@@ -22,9 +22,8 @@ exports.getByRawWhere = (table, whereQuery, whereBindingArray, ...columns) => {
     .whereRaw(whereQuery, whereBindingArray);
 };
 
-exports.updateById = (table, object, id, returning) => {
+exports.updateById = (table, object, id) => {
   return db(table)
-    .returning(returning)
     .update(object)
     .where('id', id);
 };
