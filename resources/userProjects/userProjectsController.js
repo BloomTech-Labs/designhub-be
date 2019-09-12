@@ -33,10 +33,10 @@ exports.getAllProjects = async (req, res) => {
 exports.getProjectsByName = async (req, res) => {
   const { projectName } = req.headers;
   try {
-    const data = await getByRawWhere(
-      'user_projects',
-      "projectName like '%??%'",
-      [projectName]
+    const data = await getMany('user_projects').where(
+      'projectName',
+      'like',
+      `%${projectName}%`
     );
     res.status(200).json({ data });
   } catch (error) {
