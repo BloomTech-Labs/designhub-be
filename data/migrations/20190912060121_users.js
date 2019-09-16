@@ -8,7 +8,7 @@ exports.up = function(knex) {
     users
       .string('username')
       .unique()
-      .notNullable();
+      .defaultTo(null);
     users
       .string('email')
       .unique()

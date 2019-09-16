@@ -61,4 +61,5 @@ typings/
 .next
 
 s3Config.js
-resources/utils/s3Config
+resources/utils/s3Config.js
+config.js
