@@ -25,7 +25,7 @@ To get the server running locally:
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/users`         | N/A                 | returns list of users in ascending order           |
 | GET    | `/api/v1/users/:id`     | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with user info                |
+| POST   | `/api/v1/users/`        | N/A                 | expects a (req.body) with user info                |
 | PUT    | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with updated object and (id)  |
 | DELETE | `/api/v1/users/:id`     | N/A                 | expects (id) of the user that needs to delete      |        
 
@@ -33,7 +33,7 @@ To get the server running locally:
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/projects`      | N/A                 | returns list of projects in ascending order        |
 | GET    | `/api/v1/projects/:id`  | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with project info             |
+| POST   | `/api/v1/projects/`     | N/A                 | expects a (req.body) with project info             |
 | PUT    | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with updates and id           |
 | DELETE | `/api/v1/projects/:id`  | N/A                 | expects (id) of the project that needs to delete   |      
 
