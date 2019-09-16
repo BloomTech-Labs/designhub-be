@@ -1,4 +1,5 @@
 const go = require('../utils/crud');
+const db = require('../../data/dbConfig');
 
 exports.createProject = async (req, res) => {
   try {
@@ -30,19 +31,22 @@ exports.getAllProjects = async (req, res) => {
   }
 };
 
-// exports.getProjectsByName = async (req, res) => {
-//   const term = req.body.projectName;
-//   try {
-//     const data = await knex('user_projects').whereRaw(
-//       "projectName like '%??%'",
-//       [term]
-//     );
+exports.getProjectsByName = async (req, res) => {
+  const term = req.body.projectName;
 
-//     res.status(200).json({ data });
-//   } catch (error) {
-//     res.status(400).json({ message: "Couldn't find project.", error: error });
-//   }
-// };
+  try {
+    const data = await db('user_projects').where(
+      'projectName',
+      'like',
+      `%${term}%`
+    );
+
+    res.status(200).json({ data });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Couldn't find project.", error: error });
+  }
+};
 
 exports.updateProjectById = async (req, res) => {
   const { id } = req.params;

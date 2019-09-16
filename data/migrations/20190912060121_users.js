@@ -5,14 +5,8 @@ exports.up = function(knex) {
       .string('auth0Id')
       .unique()
       .notNullable();
-    users
-      .string('username')
-      .unique()
-      .notNullable();
-    users
-      .string('email')
-      .unique()
-      .defaultTo(null);
+    users.string('username').defaultTo(null);
+    users.string('email').defaultTo(null);
     users
       .string('phoneNumber')
       .unique()
