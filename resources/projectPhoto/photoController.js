@@ -1,11 +1,24 @@
 const go = require('../utils/crud');
+const uuid = require('uuid/v1');
+const AWS = require('aws-sdk');
+// Create s3 user with access key Id and secret access key
+const s3 = new AWS.S3({
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY
+});
 
-exports.createPhoto = async (req, res) => {
-  try {
-    const [id] = await go.createOne('users', 'id', req.body);
-    const data = await go.getById('users', id);
-    res.status(201).json({ message: 'Account successfully created!', data });
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't create account", error: error });
-  }
+exports.signedUrl = async (req, res) => {
+  const key = `${req.user.id}/${uuid()}.jpeg`;
+  s3.getSignedUrl(
+    'putObject',
+    {
+      // name of bucket you created
+      Bucket: 'my-photo-bucket-123',
+      ContentType: 'jpeg',
+      Key: key
+    },
+    (err, url) => {
+      res.send({ key, url });
+    }
+  );
 };
