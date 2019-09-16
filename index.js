@@ -9,6 +9,7 @@ const server = express();
 // router imports
 const userRouter = require('./resources/users/userRouter');
 const projectRouter = require('./resources/userProjects/userProjectsRouter');
+const photoRouter = require('./resources/projectPhoto/photoRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -31,7 +32,7 @@ server.get('/', async (req, res) => {
 
 server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
-server.use('/api/v1/photo');
+server.use('/api/v1/photo', photoRouter);
 
 // ****************** PORT SET UP *************************
 
