@@ -1,14 +1,20 @@
 const go = require('../utils/crud');
 const uuid = require('uuid/v1');
 const AWS = require('aws-sdk');
+const config = require('../utils/s3Config');
+
+const { ACCESS_KEY_ID, SECRET_ACCESS_KEY } = config;
+
 // Create s3 user with access key Id and secret access key
 const s3 = new AWS.S3({
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY
+  accessKeyId: ACCESS_KEY_ID,
+  secretAccessKey: SECRET_ACCESS_KEY
 });
 
 exports.signedUrl = async (req, res) => {
-  const key = `${req.user.id}/${uuid()}.jpeg`;
+  const key = `userId/${uuid()}.jpeg`;
+
+  console.log(ACCESS_KEY_ID, SECRET_ACCESS_KEY);
   s3.getSignedUrl(
     'putObject',
     {
@@ -18,6 +24,7 @@ exports.signedUrl = async (req, res) => {
       Key: key
     },
     (err, url) => {
+      console.log(url);
       res.send({ key, url });
     }
   );
