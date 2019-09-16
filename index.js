@@ -1,5 +1,7 @@
 require('dotenv').config();
 const go = require('./resources/utils/crud');
+// sentry imports
+const Sentry = require('@sentry/node');
 // middleware imports
 const express = require('express');
 const morgan = require('morgan');
@@ -35,6 +37,11 @@ server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
 server.use('/api/v1/photo', photoRouter);
 server.use('/api/v1/followers', followersRouter);
+
+// ****************** SENTRY *************************
+
+Sentry.init({ dsn: `${process.env.SENTRY_DSN}` });
+myUndefinedFunction();
 
 // ****************** PORT SET UP *************************
 
