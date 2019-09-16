@@ -20,7 +20,7 @@ exports.signedUrl = async (req, res) => {
     {
       // name of bucket you created
       Bucket: 'my-photo-bucket-123',
-      ContentType: 'jpeg',
+      ContentType: 'image/jpeg',
       Key: key
     },
     (err, url) => {
