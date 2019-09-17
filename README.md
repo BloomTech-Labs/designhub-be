@@ -32,11 +32,11 @@ To get the server running locally:
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/projects`      | N/A                 | returns list of projects in ascending order        |
-| GET    | `/api/v1/projects/:id`  | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/projects/`     | N/A                 | expects a (req.body) with project info             |
-| PUT    | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with updates and id           |
-| DELETE | `/api/v1/projects/:id`  | N/A                 | expects (id) of the project that needs to delete   |      
-
+| GET    | `/api/v1/projects/:id`  | N/A                 | { `id`} -> from req.params                         |
+| POST   | `/api/v1/projects/`     | N/A                 | { `key/value pairs` } -> from req.body (check schema below) |
+| PUT    | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs)          |
+| DELETE | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params.                       |      
+   
 # Data Model
 
 
