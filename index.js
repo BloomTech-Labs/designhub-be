@@ -35,7 +35,7 @@ server.get('/', async (req, res) => {
 
 server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
-// server.use('/api/v1/photo', photoRouter);
+server.use('/api/v1/photo/projects', photoRouter);
 server.use('/api/v1/followers', followersRouter);
 
 // ****************** SENTRY *************************

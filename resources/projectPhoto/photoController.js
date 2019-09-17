@@ -1,31 +1,33 @@
-// const go = require('../utils/crud');
-// const uuid = require('uuid/v1');
-// const AWS = require('aws-sdk');
-// const config = require('../utils/s3Config');
+require('dotenv').config();
+const go = require('../utils/crud');
+const uuid = require('uuid/v1');
+const AWS = require('aws-sdk');
 
-// const { ACCESS_KEY_ID, SECRET_ACCESS_KEY } = config;
+const accessId = process.env.ACCESS_KEY_ID;
+const accessKey = process.env.SECRET_ACCESS_KEY;
 
-// // Create s3 user with access key Id and secret access key
-// const s3 = new AWS.S3({
-//   accessKeyId: ACCESS_KEY_ID,
-//   secretAccessKey: SECRET_ACCESS_KEY
-// });
+// Create s3 user with access key Id and secret access key
+const s3 = new AWS.S3({
+  accessKeyId: accessId,
+  secretAccessKey: accessKey,
+  signatureVersion: 'v4',
+  region: 'us-east-2'
+});
 
-// exports.signedUrl = async (req, res) => {
-//   const key = `${uuid()}.jpeg`;
+exports.signedUrl = async (req, res) => {
+  const key = `${uuid()}.jpeg`;
 
-//   console.log(ACCESS_KEY_ID, SECRET_ACCESS_KEY);
-//   s3.getSignedUrl(
-//     'putObject',
-//     {
-//       // name of bucket you created
-//       Bucket: 'my-photo-bucket-123',
-//       ContentType: 'image/jpeg',
-//       Key: key
-//     },
-//     (err, url) => {
-//       console.log(url);
-//       res.send({ key, url });
-//     }
-//   );
-// };
+  console.log(accessId, accessKey);
+  s3.getSignedUrl(
+    'putObject',
+    {
+      // name of bucket you created
+      Bucket: 'my-photo-bucket-123',
+      ContentType: 'image/*',
+      Key: key
+    },
+    (err, url) => {
+      res.send({ key, url });
+    }
+  );
+};
