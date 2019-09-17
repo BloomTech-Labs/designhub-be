@@ -2,6 +2,7 @@ require('dotenv').config();
 const go = require('../utils/crud');
 const uuid = require('uuid/v1');
 const AWS = require('aws-sdk');
+const db = require('../../data/dbConfig');
 
 const accessId = process.env.ACCESS_KEY_ID;
 const accessKey = process.env.SECRET_ACCESS_KEY;
@@ -15,8 +16,8 @@ const s3 = new AWS.S3({
 });
 
 exports.signedUrl = async (req, res) => {
-  const { postId } = req.body;
-  const key = `${postId}/${uuid()}.jpeg`;
+  const { projectId } = req.body;
+  const key = `${projectId}/${uuid()}.jpeg`;
   console.log(key);
 
   console.log(accessId, accessKey);
@@ -32,4 +33,18 @@ exports.signedUrl = async (req, res) => {
       res.send({ key, url });
     }
   );
+};
+
+exports.getPhotosByProjectId = async (req, res) => {
+  const { projectId } = req.body;
+
+  try {
+    const data = await db('project_photos')
+      .select('*')
+      .where('projectId', projectId);
+    res.json({ data });
+  } catch (err) {
+    console.error(err);
+    res.send({ error: err });
+  }
 };
