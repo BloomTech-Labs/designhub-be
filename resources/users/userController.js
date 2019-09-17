@@ -2,30 +2,30 @@ const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
 exports.createUser = async (req, res) => {
-  const { family_name, given_name, nickname, picture, sub } = req.body.user;
+  const { sub } = req.body;
   let user = [];
+  let avatar = null;
   //first search by sub
 
   try {
     user = await db('users')
       .select('*')
       .where('auth0Id', sub);
-    console.log(user.length);
+
     if (user.length > 0) {
       res.status(200).json({ message: 'User already created', user });
     } else {
+      if (req.body.avatar) {
+        avatar = req.body.avatar;
+      }
       let userObject = {
-        lastName: family_name,
-        firstName: given_name,
         auth0Id: sub,
-        username: nickname,
-        avatar: picture
+        avatar: avatar
       };
 
       const [id] = await go.createOne('users', 'id', userObject);
       const data = await go.getById('users', id);
-      console.log(data);
-      res.status(201).json({ message: 'Account successfully created!', user: data });
+      res.status(201).json({ message: 'Account successfully created!', data });
     }
   } catch (err) {
     console.error(err);

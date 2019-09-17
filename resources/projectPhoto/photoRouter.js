@@ -1,7 +1,12 @@
-// const express = require('express');
-// const router = express.Router();
-// const photoController = require('./photoController');
+const express = require('express');
+const router = express.Router();
+const photoController = require('./photoController');
 
-// router.get('/signed', photoController.signedUrl);
+router.post('/signed', photoController.signedUrl);
+router.get('/', photoController.getAllPhotos);
+router.get('/:id', photoController.getPhotosByProjectId);
+router.get('/one/:id', photoController.getPhotoById);
+router.post('/', photoController.createProjectPhoto);
+router.delete('/:id', photoController.deletePhotoById);
 
-// module.exports = router;
+module.exports = router;
