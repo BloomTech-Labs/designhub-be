@@ -35,6 +35,17 @@ exports.signedUrl = async (req, res) => {
   );
 };
 
+exports.getPhotoById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await go.getById('project_photos', id);
+    res.json({ data });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to get photo' });
+  }
+};
+
 exports.getPhotosByProjectId = async (req, res) => {
   const { projectId } = req.params;
 
