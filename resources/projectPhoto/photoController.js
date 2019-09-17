@@ -35,11 +35,21 @@ exports.signedUrl = async (req, res) => {
   );
 };
 
+exports.getAllPhotos = async (req, res) => {
+  try {
+    const data = await go.getMany('project_photos');
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: "Couldn't get photos" });
+  }
+};
+
 exports.getPhotoById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('project_photos', id);
-    //const data = await go.getMany('project_photos');
+
     res.json({ data });
   } catch (err) {
     console.error(err);
