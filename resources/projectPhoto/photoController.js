@@ -36,7 +36,7 @@ exports.signedUrl = async (req, res) => {
 };
 
 exports.getPhotosByProjectId = async (req, res) => {
-  const { projectId } = req.body;
+  const { projectId } = req.params;
 
   try {
     const data = await db('project_photos')
