@@ -39,6 +39,7 @@ exports.getPhotoById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('project_photos', id);
+    //const data = await go.getMany('project_photos');
     res.json({ data });
   } catch (err) {
     console.error(err);
@@ -47,11 +48,11 @@ exports.getPhotoById = async (req, res) => {
 };
 
 exports.getPhotosByProjectId = async (req, res) => {
-  const { projectId } = req.params;
+  const { id } = req.params;
   try {
     const data = await db('project_photos')
       .select('*')
-      .where('projectId', projectId);
+      .where('projectId', id);
     res.json({ data });
   } catch (err) {
     console.error(err);
@@ -60,12 +61,13 @@ exports.getPhotosByProjectId = async (req, res) => {
 };
 
 exports.createProjectPhoto = async (req, res) => {
+  console.log(req.body);
   try {
-    const [id] = await go.createOne('project_photos', req.body, 'id');
+    const [id] = await go.createOne('project_photos', 'id', req.body);
     res.status(201).json({ message: 'Photo successfully created', id });
   } catch (err) {
     console.error(err);
-    res.json({ message: 'Unable to create photo' });
+    res.status(400).json({ message: 'Unable to create photo' });
   }
 };
 

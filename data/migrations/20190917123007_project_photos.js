@@ -11,7 +11,6 @@ exports.up = function(knex) {
     tbl
       .string('url')
       .unique()
-
       .notNullable();
     tbl.text('description').defaultTo(null);
     tbl.text('title').defaultTo(null);
