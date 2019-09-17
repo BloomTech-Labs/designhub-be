@@ -48,3 +48,13 @@ exports.getPhotosByProjectId = async (req, res) => {
     res.send({ error: err });
   }
 };
+
+exports.createProjectPhoto = async (req, res) => {
+  try {
+    const [id] = await go.createOne('project_photos', req.body, 'id');
+    res.status(201).json({ message: 'Photo successfully created', id });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to create photo' });
+  }
+};
