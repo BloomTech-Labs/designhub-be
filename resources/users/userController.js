@@ -25,7 +25,6 @@ exports.createUser = async (req, res) => {
 
       const [id] = await go.createOne('users', 'id', userObject);
       const data = await go.getById('users', id);
-
       res.status(201).json({ message: 'Account successfully created!', data });
     }
   } catch (err) {
