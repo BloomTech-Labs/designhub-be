@@ -24,10 +24,10 @@ To get the server running locally:
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/users`         | N/A                 | returns list of users in ascending order           |
-| GET    | `/api/v1/users/:id`     | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/users/`        | N/A                 | expects a (req.body) with user info                |
-| PUT    | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with updated object and (id)  |
-| DELETE | `/api/v1/users/:id`     | N/A                 | expects (id) of the user that needs to delete      |        
+| GET    | `/api/v1/users/:id`     | N/A                 | {id}  from req.params. Returns single User         |
+| POST   | `/api/v1/users/`        | N/A                 | {sub, avatar(if exists)} You will use this endpoint everytime you log in. It will look up the user by sub. If the user exists, it will return the the existing user. If no user found, it will make 1|
+| PUT    | `/api/v1/users/:id`     | N/A                 | {id}  from req.params. && {updated key/value pairs} from req.body (see user schema down below to see what data it needs.          |
+| DELETE | `/api/v1/users/:id`     | N/A                 | {id} from req.params.                              |        
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
