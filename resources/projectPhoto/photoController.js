@@ -6,7 +6,7 @@ const AWS = require('aws-sdk');
 const accessId = process.env.ACCESS_KEY_ID;
 const accessKey = process.env.SECRET_ACCESS_KEY;
 
-// Create s3 user with access key Id and secret access key
+// Create s3 user with access key Id and secret access key.
 const s3 = new AWS.S3({
   accessKeyId: accessId,
   secretAccessKey: accessKey,
