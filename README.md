@@ -1,45 +1,36 @@
-
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at STAGING: https://designhubx-staging.herokuapp.com/ PRODUCTION: https://designhubx.herokuapp.com/  <br>
+#### 1️⃣ Backend delpoyed at STAGING: https://designhubx-staging.herokuapp.com/ PRODUCTION: https://designhubx.herokuapp.com/ <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
 
-
 - Clone this repo
 - **yarn ** to install all required dependencies
 - **yarn dev** to start the local server
 
-
-
-
 ## 2️⃣ Endpoints
-
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/v1/users`         | N/A                 | returns list of users in ascending order           |
-| GET    | `/api/v1/users/:id`     | N/A                 | { `id` } ->  from req.params. Returns single User         |
-| POST   | `/api/v1/users/`        | N/A                 | { `sub`(required), `avatar`(if exists) } -> You will use this endpoint everytime you log in. It will look up the user by sub. If the user exists, it will return the the existing user. If no user found, it will make 1|
-| PUT    | `/api/v1/users/:id`     | N/A                 | { `id` } -> from req.params. && { `updated key/value pairs` } -> from req.body (see user schema down below to see what data it needs.          |
-| DELETE | `/api/v1/users/:id`     | N/A                 | { `id` } -> from req.params.                              |        
+| Method | Endpoint            | Access Control | Description                                                                                                                                                                                                              |
+| ------ | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET    | `/api/v1/users`     | N/A            | returns list of users in ascending order                                                                                                                                                                                 |
+| GET    | `/api/v1/users/:id` | N/A            | { `id` } -> from req.params. Returns single User                                                                                                                                                                         |
+| POST   | `/api/v1/users/`    | N/A            | { `sub`(required), `avatar`(if exists) } -> You will use this endpoint everytime you log in. It will look up the user by sub. If the user exists, it will return the the existing user. If no user found, it will make 1 |
+| PUT    | `/api/v1/users/:id` | N/A            | { `id` } -> from req.params. && { `updated key/value pairs` } -> from req.body (see user schema down below to see what data it needs.                                                                                    |
+| DELETE | `/api/v1/users/:id` | N/A            | { `id` } -> from req.params.                                                                                                                                                                                             |
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/v1/projects`      | N/A                 | returns list of projects in ascending order        |
-| GET    | `/api/v1/projects/:id`  | N/A                 | { `id`} -> from req.params                         |
-| POST   | `/api/v1/projects/`     | N/A                 | { `key/value pairs` } -> from req.body (check schema below) |
-| PUT    | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs)          |
-| DELETE | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params.                       |      
-   
+| Method | Endpoint               | Access Control | Description                                                                                                          |
+| ------ | ---------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------- |
+| GET    | `/api/v1/projects`     | N/A            | returns list of projects in ascending order                                                                          |
+| GET    | `/api/v1/projects/:id` | N/A            | { `id`} -> from req.params                                                                                           |
+| POST   | `/api/v1/projects/`    | N/A            | { `key/value pairs` } -> from req.body (check schema below)                                                          |
+| PUT    | `/api/v1/projects/:id` | N/A            | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs) |
+| DELETE | `/api/v1/projects/:id` | N/A            | { `id` } -> from req.params.                                                                                         |
+
 # Data Model
-
-
 
 #### USERS
 
@@ -59,7 +50,7 @@ To get the server running locally:
   website: STRING
   avatar: STRING
   created_at: AUTO timestamp
-  
+
 }
 ```
 
@@ -75,36 +66,32 @@ To get the server running locally:
   projectName: required: name of project
   created_at: AUTO timestamp
   updated_at: AUTO timestamp should be updated every time there is an update to the project
-  
-  
+
+
 }
 ```
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+`getAllUsers()` -> Returns all users
 
-`getOrgs()` -> Returns all organizations
+`getSingleUser(userId)` -> Returns a single user when supplied with user's ID
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`updateUser(userId, changes object)` -> Updates a single user by ID
 
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+`getAllProjects()` -> Returns all projects
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`addProject(project object)` -> Creates a new project and returns that project
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`getSingleProject(projectId)` -> Returns a single project when supplied with the project's ID
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`updateProject(projectId, changes object)` -> Updates a single project by ID and returns the newly updated project
+
+`deleteProject(projectId)` -> Deletes a single project when supplied with project's ID
 
 ## 3️⃣ Environment Variables
 
@@ -113,13 +100,12 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
-    
+  
+ _ STAGING_DB - optional development db for using functionality not available in SQLite
+_ NODE_ENV - set to "development" until ready for "production"
+_ JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;_(-_=+)') for i in range(50)])
+_ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -128,11 +114,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+- Check first to see if your issue has already been reported.
+- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+- Create a live example of the problem.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
