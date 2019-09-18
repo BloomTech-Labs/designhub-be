@@ -39,7 +39,7 @@ exports.getCommentsByImageId = async (req, res) => {
     const data = await db('comments')
       .select('*')
       .where('imageId', imageId);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (err) {
     console.error(error);
     res
@@ -89,12 +89,12 @@ exports.getCommentsByProjectId = async (req, res) => {
   try {
     const data = await db('comments')
       .select('*')
-      .where('imageId', projectId);
+      .where('projectId', projectId);
     res.status(200).json({ data });
   } catch (err) {
     console.error(error);
     res
       .status(400)
-      .json({ message: "Couldn't find the projects's comments", error: error });
+      .json({ message: "Couldn't find the project's comments", error: error });
   }
 };
