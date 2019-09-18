@@ -13,4 +13,10 @@ router.get('/photo/:imageId', commentsController.getCommentsByImageId);
 router.post('/project', commentsController.createProjectComment);
 router.get('/project/:projectId', commentsController.getCommentsByProjectId);
 
+// ************************ SHARED ***********************************//
+//****************************************************************** */
+
+router.put('/:id', commentsController.updateCommentById);
+router.delete('/:id', commentsController.deleteProjectById);
+
 module.exports = router;

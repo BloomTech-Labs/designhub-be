@@ -98,3 +98,27 @@ exports.getCommentsByProjectId = async (req, res) => {
       .json({ message: "Couldn't find the project's comments", error: error });
   }
 };
+
+// ************************ SHARED ***********************************//
+//****************************************************************** */
+
+exports.updateCommentById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await go.updateById('comments', req.body, id);
+    const data = await go.getById('comments', id);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't update comment.", error: error });
+  }
+};
+
+exports.deleteProjectById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await go.destroyById('comments', id);
+    res.status(200).json({ message: 'Comment successfully deleted' });
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't delete comment.", error: error });
+  }
+};
