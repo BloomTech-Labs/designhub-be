@@ -3,15 +3,15 @@ const db = require('../../data/dbConfig');
 
 //test
 
-// exports.getAllFollowers = async (req, res) => {
-//   try {
-//     const data = await go.getMany('user_followers');
-//     res.status(200).json(data);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json({ message: "couldn't get users" });
-//   }
-// };
+exports.getAllFollowers = async (req, res) => {
+  try {
+    const data = await go.getMany('user_followers');
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: "couldn't get users" });
+  }
+};
 
 exports.createFollow = async (req, res) => {
   if (!req.body.userId) {
@@ -68,7 +68,7 @@ exports.getFollowersCount = async (req, res) => {
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('followersId', userId);
+      .where('followerId', userId);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -95,9 +95,11 @@ exports.unfollow = async (req, res) => {
   try {
     await db('user_followers')
       .del()
-      .whereRaw('userId = ? AND followerId = ?', [userId, followerId]);
+      .where('followerId', followerId)
+      .andWhere('userId', userId);
     res.status(200).json({ message: 'Follow successfully deleted' });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: "Couldn't delete follow.", error: error });
   }
 };
