@@ -46,6 +46,33 @@ exports.deleteHeatmapById = async (req, res) => {
       .status(200)
       .json({ message: 'Heatmap contribution successfully deleted' });
   } catch (error) {
-    res.status(400).json({ message: "Couldn't delete comment.", error: error });
+    res
+      .status(400)
+      .json({ message: "Couldn't delete heatmap contribution.", error: error });
+  }
+};
+
+exports.getTotalHeatmapContributions = async (req, res) => {
+  if (!req.params.userId) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.params' });
+  }
+
+  const { userId } = req.params;
+
+  try {
+    const data = await db('heatmap')
+      .count('count')
+      .where('userId', userId);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(error);
+    res
+      .status(400)
+      .json({
+        message: "Couldn't find the user's heatmap total",
+        error: error
+      });
   }
 };
