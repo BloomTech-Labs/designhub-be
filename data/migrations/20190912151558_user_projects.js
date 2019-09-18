@@ -11,6 +11,7 @@ exports.up = function(knex) {
     tbl.boolean('private').defaultTo(false);
 
     tbl.string('projectName').notNullable();
+    tbl.text('description').defaultTo(null);
 
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
