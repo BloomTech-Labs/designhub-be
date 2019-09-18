@@ -26,6 +26,26 @@ exports.createStar = async (req, res) => {
   }
 };
 
+exports.getProjectStarCount = async (req, res) => {
+  if (!req.params.projectId) {
+    res
+      .status(400)
+      .json({ message: 'projectrId was not attached to the req.params' });
+  }
+
+  const { projectId } = req.params;
+
+  try {
+    const data = await db('user_followers')
+      .count('id')
+      .where('projectId', projectId);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find star count' });
+  }
+};
+
 exports.deleteStar = async (req, res) => {
   if (!req.body.userId) {
     res
