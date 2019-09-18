@@ -75,3 +75,29 @@ exports.getFollowersCount = async (req, res) => {
     res.status(400).json({ message: 'Couldnt find followers count' });
   }
 };
+
+exports.unfollow = async (req, res) => {
+  if (!req.body.userId) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.body' });
+  }
+
+  if (!req.params.followerId) {
+    res
+      .status(400)
+      .json({ message: 'followerId was not attached to the req.params' });
+  }
+
+  const { followerId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    await db('user_followers')
+      .del()
+      .whereRaw('userId = ? AND followerId = ?', [userId, followerId]);
+    res.status(200).json({ message: 'Follow successfully deleted' });
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't delete follow.", error: error });
+  }
+};
