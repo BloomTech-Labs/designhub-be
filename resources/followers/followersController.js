@@ -35,3 +35,43 @@ exports.createFollow = async (req, res) => {
       .json({ message: "Couldn't create the follow", error: error });
   }
 };
+
+exports.getFollowingCount = async (req, res) => {
+  if (!req.params.userId) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.params' });
+  }
+
+  const { userId } = req.params;
+
+  try {
+    const data = await db('user_followers')
+      .count('id')
+      .where('userId', userId);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find following count' });
+  }
+};
+
+exports.getFollowingCount = async (req, res) => {
+  if (!req.params.userId) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.params' });
+  }
+
+  const { userId } = req.params;
+
+  try {
+    const data = await db('user_followers')
+      .count('id')
+      .where('followersId', userId);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find followers count' });
+  }
+};
