@@ -14,6 +14,7 @@ const projectRouter = require('./resources/userProjects/userProjectsRouter');
 const photoRouter = require('./resources/projectPhoto/photoRouter');
 const followersRouter = require('./resources/followers/followersRouter');
 const commentsRouter = require('./resources/comments/commentsRouter');
+const heatmapRouter = require('./resources/heatmap/heatmapRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -39,6 +40,7 @@ server.use('/api/v1/projects', projectRouter);
 server.use('/api/v1/photo/projects', photoRouter);
 server.use('/api/v1/followers', followersRouter);
 server.use('/api/v1/comments', commentsRouter);
+server.use('/api/v1/heatmap', heatmapRouter);
 
 // ****************** SENTRY *************************
 
