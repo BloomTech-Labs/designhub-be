@@ -37,7 +37,7 @@ exports.getCommentsByImageId = async (req, res) => {
       .status(400)
       .json({ message: 'imageId was not attached to the req.params' });
   }
-  const { imageId } = req.params.imageId;
+  const { imageId } = req.params;
   try {
     const data = await db('comments')
       .select('*')
@@ -88,7 +88,7 @@ exports.getCommentsByProjectId = async (req, res) => {
       .json({ message: 'projectId was not attached to the req.params' });
   }
 
-  const { projectId } = req.params.projectId;
+  const { projectId } = req.params;
   try {
     const data = await db('comments')
       .select('*')
