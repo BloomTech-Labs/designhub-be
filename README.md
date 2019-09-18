@@ -24,19 +24,19 @@ To get the server running locally:
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/users`         | N/A                 | returns list of users in ascending order           |
-| GET    | `/api/v1/users/:id`     | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/users/`        | N/A                 | expects a (req.body) with user info                |
-| PUT    | `/api/v1/users/:id`     | N/A                 | expects a (req.body) with updated object and (id)  |
-| DELETE | `/api/v1/users/:id`     | N/A                 | expects (id) of the user that needs to delete      |        
+| GET    | `/api/v1/users/:id`     | N/A                 | { `id` } ->  from req.params. Returns single User         |
+| POST   | `/api/v1/users/`        | N/A                 | { `sub`(required), `avatar`(if exists) } -> You will use this endpoint everytime you log in. It will look up the user by sub. If the user exists, it will return the the existing user. If no user found, it will make 1|
+| PUT    | `/api/v1/users/:id`     | N/A                 | { `id` } -> from req.params. && { `updated key/value pairs` } -> from req.body (see user schema down below to see what data it needs.          |
+| DELETE | `/api/v1/users/:id`     | N/A                 | { `id` } -> from req.params.                              |        
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/v1/projects`      | N/A                 | returns list of projects in ascending order        |
-| GET    | `/api/v1/projects/:id`  | N/A                 | expects user (id) in params                        |
-| POST   | `/api/v1/projects/`     | N/A                 | expects a (req.body) with project info             |
-| PUT    | `/api/v1/projects/:id`  | N/A                 | expects a (req.body) with updates and id           |
-| DELETE | `/api/v1/projects/:id`  | N/A                 | expects (id) of the project that needs to delete   |      
-
+| GET    | `/api/v1/projects/:id`  | N/A                 | { `id`} -> from req.params                         |
+| POST   | `/api/v1/projects/`     | N/A                 | { `key/value pairs` } -> from req.body (check schema below) |
+| PUT    | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs)          |
+| DELETE | `/api/v1/projects/:id`  | N/A                 | { `id` } -> from req.params.                       |      
+   
 # Data Model
 
 
@@ -82,29 +82,25 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+`getAllUsers()` -> Returns all users
 
-`getOrgs()` -> Returns all organizations
+`getSingleUser(userId)` -> Returns a single user when supplied with user's ID
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`updateUser(userId, changes object)` -> Updates a single user by ID
 
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+`getAllProjects()` -> Returns all projects
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`addProject(project object)` -> Creates a new project and returns that project
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`getSingleProject(projectId)` -> Returns a single project when supplied with the project's ID
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`updateProject(projectId, changes object)` -> Updates a single project by ID and returns the newly updated project
+
+`deleteProject(projectId)` -> Deletes a single project when supplied with project's ID
 
 ## 3️⃣ Environment Variables
 
