@@ -13,6 +13,7 @@ const userRouter = require('./resources/users/userRouter');
 const projectRouter = require('./resources/userProjects/userProjectsRouter');
 const photoRouter = require('./resources/projectPhoto/photoRouter');
 const followersRouter = require('./resources/followers/followersRouter');
+const commentsRouter = require('./resources/comments/commentsRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -37,6 +38,7 @@ server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
 server.use('/api/v1/photo/projects', photoRouter);
 server.use('/api/v1/followers', followersRouter);
+server.use('/api/v1/comments', commentsRouter);
 
 // ****************** SENTRY *************************
 
