@@ -1,6 +1,15 @@
+sudo: false
+
 language: node_js
+
 node_js:
-  - 'stable'
+  - node
+
+install:
+  - npm ci
+
+script: -npm test
+
 cache:
   directories:
     - node_modules
