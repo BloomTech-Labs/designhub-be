@@ -24,7 +24,7 @@ server.use(helmet());
 
 server.get('/', async (req, res) => {
   try {
-    const response = await go.getMany('user_projects');
+    const response = await go.getMany('heatmap');
     res.status(200).json({ response });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create account", error: error });

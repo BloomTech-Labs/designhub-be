@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('user_followers', tbl => {
+  return knex.schema.createTable('heatmap', tbl => {
     tbl.increments('id');
     tbl
       .integer('userId')
@@ -11,7 +11,7 @@ exports.up = function(knex) {
     tbl
       .integer('projectId')
       .unsigned()
-      .references('users.id')
+      .references('user_projects.id')
       .nullable()
       .onDelete('CASCADE');
 
@@ -23,5 +23,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('user_followers');
+  return knex.schema.dropTableIfExists('heatmap');
 };
