@@ -11,6 +11,9 @@ const userRouter = require('./resources/users/userRouter');
 const projectRouter = require('./resources/userProjects/userProjectsRouter');
 const photoRouter = require('./resources/projectPhoto/photoRouter');
 const followersRouter = require('./resources/followers/followersRouter');
+const commentsRouter = require('./resources/comments/commentsRouter');
+const heatmapRouter = require('./resources/heatmap/heatmapRouter');
+const starRouter = require('./resources/starredProjects/starRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -21,12 +24,7 @@ server.use(helmet());
 // ************************ TEST ENDPOINT ************
 
 server.get('/', async (req, res) => {
-  try {
-    const response = await go.getMany('user_projects');
-    res.status(200).json({ response });
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't create account", error: error });
-  }
+  res.send('<h1>She works</h1>');
 });
 
 //******************** Routes *******************************/
@@ -35,5 +33,8 @@ server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
 server.use('/api/v1/photo/projects', photoRouter);
 server.use('/api/v1/followers', followersRouter);
+server.use('/api/v1/comments', commentsRouter);
+server.use('/api/v1/heatmap', heatmapRouter);
+server.use('/api/v1/star', starRouter);
 
 module.exports = server;

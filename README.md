@@ -82,29 +82,25 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+`getAllUsers()` -> Returns all users
 
-`getOrgs()` -> Returns all organizations
+`getSingleUser(userId)` -> Returns a single user when supplied with user's ID
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`updateUser(userId, changes object)` -> Updates a single user by ID
 
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+`getAllProjects()` -> Returns all projects
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`addProject(project object)` -> Creates a new project and returns that project
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`getSingleProject(projectId)` -> Returns a single project when supplied with the project's ID
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`updateProject(projectId, changes object)` -> Updates a single project by ID and returns the newly updated project
+
+`deleteProject(projectId)` -> Deletes a single project when supplied with project's ID
 
 ## 3️⃣ Environment Variables
 
