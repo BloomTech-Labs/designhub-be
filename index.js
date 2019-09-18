@@ -13,6 +13,7 @@ const userRouter = require('./resources/users/userRouter');
 const projectRouter = require('./resources/userProjects/userProjectsRouter');
 const photoRouter = require('./resources/projectPhoto/photoRouter');
 const followersRouter = require('./resources/followers/followersRouter');
+const commentsRouter = require('./resources/comments/commentsRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -24,7 +25,7 @@ server.use(helmet());
 
 server.get('/', async (req, res) => {
   try {
-    const response = await go.getMany('user_projects');
+    const response = await go.getMany('heatmap');
     res.status(200).json({ response });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create account", error: error });
@@ -37,6 +38,7 @@ server.use('/api/v1/users', userRouter);
 server.use('/api/v1/projects', projectRouter);
 server.use('/api/v1/photo/projects', photoRouter);
 server.use('/api/v1/followers', followersRouter);
+server.use('/api/v1/comments', commentsRouter);
 
 // ****************** SENTRY *************************
 
