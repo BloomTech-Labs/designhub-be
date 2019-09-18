@@ -10,5 +10,6 @@ router.get('/photo/:imageId', commentsController.getCommentsByImageId);
 
 // ********************* PROJECT COMMENTS *************************
 // ****************************************************************
+router.post('/photo', commentsController.createProjectComment);
 
 module.exports = router;
