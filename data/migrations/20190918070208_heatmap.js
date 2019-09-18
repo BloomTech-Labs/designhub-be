@@ -16,7 +16,7 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
 
     tbl.integer('count').defaultTo(1);
-    tbl.date(`${Date.now()})`);
+    tbl.date(`${Date.now()}`);
 
     tbl.text('contribution').defaultTo(null);
   });
