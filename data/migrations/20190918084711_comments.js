@@ -14,6 +14,8 @@ exports.up = function(knex) {
       .references('user_projects.id')
       .nullable()
       .onDelete('CASCADE');
+
+    tbl.string('username').notNullable();
     tbl
       .integer('imageId')
       .unsigned()
