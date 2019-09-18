@@ -6,6 +6,7 @@ const commentsController = require('./commentsController');
 //***************************************************************
 
 router.post('/photo', commentsController.createPhotoComment);
+router.get('/photo/:imageId', commentsController.getCommentsByImageId);
 
 // ********************* PROJECT COMMENTS *************************
 // ****************************************************************

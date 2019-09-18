@@ -24,5 +24,24 @@ exports.createPhotoComment = async (req, res) => {
   }
 };
 
+exports.getCommentsByImageId = async (req, res) => {
+  if (!req.params.imageId) {
+    res
+      .status(400)
+      .json({ message: 'imageId was not attached to the req.params' });
+  }
+  try {
+    const data = await db('comments')
+      .select('*')
+      .where('imageId');
+    res.status(200).json({ data });
+  } catch (err) {
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "Couldn't find the photo's comments", error: error });
+  }
+};
+
 // ********************* PROJECT COMMENTS *************************
 // ****************************************************************
