@@ -4,7 +4,8 @@
   "description": "The back-end server for the Labs16 Design Hub Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env DB_ENV=testing jest --verbose --runInBand --forceExit",
+    "test-redo": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing && npx knex seed:run --env=testing",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
@@ -26,8 +27,8 @@
   },
   "homepage": "https://github.com/labs16-designhub/backend#readme",
   "dependencies": {
-    "aws-sdk": "^2.528.0",
     "@sentry/node": "5.6.2",
+    "aws-sdk": "^2.528.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
@@ -35,11 +36,23 @@
     "helmet": "^3.21.0",
     "knex": "^0.19.4",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.2",
     "pg": "^7.12.1",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "cross-env": "^6.0.0",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.2",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "clearMocks": true,
+    "displayName": "Design Hub X Server",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "verbose": true
   }
 }
