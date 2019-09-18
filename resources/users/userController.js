@@ -16,7 +16,7 @@ exports.createUser = async (req, res) => {
       res.status(200).json({ message: 'User already created', user });
     } else {
       if (req.body.avatar) {
-        avatar = req.body.avatar;
+        avatar = req.body.picture;
       }
       let userObject = {
         auth0Id: sub,
