@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
     if (user.length > 0) {
       res.status(200).json({ message: 'User already created', user });
     } else {
-      if (req.body.avatar) {
+      if (req.body.picture) {
         avatar = req.body.picture;
       }
       let userObject = {
