@@ -4,6 +4,8 @@
 
 #### 1️⃣ Backend delpoyed at STAGING: https://designhubx-staging.herokuapp.com/ PRODUCTION: https://designhubx.herokuapp.com/  <br>
 
+[![Travis CI](https://travis-ci.com/Lambda-School-Labs/designhub-be.svg?branch=master)]
+
 ## 1️⃣ Getting started
 
 To get the server running locally:
