@@ -5,13 +5,8 @@ language: node_js
 node_js:
   - node
 
-install:
-  - npm ci
+script:
+  - yarn test
 
-script: -npm test
-
-cache:
-  directories:
-    - node_modules
-env:
-  - YARN_GPG=no
+notification:
+  - email: false
