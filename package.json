@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env DB_ENV=testing jest --watch --verbose",
+    "test-redo": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing && npx knex seed:run --env=testing",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
