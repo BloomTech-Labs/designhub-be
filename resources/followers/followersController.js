@@ -56,7 +56,7 @@ exports.getFollowingCount = async (req, res) => {
   }
 };
 
-exports.getFollowingCount = async (req, res) => {
+exports.getFollowersCount = async (req, res) => {
   if (!req.params.userId) {
     res
       .status(400)
