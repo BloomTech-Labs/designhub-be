@@ -23,14 +23,14 @@ server.use(cors());
 server.use(helmet());
 // ************************ TEST ENDPOINT ************
 
-server.get('/', async (req, res) => {
-  try {
-    const response = await go.getMany('heatmap');
-    res.status(200).json({ response });
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't create account", error: error });
-  }
-});
+// server.get('/', async (req, res) => {
+//   try {
+//     const response = await go.getMany('starred_projects');
+//     res.status(200).json({ response });
+//   } catch (error) {
+//     res.status(400).json({ message: "Couldn't create account", error: error });
+//   }
+// });
 
 //******************** Routes *******************************/
 
