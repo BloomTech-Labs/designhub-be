@@ -16,6 +16,7 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
 
     tbl.integer('count').defaultTo(1);
+
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
 
     tbl.text('contribution').defaultTo(null);
