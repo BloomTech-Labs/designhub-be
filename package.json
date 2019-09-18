@@ -4,7 +4,7 @@
   "description": "The back-end server for the Labs16 Design Hub Project",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_ENV=testing jest --watch --verbose --maxWorkers=4",
+    "test": "cross-env DB_ENV=testing jest --watchAll --verbose --runInBand",
     "test-redo": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing && npx knex seed:run --env=testing",
     "dev": "nodemon index.js",
     "start": "node index.js"
@@ -45,5 +45,14 @@
     "nodemon": "^1.19.2",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "clearMocks": true,
+    "displayName": "Design Hub X Server",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "verbose": true
   }
 }
