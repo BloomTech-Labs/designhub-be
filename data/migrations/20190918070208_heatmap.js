@@ -8,15 +8,8 @@ exports.up = function(knex) {
       .notNullable()
       .onDelete('CASCADE');
 
-    tbl
-      .integer('projectId')
-      .unsigned()
-      .references('user_projects.id')
-      .nullable()
-      .onDelete('CASCADE');
-
     tbl.integer('count').defaultTo(1);
-    tbl.date(Date.now());
+    tbl.date(`${Date.now()}`);
 
     tbl.text('contribution').defaultTo(null);
   });
