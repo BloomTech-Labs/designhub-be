@@ -6,12 +6,12 @@ const commentsController = require('./commentsController');
 //***************************************************************
 
 router.post('/photo', commentsController.createPhotoComment);
-router.get('/photo/:imageId', commentsController.getCommentsByImageId);
+router.get('/photo/:id', commentsController.getCommentsByImageId);
 
 // ********************* PROJECT COMMENTS *************************
 // ****************************************************************
 router.post('/project', commentsController.createProjectComment);
-router.get('/project/:projectId', commentsController.getCommentsByProjectId);
+router.get('/project/:id', commentsController.getCommentsByProjectId);
 
 // ************************ SHARED ***********************************//
 //****************************************************************** */
