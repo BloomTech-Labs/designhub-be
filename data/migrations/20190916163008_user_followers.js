@@ -2,14 +2,14 @@ exports.up = function(knex) {
   return knex.schema.createTable('user_followers', tbl => {
     tbl.increments('id');
     tbl
-      .integer('userId')
+      .integer('followingId')
       .unsigned()
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
-      .integer('followerId')
+      .integer('followedId')
       .unsigned()
       .references('users.id')
       .notNullable()

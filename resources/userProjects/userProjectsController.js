@@ -15,7 +15,7 @@ exports.getProjectById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('user_projects', id);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't find project.", error: error });
   }
@@ -53,7 +53,7 @@ exports.updateProjectById = async (req, res) => {
   try {
     await go.updateById('user_projects', req.body, id);
     const data = await go.getById('user_projects', id);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't update project.", error: error });
   }
