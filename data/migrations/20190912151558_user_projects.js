@@ -10,11 +10,11 @@ exports.up = function(knex) {
 
     tbl.boolean('private').defaultTo(false);
 
-    tbl.string('projectName').notNullable();
+    tbl.string('name').notNullable();
     tbl.text('description').defaultTo(null);
-    tbl.string('figmaLink');
-    tbl.string('invisionLink');
-
+    tbl.string('figma');
+    tbl.string('invision');
+    tbl.text('mainImg');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
   });

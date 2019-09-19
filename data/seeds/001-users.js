@@ -6,6 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('users').insert([
         {
+          id: 1,
           auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3',
           username: 'eriklambert',
           email: 'eriklambert@designhubx.com',
@@ -21,11 +22,12 @@ exports.seed = function(knex) {
           created_at: '2019-09-19T17:20:25.355Z'
         },
         {
+          id: 2,
           auth0Id: 'sub|2',
           username: 'ericalambert',
           email: 'eriklambert@designhub.com',
           phoneNumber: 8005550129,
-          firstName: 'Erik',
+          firstName: 'Erica',
           lastName: 'Lambert',
           location: 'Austin, TX',
           bio:
@@ -35,6 +37,7 @@ exports.seed = function(knex) {
             'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80'
         },
         {
+          id: 3,
           auth0Id: 'sub|3',
           username: 'kimmilang',
           email: 'kimmilang@designhub.com',
@@ -49,6 +52,7 @@ exports.seed = function(knex) {
             'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
         },
         {
+          id: 4,
           auth0Id: 'sub|4',
           username: 'daddyteddy',
           email: 'davidholmes@designhub.com',
@@ -63,6 +67,7 @@ exports.seed = function(knex) {
             'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
         },
         {
+          id: 5,
           auth0Id: 'sub|5',
           username: 'angieux',
           email: 'angieux@designhub.com',
@@ -77,6 +82,7 @@ exports.seed = function(knex) {
             'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
         },
         {
+          id: 6,
           auth0Id: 'sub|6',
           username: 'austinrobo',
           email: 'austinrobo@designhub.com',
