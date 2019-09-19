@@ -59,8 +59,8 @@ To get the server running locally:
 | ------ | ---------------------------------- | ---------------- | -------------------------------------------------- |------------------------------- |-------------------------------------------------------------- |
 | POST   |`/api/v1/comments/project`          | N/A              | The userId will reference the users.id, the username will reference the users.username, the projectId will reference the users.projectId, text will reference the comment's text you made. | req.body: { userId, username, projectId, text, top, left } | It will return the comment record you created |
 | GET    | `/api/v1/comments/project/:id`     | N/A              | The id should reference the user_projects.id.                   | req.params: { id }             | This will return all the records based on the project's id. (user_projects.id) |
-| PUT    | `/api/v1/comments/project/:id`      | N/A              | The id should reference the image id. (project_photos.id)       | req.params: { id } req.body: { key/value pairs of the updated comment } | This will return the updated record |
-| DELETE | `/api/v1/comments/project/:id`  | N/A              | The id in the req.params should reference the comments.id       | req.params: { id } | This will return a message that the comments record is deleted |
+| PUT    | `/api/v1/comments/:id`      | N/A              | The id should reference the comment id.       | req.params: { id } req.body: { key/value pairs of the updated comment } | This will return the updated record |
+| DELETE | `/api/v1/comments/:id`  | N/A              | The id in the req.params should reference the comments.id       | req.params: { id } | This will return a message that the comments record is deleted |
 
 
 #### PHOTO COMMENTS Routes
