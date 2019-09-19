@@ -26,8 +26,8 @@ exports.up = function(knex) {
       .references('project_photos.id')
       .nullable()
       .onDelete('CASCADE');
-    tbl.integer('top').nullable();
-    tbl.integer('left').nullable();
+    tbl.string('top').nullable();
+    tbl.string('left').nullable();
 
     tbl.text('text').notNullable();
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
