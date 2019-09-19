@@ -91,7 +91,7 @@ exports.seed = function(knex) {
           figma: null,
           invision: null,
           private: false,
-          main:
+          mainImg:
             'https://cdn.dribbble.com/users/2151039/screenshots/7148065/media/2cf88366ac2a35660345ca8226a97085.png',
           created_at: '2019-09-19T17:20:31.355Z',
           updated_at: '2019-09-19T17:20:31.355Z'
