@@ -22,7 +22,7 @@ exports.seed = function(knex) {
         },
         {
           auth0Id: 'sub|2',
-          username: 'eriklambert',
+          username: 'ericalambert',
           email: 'eriklambert@designhub.com',
           phoneNumber: 8005550129,
           firstName: 'Erik',
