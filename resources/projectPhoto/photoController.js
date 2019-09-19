@@ -35,22 +35,22 @@ exports.signedUrl = async (req, res) => {
   );
 };
 
-exports.getAllPhotos = async (req, res) => {
-  try {
-    const data = await go.getMany('project_photos');
-    res.status(200).json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: "Couldn't get photos" });
-  }
-};
+// exports.getAllPhotos = async (req, res) => {
+//   try {
+//     const data = await go.getMany('project_photos');
+//     res.status(200).json(data);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(400).json({ message: "Couldn't get photos" });
+//   }
+// };
 
 exports.getPhotoById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('project_photos', id);
 
-    res.json({ data });
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.json({ message: 'Unable to get photo' });
@@ -63,7 +63,7 @@ exports.getPhotosByProjectId = async (req, res) => {
     const data = await db('project_photos')
       .select('*')
       .where('projectId', id);
-    res.json({ data });
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.send({ error: err });
@@ -84,7 +84,7 @@ exports.createProjectPhoto = async (req, res) => {
 exports.deletePhotoById = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await go.destroyById('project_photos', id);
+    await go.destroyById('project_photos', id);
     res.json({ message: 'Successfully deleted photo' });
   } catch (err) {
     console.error(err);

@@ -32,16 +32,14 @@ exports.createPhotoComment = async (req, res) => {
 };
 
 exports.getCommentsByImageId = async (req, res) => {
-  if (!req.params.imageId) {
-    res
-      .status(400)
-      .json({ message: 'imageId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
-  const { imageId } = req.params;
+  const { id } = req.params;
   try {
     const data = await db('comments')
       .select('*')
-      .where('imageId', imageId);
+      .where('imageId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
@@ -82,18 +80,16 @@ exports.createProjectComment = async (req, res) => {
 };
 
 exports.getCommentsByProjectId = async (req, res) => {
-  if (!req.params.projectId) {
-    res
-      .status(400)
-      .json({ message: 'projectId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
 
-  const { projectId } = req.params;
+  const { id } = req.params;
   try {
     const data = await db('comments')
       .select('*')
-      .where('projectId', projectId);
-    res.status(200).json({ data });
+      .where('projectId', id);
+    res.status(200).json(data);
   } catch (err) {
     console.error(error);
     res

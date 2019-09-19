@@ -38,7 +38,7 @@ exports.getUserById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('users', id);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't find user.", error: error });
   }
@@ -48,7 +48,7 @@ exports.getAllUsers = async (req, res) => {
   try {
     const data = await go.getMany('users').orderBy('id', 'asc');
 
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't get users.", error: error });
   }
@@ -59,7 +59,7 @@ exports.updateUserById = async (req, res) => {
   try {
     await go.updateById('users', req.body, id);
     const data = await go.getById('users', id);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't update user.", error: error });
   }

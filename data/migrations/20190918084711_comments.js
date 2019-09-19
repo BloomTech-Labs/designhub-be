@@ -15,13 +15,19 @@ exports.up = function(knex) {
       .nullable()
       .onDelete('CASCADE');
 
-    tbl.string('username').notNullable();
+    tbl
+      .string('username')
+      .notNullable()
+      .references('users.username')
+      .onDelete('CASCADE');
     tbl
       .integer('imageId')
       .unsigned()
       .references('project_photos.id')
       .nullable()
       .onDelete('CASCADE');
+    tbl.string('top').nullable();
+    tbl.string('left').nullable();
 
     tbl.text('text').notNullable();
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
