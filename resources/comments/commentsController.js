@@ -89,7 +89,7 @@ exports.getCommentsByProjectId = async (req, res) => {
     const data = await db('comments')
       .select('*')
       .where('projectId', id);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (err) {
     console.error(error);
     res

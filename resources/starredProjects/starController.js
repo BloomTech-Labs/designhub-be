@@ -57,14 +57,11 @@ exports.deleteStar = async (req, res) => {
       .json({ message: 'projectId was not attached to the req.params' });
   }
 
-  const { projectId } = req.params;
-  const { userId } = req.body;
-
   try {
     await db('starred_projects')
       .del()
-      .where('projectId', projectId)
-      .andWhere('userId', userId);
+      .where('projectId', req.params.id)
+      .andWhere('userId', req.body.id);
     res.status(200).json({ message: 'Star successfully deleted' });
   } catch (error) {
     console.error(error);

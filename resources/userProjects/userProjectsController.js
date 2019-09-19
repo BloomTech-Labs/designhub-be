@@ -25,7 +25,7 @@ exports.getAllProjects = async (req, res) => {
   try {
     const data = await go.getMany('user_projects').orderBy('id', 'asc');
 
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "Couldn't get projects.", error: error });
   }
@@ -41,7 +41,7 @@ exports.getProjectsByName = async (req, res) => {
       `%${term}%`
     );
 
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Couldn't find project.", error: error });
