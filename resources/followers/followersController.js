@@ -14,15 +14,15 @@ exports.getAllFollowers = async (req, res) => {
 };
 
 exports.createFollow = async (req, res) => {
-  if (!req.body.userId) {
+  if (!req.body.followingId) {
     res
       .status(400)
-      .json({ message: 'userId was not attached to the req.body' });
+      .json({ message: 'followingId was not attached to the req.body' });
   }
-  if (!req.body.followerId) {
+  if (!req.body.followedId) {
     res
       .status(400)
-      .json({ message: 'followerId was not attached to the req.body' });
+      .json({ message: 'followedId was not attached to the req.body' });
   }
 
   try {
@@ -37,18 +37,18 @@ exports.createFollow = async (req, res) => {
 };
 
 exports.getFollowingCount = async (req, res) => {
-  if (!req.params.userId) {
+  if (!req.params.followingId) {
     res
       .status(400)
-      .json({ message: 'userId was not attached to the req.params' });
+      .json({ message: 'followingId was not attached to the req.params' });
   }
 
-  const { userId } = req.params;
+  const { followingId } = req.params;
 
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('userId', userId);
+      .where('followingId', followingId);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -57,18 +57,18 @@ exports.getFollowingCount = async (req, res) => {
 };
 
 exports.getFollowersCount = async (req, res) => {
-  if (!req.params.userId) {
+  if (!req.params.followingId) {
     res
       .status(400)
-      .json({ message: 'userId was not attached to the req.params' });
+      .json({ message: 'followingId was not attached to the req.params' });
   }
 
-  const { userId } = req.params;
+  const { followingId } = req.params;
 
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('followerId', userId);
+      .where('followedId', followingId);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -77,26 +77,26 @@ exports.getFollowersCount = async (req, res) => {
 };
 
 exports.unfollow = async (req, res) => {
-  if (!req.body.userId) {
+  if (!req.body.followingId) {
     res
       .status(400)
-      .json({ message: 'userId was not attached to the req.body' });
+      .json({ message: 'followingId was not attached to the req.body' });
   }
 
-  if (!req.params.followerId) {
+  if (!req.params.followedId) {
     res
       .status(400)
-      .json({ message: 'followerId was not attached to the req.params' });
+      .json({ message: 'followedId was not attached to the req.params' });
   }
 
-  const { followerId } = req.params;
-  const { userId } = req.body;
+  const { followedId } = req.params;
+  const { followingId } = req.body;
 
   try {
     await db('user_followers')
       .del()
-      .where('followerId', followerId)
-      .andWhere('userId', userId);
+      .where('followedId', followedId)
+      .andWhere('followingId', followingId);
     res.status(200).json({ message: 'Follow successfully deleted' });
   } catch (error) {
     console.error(error);
