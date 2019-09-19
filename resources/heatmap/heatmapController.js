@@ -17,18 +17,16 @@ exports.createHeatmap = async (req, res) => {
 };
 
 exports.getHeatmapsFromUserId = async (req, res) => {
-  if (!req.params.userId) {
-    res
-      .status(400)
-      .json({ message: 'userId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
 
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
     const data = await db('heatmap')
       .select('*')
-      .where('userId', userId);
+      .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
@@ -53,26 +51,22 @@ exports.deleteHeatmapById = async (req, res) => {
 };
 
 exports.getTotalHeatmapContributions = async (req, res) => {
-  if (!req.params.userId) {
-    res
-      .status(400)
-      .json({ message: 'userId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
 
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
     const data = await db('heatmap')
       .count('count')
-      .where('userId', userId);
+      .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
-    res
-      .status(400)
-      .json({
-        message: "Couldn't find the user's heatmap total",
-        error: error
-      });
+    res.status(400).json({
+      message: "Couldn't find the user's heatmap total",
+      error: error
+    });
   }
 };

@@ -3,15 +3,15 @@ const db = require('../../data/dbConfig');
 
 //test
 
-exports.getAllFollowers = async (req, res) => {
-  try {
-    const data = await go.getMany('user_followers');
-    res.status(200).json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: "couldn't get users" });
-  }
-};
+// exports.getAllFollowers = async (req, res) => {
+//   try {
+//     const data = await go.getMany('user_followers');
+//     res.status(200).json(data);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(400).json({ message: "couldn't get users" });
+//   }
+// };
 
 exports.createFollow = async (req, res) => {
   if (!req.body.followingId) {
@@ -37,18 +37,18 @@ exports.createFollow = async (req, res) => {
 };
 
 exports.getFollowingCount = async (req, res) => {
-  if (!req.params.followingId) {
+  if (!req.params.id) {
     res
       .status(400)
       .json({ message: 'followingId was not attached to the req.params' });
   }
 
-  const { followingId } = req.params;
+  const { id } = req.params;
 
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('followingId', followingId);
+      .where('followingId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -57,18 +57,16 @@ exports.getFollowingCount = async (req, res) => {
 };
 
 exports.getFollowersCount = async (req, res) => {
-  if (!req.params.followingId) {
-    res
-      .status(400)
-      .json({ message: 'followingId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
 
-  const { followingId } = req.params;
+  const { id } = req.params;
 
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('followedId', followingId);
+      .where('followedId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -77,26 +75,19 @@ exports.getFollowersCount = async (req, res) => {
 };
 
 exports.unfollow = async (req, res) => {
-  if (!req.body.followingId) {
-    res
-      .status(400)
-      .json({ message: 'followingId was not attached to the req.body' });
+  if (!req.body.id) {
+    res.status(400).json({ message: 'id was not attached to the req.body' });
   }
 
-  if (!req.params.followedId) {
-    res
-      .status(400)
-      .json({ message: 'followedId was not attached to the req.params' });
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
   }
-
-  const { followedId } = req.params;
-  const { followingId } = req.body;
 
   try {
     await db('user_followers')
       .del()
-      .where('followedId', followedId)
-      .andWhere('followingId', followingId);
+      .where('followedId', req.params.id)
+      .andWhere('followingId', req.body.id);
     res.status(200).json({ message: 'Follow successfully deleted' });
   } catch (error) {
     console.error(error);

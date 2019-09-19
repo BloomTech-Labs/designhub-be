@@ -27,18 +27,16 @@ exports.createStar = async (req, res) => {
 };
 
 exports.getProjectStarCount = async (req, res) => {
-  if (!req.params.projectId) {
+  if (!req.params.id) {
     res
       .status(400)
       .json({ message: 'projectrId was not attached to the req.params' });
   }
 
-  const { projectId } = req.params;
-
   try {
     const data = await db('user_followers')
       .count('id')
-      .where('projectId', projectId);
+      .where('projectId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -47,13 +45,13 @@ exports.getProjectStarCount = async (req, res) => {
 };
 
 exports.deleteStar = async (req, res) => {
-  if (!req.body.userId) {
+  if (!req.body.id) {
     res
       .status(400)
       .json({ message: 'userId was not attached to the req.body' });
   }
 
-  if (!req.params.projectId) {
+  if (!req.params.id) {
     res
       .status(400)
       .json({ message: 'projectId was not attached to the req.params' });
