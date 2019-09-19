@@ -12,6 +12,8 @@ exports.up = function(knex) {
 
     tbl.string('projectName').notNullable();
     tbl.text('description').defaultTo(null);
+    tbl.string('figmaLink');
+    tbl.string('invisionLink');
 
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
