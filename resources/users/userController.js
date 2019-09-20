@@ -74,13 +74,3 @@ exports.deleteUserById = async (req, res) => {
     res.status(400).json({ message: "Couldn't delete user.", error: error });
   }
 };
-
-exports.getProjectByUserId = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await go.getByUserId('user_projects', id);
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json();
-  }
-};
