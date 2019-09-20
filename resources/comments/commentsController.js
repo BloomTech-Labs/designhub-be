@@ -87,8 +87,20 @@ exports.getCommentsByProjectId = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await db('comments')
-      .select('*')
-      .where('projectId', id);
+      .select(
+        'comments.id',
+        'u.username',
+        'u.avatar as userAvatar',
+        'comments.userId',
+        'comments.projectId',
+        'comments.imageId',
+        'comments.top',
+        'comments.left',
+        'comments.text',
+        'comments.created_at'
+      )
+      .where('projectId', id)
+      .innerJoin('users as u', 'comments.userId', '=', 'u.id');
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
