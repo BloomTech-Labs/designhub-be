@@ -16,6 +16,12 @@ exports.getById = (table, id, ...columns) => {
     .where('id', id);
 };
 
+exports.getByUserId = (table, id, ...columns) => {
+  return db(table)
+    .select(columns ? columns : '*')
+    .where('userId', id);
+};
+
 exports.getByRawWhere = (table, whereQuery, whereBindingArray, ...columns) => {
   return db(table)
     .select(columns ? columns : '*')
