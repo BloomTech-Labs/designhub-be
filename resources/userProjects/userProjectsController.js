@@ -37,7 +37,22 @@ exports.getProjectByUserId = async (req, res) => {
 
 exports.getAllProjects = async (req, res) => {
   try {
-    const data = await go.getMany('user_projects').orderBy('id', 'asc');
+    const data = await db('user_projects')
+      .select(
+        'user_projects.id',
+        'user_projects.userId',
+        'u.username',
+        'user_projects.private',
+        'user_projects.name',
+        'user_projects.description',
+        'user_projects.figma',
+        'user_projects.invision',
+        'user_projects.mainImg',
+        'user_projects.created_at',
+        'user_projects.updated_at'
+      )
+      .orderBy('id', 'asc')
+      .innerJoin('users as u', 'u.id', '=', 'user_projects.userId');
 
     res.status(200).json(data);
   } catch (error) {
