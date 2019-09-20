@@ -1,6 +1,8 @@
+
+
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at STAGING: https://designhubx-staging.herokuapp.com/ PRODUCTION: https://designhubx.herokuapp.com/ <br>
+#### 1️⃣ Backend delpoyed at STAGING: https://designhubx-staging.herokuapp.com/ PRODUCTION: https://designhubx.herokuapp.com/  <br>
 
 ![Travis CI](https://travis-ci.com/Lambda-School-Labs/designhub-be.svg?branch=master)
 
@@ -8,9 +10,13 @@
 
 To get the server running locally:
 
+
 - Clone this repo
 - **yarn ** to install all required dependencies
 - **yarn dev** to start the local server
+
+
+
 
 ## 2️⃣ Endpoints
 
@@ -33,6 +39,7 @@ To get the server running locally:
 | GET    | `/api/v1/projects`      | N/A            | Get list of all projects                           |                                | Returns list of projects in ascending order |
 | GET    | `/api/v1/projects/:id`  | N/A            | Get single project by ID                           | { `id`} -> from req.params     | Returns found project                       |
 | POST   | `/api/v1/projects/`     | N/A            | Add a new project                                  | { `key/value pairs` } -> from req.body (check schema below) | Returns success message and created project |
+| GET    | `/api/v1/projects/users/:userId` | N/A | Get all projects by userId | {`userId`} -> from req.params | Returns list of projects made by the user |
 | PUT    | `/api/v1/projects/:id`  | N/A            | Updates a project                                  | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs) | Returns updated project |
 | DELETE | `/api/v1/projects/:id`  | N/A            | Delete a single project                            | { `id` } -> from req.params.   | Returns success message                     |
    
@@ -96,7 +103,6 @@ To get the server running locally:
 # Data Model
 
 
-# Data Model
 
 #### USERS
 
@@ -116,10 +122,6 @@ To get the server running locally:
   website: string,
   avatar: string,
   created_at: AUTO timestamp
-<<<<<<< HEAD
-
-=======
->>>>>>> 41c35f9d4a8aa7bbc46a5e018c2edae917b9b237
 }
 ```
 
@@ -129,16 +131,6 @@ To get the server running locally:
 
 ```
 {
-<<<<<<< HEAD
-  id: AUTO increment
-  userId: required: references users id who made the post
-  private: boolean for if its a private repository or not. Default to false
-  projectName: required: name of project
-  created_at: AUTO timestamp
-  updated_at: AUTO timestamp should be updated every time there is an update to the project
-
-
-=======
   id: AUTO increment PK,
   userId: (required) integer, references user's id who created the project,
   private: boolean for if its a private repository or not. Default to false,
@@ -149,7 +141,6 @@ To get the server running locally:
   figma: string,
   invision: string,
   mainImg: text,
->>>>>>> 41c35f9d4a8aa7bbc46a5e018c2edae917b9b237
 }
 ```
 
@@ -182,12 +173,13 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 🚫 These are just examples, replace them with the specifics for your app
-  
- _ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE_ENV - set to "development" until ready for "production"
-_ JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;_(-_=+)') for i in range(50)])
-_ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
+    
+    *  STAGING_DB - optional development db for using functionality not available in SQLite
+    *  NODE_ENV - set to "development" until ready for "production"
+    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
+    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
+    *  stripe_secret - this is generated in the Stripe dashboard
+    
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -196,12 +188,11 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
-**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
-
-- Check first to see if your issue has already been reported.
-- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
-- Create a live example of the problem.
-- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
+ **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+ - Check first to see if your issue has already been reported.
+ - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+ - Create a live example of the problem.
+ - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
