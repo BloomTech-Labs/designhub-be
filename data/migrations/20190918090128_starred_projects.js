@@ -1,24 +1,24 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('user_followers', tbl => {
+  return knex.schema.createTable('starred_projects', tbl => {
     tbl.increments('id');
     tbl
-      .integer('followingId')
+      .integer('userId')
       .unsigned()
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
-      .integer('followedId')
+      .integer('projectId')
       .unsigned()
-      .references('users.id')
+      .references('user_projects.id')
       .notNullable()
       .onDelete('CASCADE');
 
-    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+    tbl.integer('count').defaultTo(1);
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('user_followers');
+  return knex.schema.dropTableIfExists('starred_projects');
 };

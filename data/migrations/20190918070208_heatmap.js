@@ -1,24 +1,28 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('user_followers', tbl => {
+  return knex.schema.createTable('heatmap', tbl => {
     tbl.increments('id');
     tbl
-      .integer('followingId')
+      .integer('userId')
       .unsigned()
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
-      .integer('followedId')
+      .integer('projectId')
       .unsigned()
-      .references('users.id')
-      .notNullable()
+      .references('user_projects.id')
+      .nullable()
       .onDelete('CASCADE');
 
+    tbl.integer('count').defaultTo(1);
+
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
+
+    tbl.text('contribution').defaultTo(null);
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('user_followers');
+  return knex.schema.dropTableIfExists('heatmap');
 };

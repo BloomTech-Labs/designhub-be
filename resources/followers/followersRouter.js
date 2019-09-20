@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const followersController = require('./followersController');
 
-router.get('/', followersController.getAllFollowers);
+// test
+// router.get('/', followersController.getAllFollowers);
+
+router.post('/', followersController.createFollow);
+router.get('/count/following/:id', followersController.getFollowingCount);
+router.get('/count/followers/:id', followersController.getFollowersCount);
+router.post('/unfollow/:id', followersController.unfollow);
 
 module.exports = router;
