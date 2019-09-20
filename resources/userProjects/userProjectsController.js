@@ -21,6 +21,20 @@ exports.getProjectById = async (req, res) => {
   }
 };
 
+exports.getProjectByUserId = async (req, res) => {
+  console.log('hrello world!');
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const data = await go.getByUserId('user_projects', userId);
+    res.status(200).json(data);
+  } catch ({ message }) {
+    res
+      .status(400)
+      .json({ message: "Couldn't get projects by user.", error: message });
+  }
+};
+
 exports.getAllProjects = async (req, res) => {
   try {
     const data = await go.getMany('user_projects').orderBy('id', 'asc');
