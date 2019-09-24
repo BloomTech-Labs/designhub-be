@@ -14,8 +14,8 @@ exports.createStar = async (req, res) => {
   }
 
   try {
-    const [id] = await go.createOne('starred_project', 'id', req.body);
-    const data = await go.getById('starred_project', id);
+    const [id] = await go.createOne('starred_projects', 'id', req.body);
+    const data = await go.getById('starred_projects', id);
     res
       .status(201)
       .json({ message: 'Starring a project successfully created!', data });
@@ -30,13 +30,14 @@ exports.getProjectStarCount = async (req, res) => {
   if (!req.params.id) {
     res
       .status(400)
-      .json({ message: 'projectrId was not attached to the req.params' });
+      .json({ message: 'userId was not attached to the req.params' });
   }
 
   try {
-    const data = await db('user_followers')
+    const data = await db('starred_projects')
       .count('id')
-      .where('projectId', id);
+      .where('userId', req.params.id);
+    console.log(data);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
