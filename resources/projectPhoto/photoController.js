@@ -17,7 +17,7 @@ const s3 = new AWS.S3({
 
 exports.signedUrl = async (req, res) => {
   const { id } = req.body;
-  const key = `${id}/${uuid()}`;
+  const key = `${id}/${uuid()}.jpeg`;
   console.log(key);
 
   console.log(accessId, accessKey);
