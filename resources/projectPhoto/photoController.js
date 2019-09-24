@@ -63,7 +63,13 @@ exports.getPhotosByProjectId = async (req, res) => {
     const data = await db('project_photos')
       .select('*')
       .where('projectId', id);
-    res.json(data);
+    const newData = data.map(item => {
+      return {
+        ...item,
+        url: `http://my-photo-bucket-123.s3.us-east-2.amazonaws.com/${item.url}`
+      };
+    });
+    res.json(newData);
   } catch (err) {
     console.error(err);
     res.send({ error: err });
