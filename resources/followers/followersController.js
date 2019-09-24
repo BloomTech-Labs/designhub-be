@@ -56,6 +56,80 @@ exports.getFollowingCount = async (req, res) => {
   }
 };
 
+exports.getFollowingByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res
+      .status(400)
+      .json({ message: 'followingId was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('followingId', id)
+      .innerJoin('users as u', 'uf.followedId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find following count' });
+  }
+};
+
+exports.getFollowersByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('uf.followedId', id)
+      .innerJoin('users as u', 'uf.followingId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'Couldnt find followers count', message });
+  }
+};
+
 exports.getFollowersCount = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });

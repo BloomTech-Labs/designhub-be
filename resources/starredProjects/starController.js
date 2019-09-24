@@ -14,8 +14,8 @@ exports.createStar = async (req, res) => {
   }
 
   try {
-    const [id] = await go.createOne('starred_project', 'id', req.body);
-    const data = await go.getById('starred_project', id);
+    const [id] = await go.createOne('starred_projects', 'id', req.body);
+    const data = await go.getById('starred_projects', id);
     res
       .status(201)
       .json({ message: 'Starring a project successfully created!', data });
@@ -26,17 +26,42 @@ exports.createStar = async (req, res) => {
   }
 };
 
+exports.getStarredByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.params' });
+  }
+
+  try {
+    const data = await db('starred_projects as sp')
+      .select(
+        'sp.id as id',
+        'up.name as name',
+        'up.mainImg as img',
+        'sp.projectId'
+      )
+      .where('sp.userId', req.params.id)
+      .innerJoin('user_projects as up', 'sp.projectId', '=', 'up.id');
+    res.status(200).json(data);
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'Couldnt find star count', message });
+  }
+};
+
 exports.getProjectStarCount = async (req, res) => {
   if (!req.params.id) {
     res
       .status(400)
-      .json({ message: 'projectrId was not attached to the req.params' });
+      .json({ message: 'userId was not attached to the req.params' });
   }
 
   try {
-    const data = await db('user_followers')
+    const data = await db('starred_projects')
       .count('id')
-      .where('projectId', id);
+      .where('userId', req.params.id);
+    console.log(data);
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
