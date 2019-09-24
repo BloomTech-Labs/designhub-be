@@ -56,7 +56,25 @@ exports.getFollowingCount = async (req, res) => {
   }
 };
 
-exports.getFollowingByFollowingId = async () => {};
+exports.getFollowingByFollowingId = async (req, res) => {
+  console.log('hello');
+  if (!req.params.id) {
+    res
+      .status(400)
+      .json({ message: 'followingId was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    console.log('sup');
+    const data = await db('user_followers').where('followingId', id);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find following count' });
+  }
+};
 
 exports.getFollowersCount = async (req, res) => {
   if (!req.params.id) {
