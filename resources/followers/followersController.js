@@ -66,8 +66,28 @@ exports.getFollowingByFollowingId = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const data = await db('user_followers').where('followingId', id);
-    res.status(200).json(data);
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('followingId', id)
+      .innerJoin('users as u', 'uf.followedId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Couldnt find following count' });
@@ -82,11 +102,31 @@ exports.getFollowersByFollowingId = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const data = await db('user_followers').where('followedId', id);
-    res.status(200).json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: 'Couldnt find followers count' });
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('uf.followedId', id)
+      .innerJoin('users as u', 'uf.followingId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'Couldnt find followers count', message });
   }
 };
 
