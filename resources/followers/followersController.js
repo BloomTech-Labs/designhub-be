@@ -56,6 +56,8 @@ exports.getFollowingCount = async (req, res) => {
   }
 };
 
+exports.getFollowingByFollowingId = async () => {};
+
 exports.getFollowersCount = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
