@@ -26,6 +26,30 @@ exports.createStar = async (req, res) => {
   }
 };
 
+exports.getStarredByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res
+      .status(400)
+      .json({ message: 'userId was not attached to the req.params' });
+  }
+
+  try {
+    const data = await db('starred_projects as sp')
+      .select(
+        'sp.id as id',
+        'up.name as name',
+        'up.mainImg as img',
+        'sp.projectId'
+      )
+      .where('sp.userId', req.params.id)
+      .innerJoin('user_projects as up', 'sp.projectId', '=', 'up.id');
+    res.status(200).json(data);
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'Couldnt find star count', message });
+  }
+};
+
 exports.getProjectStarCount = async (req, res) => {
   if (!req.params.id) {
     res
