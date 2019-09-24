@@ -56,7 +56,7 @@ exports.getFollowingCount = async (req, res) => {
   }
 };
 
-exports.getFollowingByFollowingId = async (req, res) => {
+exports.getFollowingByUserId = async (req, res) => {
   if (!req.params.id) {
     res
       .status(400)
@@ -94,7 +94,7 @@ exports.getFollowingByFollowingId = async (req, res) => {
   }
 };
 
-exports.getFollowersByFollowingId = async (req, res) => {
+exports.getFollowersByUserId = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
   }
