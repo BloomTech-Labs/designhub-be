@@ -5,7 +5,9 @@ exports.createProject = async (req, res) => {
   try {
     const [id] = await go.createOne('user_projects', 'id', req.body);
     const data = await go.getById('user_projects', id);
-    res.status(201).json({ message: 'Project successfully created!', data });
+    res
+      .status(201)
+      .json({ message: 'Project successfully created!', data, id });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create project", error: error });
   }
