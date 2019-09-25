@@ -66,7 +66,7 @@ exports.getPhotosByProjectId = async (req, res) => {
     const newData = data.map(item => {
       return {
         ...item,
-        url: `http://my-photo-bucket-123.s3.us-east-2.amazonaws.com/${item.url}`
+        url: `${process.env.S3_URL}${item.url}`
       };
     });
     res.json(newData);

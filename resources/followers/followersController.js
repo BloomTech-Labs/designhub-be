@@ -71,6 +71,7 @@ exports.getFollowingByUserId = async (req, res) => {
         'uf.id',
         'u.firstName',
         'u.lastName',
+        'u.avatar',
         'u.username',
         'u.id as userId',
         'u.bio'
@@ -81,6 +82,7 @@ exports.getFollowingByUserId = async (req, res) => {
       return {
         id: item.id,
         name: `${item.firstName} ${item.lastName}`,
+        avatar: item.avatar,
         username: item.username,
         userId: item.userId,
         bio: item.bio
@@ -107,6 +109,7 @@ exports.getFollowersByUserId = async (req, res) => {
         'uf.id',
         'u.firstName',
         'u.lastName',
+        'u.avatar',
         'u.username',
         'u.id as userId',
         'u.bio'
@@ -117,6 +120,7 @@ exports.getFollowersByUserId = async (req, res) => {
       return {
         id: item.id,
         name: `${item.firstName} ${item.lastName}`,
+        avatar: item.avatar,
         username: item.username,
         userId: item.userId,
         bio: item.bio
