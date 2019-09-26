@@ -24,17 +24,16 @@ exports.seed = function(knex) {
         {
           id: 2,
           auth0Id: 'sub|2',
-          username: 'ericalambert',
-          email: 'eriklambert@designhub.com',
+          username: 'mansleen',
+          email: 'mansleen@designhub.com',
           phoneNumber: 8005550129,
-          firstName: 'Erica',
-          lastName: 'Lambert',
-          location: 'Austin, TX',
+          firstName: 'Michael',
+          lastName: 'Vansleen',
+          location: 'Denver, CO',
           bio:
             'I love designing and always looking for ways to improve and innovate. 🤓 #Usersmatter! #LambdaBound #UXEngineer',
-          website: 'https://eriklambert.io',
-          avatar:
-            'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80'
+          website: 'https://mansleen.io',
+          avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4'
         },
         {
           id: 3,
