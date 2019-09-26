@@ -23,7 +23,7 @@ exports.seed = function(knex) {
         },
         {
           id: 2,
-          auth0Id: 'sub|2',
+          auth0Id: 'google-oauth2|115383560506192673006',
           username: 'mansleen',
           email: 'mansleen@designhub.com',
           phoneNumber: 8005550129,

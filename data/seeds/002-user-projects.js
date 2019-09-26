@@ -6,6 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('user_projects').insert([
         {
+          id: 1,
           userId: 1,
           name: 'Project One',
           description:
@@ -19,6 +20,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:25.355Z'
         },
         {
+          id: 2,
           userId: 1,
           name: 'Project Two',
           description:
@@ -32,6 +34,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:26.355Z'
         },
         {
+          id: 3,
           userId: 1,
           name: 'Project Three',
           description:
@@ -45,6 +48,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:27.355Z'
         },
         {
+          id: 4,
           userId: 1,
           name: 'Project Four',
           description:
@@ -58,6 +62,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:28.355Z'
         },
         {
+          id: 5,
           userId: 1,
           name: 'Project Five',
           description:
@@ -71,6 +76,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:29.355Z'
         },
         {
+          id: 6,
           userId: 1,
           name: 'Project Six',
           description:
@@ -84,6 +90,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:30.355Z'
         },
         {
+          id: 7,
           userId: 1,
           name: 'Project Seven',
           description:
@@ -97,6 +104,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:31.355Z'
         },
         {
+          id: 8,
           userId: 1,
           name: 'Project Eight',
           description:
@@ -110,6 +118,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:32.355Z'
         },
         {
+          id: 9,
           userId: 2,
           name: 'Project One',
           description:
@@ -123,6 +132,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:25.355Z'
         },
         {
+          id: 10,
           userId: 2,
           name: 'Project Two',
           description:
@@ -136,6 +146,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:26.355Z'
         },
         {
+          id: 11,
           userId: 2,
           name: 'Project Three',
           description:
@@ -149,6 +160,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:27.355Z'
         },
         {
+          id: 12,
           userId: 2,
           name: 'Project Four',
           description:
@@ -162,6 +174,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:28.355Z'
         },
         {
+          id: 13,
           userId: 2,
           name: 'Project Five',
           description:
@@ -175,6 +188,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:29.355Z'
         },
         {
+          id: 14,
           userId: 2,
           name: 'Project Six',
           description:
@@ -188,6 +202,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:30.355Z'
         },
         {
+          id: 15,
           userId: 2,
           name: 'Project Seven',
           description:
@@ -201,6 +216,7 @@ exports.seed = function(knex) {
           updated_at: '2019-09-19T17:20:31.355Z'
         },
         {
+          id: 16,
           userId: 2,
           name: 'Project Eight',
           description:
