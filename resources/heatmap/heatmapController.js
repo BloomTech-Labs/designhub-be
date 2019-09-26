@@ -24,9 +24,15 @@ exports.getHeatmapsFromUserId = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const data = await db('heatmap')
-      .select('created_at as date', 'count')
-      .where('userId', id);
+    const data = await db
+      .select('date')
+      .sum('count as count')
+      .from('heatmap')
+      .where('userId', id)
+      .groupBy('date');
+
+    console.log(data);
+
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
