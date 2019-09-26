@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 exports.up = function(knex) {
   return knex.schema.createTable('heatmap', tbl => {
     tbl.increments('id');
@@ -17,7 +19,7 @@ exports.up = function(knex) {
 
     tbl.integer('count').defaultTo(1);
 
-    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+    tbl.timestamp('date').defaultTo(moment().format('YYYY-MM-DD'));
 
     tbl.text('contribution').defaultTo(null);
   });

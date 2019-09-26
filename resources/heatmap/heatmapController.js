@@ -25,7 +25,7 @@ exports.getHeatmapsFromUserId = async (req, res) => {
 
   try {
     const data = await db('heatmap')
-      .select('*')
+      .select('created_at as date', 'count')
       .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
@@ -33,6 +33,17 @@ exports.getHeatmapsFromUserId = async (req, res) => {
     res
       .status(400)
       .json({ message: "Couldn't find the user's heatmaps", error: error });
+  }
+};
+
+exports.editHeatmap = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await go.updateById('heatmap', req.body, id);
+    const data = await go.getById('heatmap', id);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't update heatmap.", error: error });
   }
 };
 
