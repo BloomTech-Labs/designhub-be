@@ -19,7 +19,7 @@ exports.up = function(knex) {
 
     tbl.integer('count').defaultTo(1);
 
-    tbl.date('date').defaultTo(moment().format('YYYY-MM-DD'));
+    tbl.string('date').defaultTo(moment().format('YYYY-MM-DD'));
 
     tbl.text('contribution').defaultTo(null);
   });
