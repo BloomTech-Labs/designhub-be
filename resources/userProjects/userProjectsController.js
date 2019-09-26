@@ -46,7 +46,7 @@ exports.getRecentProjectByUserId = async (req, res) => {
     const data = await go
       .getByUserId('user_projects', userId)
       .orderBy('created_at', 'desc')
-      .limit(5);
+      .limit(8);
     res.status(200).json(data);
   } catch ({ message }) {
     res
