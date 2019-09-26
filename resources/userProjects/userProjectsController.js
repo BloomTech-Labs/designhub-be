@@ -37,6 +37,22 @@ exports.getProjectByUserId = async (req, res) => {
   }
 };
 
+exports.getRecentProjectByUserId = async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const data = await go
+      .getByUserId('user_projects', userId)
+      .orderBy('created_at', 'desc')
+      .limit(5);
+    res.status(200).json(data);
+  } catch ({ message }) {
+    res
+      .status(400)
+      .json({ message: "Couldn't get projects by user.", error: message });
+  }
+};
+
 exports.getAllProjects = async (req, res) => {
   try {
     const data = await db('user_projects')

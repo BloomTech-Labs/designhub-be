@@ -16,6 +16,7 @@ exports.createHeatmap = async (req, res) => {
   }
 };
 
+// For heat map display
 exports.getHeatmapsFromUserId = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
@@ -33,6 +34,26 @@ exports.getHeatmapsFromUserId = async (req, res) => {
 
     console.log(data);
 
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "Couldn't find the user's heatmaps", error: error });
+  }
+};
+
+exports.getAllHeatmapsFromUserId = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const data = await db('heatmap')
+      .select('*')
+      .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
