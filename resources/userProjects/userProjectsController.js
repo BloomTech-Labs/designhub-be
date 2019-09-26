@@ -37,6 +37,8 @@ exports.getProjectByUserId = async (req, res) => {
   }
 };
 
+//FOR RECENT PROJECT VIEW
+
 exports.getRecentProjectByUserId = async (req, res) => {
   const { userId } = req.params;
   console.log(userId);
