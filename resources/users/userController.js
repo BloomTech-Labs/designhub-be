@@ -44,6 +44,16 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+exports.getUserByUsername = async (req, res) => {
+  const { username } = req.params;
+  try {
+    const data = await go.getByUsername('users', username, 'username');
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't find username.", error: error });
+  }
+};
+
 exports.getAllUsers = async (req, res) => {
   try {
     const data = await go.getMany('users').orderBy('id', 'asc');
