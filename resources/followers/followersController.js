@@ -36,6 +36,31 @@ exports.createFollow = async (req, res) => {
   }
 };
 
+exports.isFollowed = async (req, res) => {
+  if (!req.params.followingId) {
+    res
+      .status(422)
+      .json({ message: 'followingId was not attached to the req.params' });
+  }
+  if (!req.params.followedId) {
+    res
+      .status(422)
+      .json({ message: 'followedId was not attacked to the req.params' });
+  }
+  try {
+    const result = await db('user_followers')
+      .where('followingId', req.params.followingId)
+      .andWhere('followedId', req.params.followedId);
+    if (result.length === 0) {
+      res.json({ isFollowed: false });
+    }
+    res.json({ isFollowed: true });
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'something went wrong', message });
+  }
+};
+
 exports.getFollowingCount = async (req, res) => {
   if (!req.params.id) {
     res
