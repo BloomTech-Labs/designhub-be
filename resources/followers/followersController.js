@@ -53,8 +53,9 @@ exports.isFollowed = async (req, res) => {
       .andWhere('followedId', req.params.followedId);
     if (result.length === 0) {
       res.json({ isFollowed: false });
+    } else {
+      res.json({ isFollowed: true });
     }
-    res.json({ isFollowed: true });
   } catch ({ message }) {
     console.error(message);
     res.status(400).json({ message: 'something went wrong', message });
