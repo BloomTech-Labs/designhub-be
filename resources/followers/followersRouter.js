@@ -6,6 +6,7 @@ const followersController = require('./followersController');
 // router.get('/', followersController.getAllFollowers);
 
 router.post('/', followersController.createFollow);
+router.get('/:followingId/:followedId', followersController.isFollowed)
 router.get('/following/:id', followersController.getFollowingByUserId);
 router.get('/count/following/:id', followersController.getFollowingCount);
 router.get('/followers/:id', followersController.getFollowersByUserId);
