@@ -10,6 +10,7 @@ exports.createHeatmap = async (req, res) => {
   try {
     const [id] = await go.createOne('heatmap', 'id', req.body);
     const data = await go.getById('heatmap', id);
+    console.log(data);
     res.status(201).json({ message: 'Heatmap successfully created!', data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create heatmap", error: error });
