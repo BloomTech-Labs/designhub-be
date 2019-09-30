@@ -17,7 +17,7 @@ const s3 = new AWS.S3({
 
 exports.signedUrl = async (req, res) => {
   const { id } = req.body;
-  const key = `${id}/${uuid()}`;
+  const key = `${id}/${uuid()}.jpeg`;
   console.log(key);
 
   console.log(accessId, accessKey);
@@ -63,7 +63,13 @@ exports.getPhotosByProjectId = async (req, res) => {
     const data = await db('project_photos')
       .select('*')
       .where('projectId', id);
-    res.json(data);
+    const newData = data.map(item => {
+      return {
+        ...item,
+        url: `${process.env.S3_URL}${item.url}`
+      };
+    });
+    res.json(newData);
   } catch (err) {
     console.error(err);
     res.send({ error: err });

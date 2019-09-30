@@ -5,19 +5,26 @@ exports.createProject = async (req, res) => {
   try {
     const [id] = await go.createOne('user_projects', 'id', req.body);
     const data = await go.getById('user_projects', id);
-    res.status(201).json({ message: 'Project successfully created!', data });
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't create project", error: error });
+    res
+      .status(201)
+      .json({ message: 'Project successfully created!', data, id });
+  } catch ({ message }) {
+    res
+      .status(400)
+      .json({ message: "Couldn't create project", error: message });
   }
 };
 
 exports.getProjectById = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await go.getById('user_projects', id);
+    const data = await db('user_projects as up')
+      .select('up.*', 'u.username')
+      .where('up.id', id)
+      .innerJoin('users as u', 'up.userId', '=', 'u.id');
     res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't find project.", error: error });
+  } catch ({ message }) {
+    res.status(400).json({ message: "Couldn't find project.", error: message });
   }
 };
 
@@ -26,7 +33,28 @@ exports.getProjectByUserId = async (req, res) => {
   const { userId } = req.params;
   console.log(userId);
   try {
-    const data = await go.getByUserId('user_projects', userId);
+    const data = await go
+      .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
+      .innerJoin('users as u', 'up.userId', '=', 'u.id');
+    console.log(data);
+    res.status(200).json(data);
+  } catch ({ message }) {
+    res
+      .status(400)
+      .json({ message: "Couldn't get projects by user.", error: message });
+  }
+};
+
+//FOR RECENT PROJECT VIEW
+
+exports.getRecentProjectByUserId = async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const data = await go
+      .getByUserId('user_projects', userId)
+      .orderBy('created_at', 'desc')
+      .limit(8);
     res.status(200).json(data);
   } catch ({ message }) {
     res

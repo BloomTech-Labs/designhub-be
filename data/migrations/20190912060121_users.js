@@ -12,7 +12,6 @@ exports.up = function(knex) {
     users.string('email').defaultTo(null);
     users
       .string('phoneNumber')
-      .unique()
       .defaultTo(null);
     users
       .string('firstName')

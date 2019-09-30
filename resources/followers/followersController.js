@@ -36,6 +36,32 @@ exports.createFollow = async (req, res) => {
   }
 };
 
+exports.isFollowed = async (req, res) => {
+  if (!req.params.followingId) {
+    res
+      .status(422)
+      .json({ message: 'followingId was not attached to the req.params' });
+  }
+  if (!req.params.followedId) {
+    res
+      .status(422)
+      .json({ message: 'followedId was not attacked to the req.params' });
+  }
+  try {
+    const result = await db('user_followers')
+      .where('followingId', req.params.followingId)
+      .andWhere('followedId', req.params.followedId);
+    if (result.length === 0) {
+      res.json({ isFollowed: false });
+    } else {
+      res.json({ isFollowed: true });
+    }
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'something went wrong', message });
+  }
+};
+
 exports.getFollowingCount = async (req, res) => {
   if (!req.params.id) {
     res
@@ -53,6 +79,84 @@ exports.getFollowingCount = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Couldnt find following count' });
+  }
+};
+
+exports.getFollowingByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res
+      .status(400)
+      .json({ message: 'followingId was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.avatar',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('followingId', id)
+      .innerJoin('users as u', 'uf.followedId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        avatar: item.avatar,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Couldnt find following count' });
+  }
+};
+
+exports.getFollowersByUserId = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const data = await db('user_followers as uf')
+      .select(
+        'uf.id',
+        'u.firstName',
+        'u.lastName',
+        'u.avatar',
+        'u.username',
+        'u.id as userId',
+        'u.bio'
+      )
+      .where('uf.followedId', id)
+      .innerJoin('users as u', 'uf.followingId', '=', 'u.id');
+    const newData = data.map(item => {
+      return {
+        id: item.id,
+        name: `${item.firstName} ${item.lastName}`,
+        avatar: item.avatar,
+        username: item.username,
+        userId: item.userId,
+        bio: item.bio
+      };
+    });
+
+    res.status(200).json(newData);
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'Couldnt find followers count', message });
   }
 };
 
