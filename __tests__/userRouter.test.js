@@ -85,4 +85,33 @@ describe('userRouter', () => {
         });
     });
   });
+
+  describe('PUT /:id updateUserById', () => {
+    it('should return 200', () => {
+      return request(server)
+        .put(`${ENDPOINT}/1`)
+        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' })
+        .then(res => {
+          expect(res.status).toBe(200);
+        });
+    });
+
+    it('should return 422 for missing fields', () => {
+      return request(server)
+        .put(`${ENDPOINT}/1`)
+        .send({})
+        .then(res => {
+          expect(res.status).toBe(422);
+        });
+    });
+
+    it('should return 400 for user not in db', () => {
+      return request(server)
+        .put(`${ENDPOINT}/439734`)
+        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' })
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+  });
 });

@@ -79,12 +79,21 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
-  try {
-    await go.updateById('users', req.body, id);
-    const data = await go.getById('users', id);
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't update user.", error: error });
+  const { auth0Id } = req.body;
+  if (!auth0Id) {
+    res.status(422).json({ message: 'missing auth0Id fields' });
+  } else {
+    try {
+      await go.updateById('users', req.body, id);
+      const data = await go.getById('users', id);
+      if (data.length > 0) {
+        res.status(200).json(data);
+      } else {
+        res.status(400).json({ message: 'User does not exist' });
+      }
+    } catch ({ message }) {
+      res.status(500).json({ message: 'Something went wrong', error: message });
+    }
   }
 };
 
