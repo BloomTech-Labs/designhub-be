@@ -36,14 +36,16 @@ exports.createUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
-  if (!id) {
-    res.status(422).json({ message: 'Missing id in the params' });
-  }
+
   try {
     const data = await go.getById('users', id);
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json({ message: "Couldn't find user.", error: error });
+    if (data.length > 0) {
+      res.status(200).json(data);
+    } else {
+      res.status(400).json({ message: "Couldn't find user." });
+    }
+  } catch ({ message }) {
+    res.status(400).json({ message: "Something wen't wrong.", error: message });
   }
 };
 

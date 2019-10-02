@@ -13,11 +13,11 @@ describe('userRouter', () => {
         });
     });
 
-    it('should return 422 for missing id in params', () => {
+    it('should return 400 if id is not in db', () => {
       return request(server)
-        .get(`${ENDPOINT}/`)
+        .get(`${ENDPOINT}/1337`)
         .then(res => {
-          expect(res.status).toBe(422);
+          expect(res.status).toBe(400);
         });
     });
   });
