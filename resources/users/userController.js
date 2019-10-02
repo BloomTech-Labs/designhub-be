@@ -49,7 +49,7 @@ exports.getUserById = async (req, res) => {
       res.status(400).json({ message: "Couldn't find user." });
     }
   } catch ({ message }) {
-    res.status(400).json({ message: "Something wen't wrong.", error: message });
+    res.status(500).json({ message: 'Something went wrong.', error: message });
   }
 };
 
@@ -57,9 +57,13 @@ exports.getUserByUsername = async (req, res) => {
   const { username } = req.params;
   try {
     const data = await go.getByUsername('users', username, 'username');
-    res.status(200).json(data);
+    if (data.length > 0) {
+      res.status(200).json(data);
+    } else {
+      res.status(400).json({ message: 'user does not exist' });
+    }
   } catch (error) {
-    res.status(400).json({ message: "Couldn't find username.", error: error });
+    res.status(500).json({ message: "Couldn't find username.", error: error });
   }
 };
 

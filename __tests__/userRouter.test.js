@@ -30,16 +30,17 @@ describe('userRouter', () => {
     });
 
     it('should return 201 if User newly is created', () => {
+      const randomNum = Math.random();
       return request(server)
         .post(`${ENDPOINT}/`)
-        .send({ sub: '1337' })
+        .send({ sub: `${randomNum}` })
         .then(res => {
           expect(res.status).toBe(201);
         });
     });
   });
 
-  describe('GET / getUserById', () => {
+  describe('GET /:id getUserById', () => {
     it('should return 200 OK', () => {
       return request(server)
         .get(`${ENDPOINT}/1`)
@@ -51,6 +52,24 @@ describe('userRouter', () => {
     it('should return 400 if id is not in db', () => {
       return request(server)
         .get(`${ENDPOINT}/1337`)
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+  });
+
+  describe('/check/:username getUserByUsername', () => {
+    it('should return 200', () => {
+      return request(server)
+        .get(`${ENDPOINT}/check/eriklambert`)
+        .then(res => {
+          expect(res.status).toBe(200);
+        });
+    });
+
+    it('should return 400 when user does not exist', () => {
+      return request(server)
+        .get(`${ENDPOINT}/check/0248`)
         .then(res => {
           expect(res.status).toBe(400);
         });
