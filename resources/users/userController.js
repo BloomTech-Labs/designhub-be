@@ -7,6 +7,10 @@ exports.createUser = async (req, res) => {
   let avatar = null;
   //first search by sub
 
+  if (!sub) {
+    res.status(422).json({ message: 'Missing sub field' });
+  }
+
   try {
     user = await db('users')
       .select('*')

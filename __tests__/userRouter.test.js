@@ -4,6 +4,10 @@ const server = require('../server');
 const ENDPOINT = '/api/v1/users';
 
 describe('userRouter', () => {
+  describe('POST / createUser', () => {
+    it('', () => {});
+  });
+
   describe('GET / getUserById', () => {
     it('should return 200 OK', () => {
       return request(server)
