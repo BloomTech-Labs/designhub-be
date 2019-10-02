@@ -1,5 +1,6 @@
 const request = require('supertest');
 const server = require('../server');
+const go = require('../resources/utils/crud');
 
 const ENDPOINT = '/api/v1/users';
 
@@ -53,7 +54,7 @@ describe('userRouter', () => {
       return request(server)
         .get(`${ENDPOINT}/1337`)
         .then(res => {
-          expect(res.status).toBe(400);
+          expect(res.status).toBe(404);
         });
     });
   });
@@ -71,7 +72,7 @@ describe('userRouter', () => {
       return request(server)
         .get(`${ENDPOINT}/check/0248`)
         .then(res => {
-          expect(res.status).toBe(400);
+          expect(res.status).toBe(404);
         });
     });
   });
@@ -110,7 +111,29 @@ describe('userRouter', () => {
         .put(`${ENDPOINT}/439734`)
         .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' })
         .then(res => {
-          expect(res.status).toBe(400);
+          expect(res.status).toBe(404);
+        });
+    });
+  });
+
+  describe('DELETE /:id deleteUserById', () => {
+    it('should return 200', () => {
+      return go
+        .createOne('users', 'id', { auth0Id: 'testUser' })
+        .then(([id]) => {
+          return request(server)
+            .delete(`${ENDPOINT}/${id}`)
+            .then(res => {
+              expect(res.status).toBe(200);
+            });
+        });
+    });
+
+    it('should return 404 if id does not exist', () => {
+      return request(server)
+        .delete(`${ENDPOINT}/${4555}`)
+        .then(res => {
+          expect(res.status).toBe(404);
         });
     });
   });
