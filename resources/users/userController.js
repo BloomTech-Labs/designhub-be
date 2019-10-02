@@ -60,7 +60,7 @@ exports.getUserByUsername = async (req, res) => {
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.status(404).json({ message: 'user does not exist' });
+      res.status(204).json({ message: 'user does not exist', data: [] });
     }
   } catch (error) {
     res.status(500).json({ message: "Couldn't find username.", error: error });
