@@ -58,7 +58,7 @@ describe('userRouter', () => {
     });
   });
 
-  describe('/check/:username getUserByUsername', () => {
+  describe('GET /check/:username getUserByUsername', () => {
     it('should return 200', () => {
       return request(server)
         .get(`${ENDPOINT}/check/eriklambert`)
@@ -72,6 +72,16 @@ describe('userRouter', () => {
         .get(`${ENDPOINT}/check/0248`)
         .then(res => {
           expect(res.status).toBe(400);
+        });
+    });
+  });
+
+  describe('GET / getAllUsers', () => {
+    it('should return 200', () => {
+      return request(server)
+        .get(`${ENDPOINT}/`)
+        .then(res => {
+          expect(res.status).toBe(200);
         });
     });
   });

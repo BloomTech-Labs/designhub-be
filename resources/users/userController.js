@@ -73,7 +73,7 @@ exports.getAllUsers = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(400).json({ message: "Couldn't get users.", error: error });
+    res.status(500).json({ message: "Something wen't wrong", error: error });
   }
 };
 
