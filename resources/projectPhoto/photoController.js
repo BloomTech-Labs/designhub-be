@@ -88,7 +88,7 @@ exports.createProjectPhoto = async (req, res) => {
 };
 
 exports.deletePhotoById = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     await go.destroyById('project_photos', id);
     res.json({ message: 'Successfully deleted photo' });
