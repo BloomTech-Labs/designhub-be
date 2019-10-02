@@ -7,6 +7,6 @@ router.post('/signed', photoController.signedUrl);
 router.get('/:id', photoController.getPhotosByProjectId);
 router.get('/one/:id', photoController.getPhotoById);
 router.post('/', photoController.createProjectPhoto);
-router.delete('/:id', photoController.deletePhotoById);
+router.post('/delete', photoController.deletePhotoById);
 
 module.exports = router;
