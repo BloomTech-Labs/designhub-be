@@ -17,6 +17,13 @@ exports.up = function(knex) {
       .nullable()
       .onDelete('CASCADE');
 
+    tbl
+      .integer('imageId')
+      .unsigned()
+      .references('project_photos.id')
+      .nullable()
+      .onDelete('CASCADE');
+
     tbl.integer('count').defaultTo(1);
 
     tbl.string('date').defaultTo(moment().format('YYYY-MM-DD'));
