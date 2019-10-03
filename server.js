@@ -14,6 +14,7 @@ const followersRouter = require('./resources/followers/followersRouter');
 const commentsRouter = require('./resources/comments/commentsRouter');
 const heatmapRouter = require('./resources/heatmap/heatmapRouter');
 const starRouter = require('./resources/starredProjects/starRouter');
+const searchBarRouter = require('./resources/searchBar/searchBarRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -36,5 +37,6 @@ server.use('/api/v1/followers', followersRouter);
 server.use('/api/v1/comments', commentsRouter);
 server.use('/api/v1/heatmap', heatmapRouter);
 server.use('/api/v1/star', starRouter);
+server.use('/api/v1/search', searchBarRouter);
 
 module.exports = server;
