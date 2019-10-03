@@ -2,6 +2,7 @@ const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
 exports.search = async (req, res) => {
+  console.log(req.body);
   const { searchText } = req.body;
   if (!searchText) {
     res.status(400).json({ message: 'No searchText attached to req.body' });
@@ -26,7 +27,7 @@ exports.search = async (req, res) => {
     //   .orWhere('firstName', 'like', `%${newText}%`)
     //   .orWhere('lastName', 'like', `%${newText}%`);
 
-    res.send({ projects, users });
+    res.status(200).json({ projects, users });
   } catch (err) {
     console.error(err);
   }
