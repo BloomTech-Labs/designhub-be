@@ -16,8 +16,8 @@ exports.search = async (req, res) => {
 
     const users = await db('users')
       .select('*')
-      //   .whereRaw(`LOWER(username) LIKE ?`, [`%${newText}%`])
-      .whereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
+      .whereRaw(`LOWER(username) LIKE ?`, [`%${newText}%`])
+      .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
         `%${userText}%`
       ]);
     //   .orWhereRaw(`LOWER("lastName") LIKE ?`, [`%${newText}%`]);
