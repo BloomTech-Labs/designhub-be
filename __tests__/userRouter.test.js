@@ -68,11 +68,11 @@ describe('userRouter', () => {
         });
     });
 
-    it('should return 400 when user does not exist', () => {
+    it('should return 204 when user does not exist', () => {
       return request(server)
         .get(`${ENDPOINT}/check/0248`)
         .then(res => {
-          expect(res.status).toBe(404);
+          expect(res.status).toBe(204);
         });
     });
   });
