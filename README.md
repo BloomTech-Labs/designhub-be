@@ -37,11 +37,11 @@ To get the server running locally:
 | Method | Endpoint                | Access Control | Description                                        | Attached to req                | Returned                         |
 | ------ | ----------------------- | -------------- | -------------------------------------------------- |------------------------------- |--------------------------------- |
 | GET    | `/api/v1/projects`      | N/A            | Get list of all projects                           |                                | Returns list of projects in ascending order |
-| GET    | `/api/v1/projects/:id`  | N/A            | Get single project by ID                           | { `id`} -> from req.params     | Returns found project                       |
+| GET    | `/api/v1/projects/:projectId`  | N/A            | Get single project by ID                           | { `id`} -> from req.params     | Returns found project                       |
 | POST   | `/api/v1/projects/`     | N/A            | Add a new project                                  | { `key/value pairs` } -> from req.body (check schema below) | Returns success message and created project |
 | GET    | `/api/v1/projects/users/:userId` | N/A | Get all projects by userId | {`userId`} -> from req.params | Returns list of projects made by the user |
-| PUT    | `/api/v1/projects/:id`  | N/A            | Updates a project                                  | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs) | Returns updated project |
-| DELETE | `/api/v1/projects/:id`  | N/A            | Delete a single project                            | { `id` } -> from req.params.   | Returns success message                     |
+| PUT    | `/api/v1/projects/:projectId`  | N/A            | Updates a project                                  | { `id` } -> from req.params { `updated key/value pairs` } -> from req.body (check schema below to see what it needs) | Returns updated project |
+| DELETE | `/api/v1/projects/:projectId`  | N/A            | Delete a single project                            | { `id` } -> from req.params.   | Returns success message                     |
    
 
 #### PROJECT PHOTOS Routes
@@ -49,8 +49,8 @@ To get the server running locally:
 | Method | Endpoint                                 | Access Control | Description                                        | Attached to req                | Returned                         |
 | ------ | ---------------------------------------- | -------------- | -------------------------------------------------- |------------------------------- |--------------------------------- |
 | POST   | `/api/v1/photo/projects/signed`          | N/A            | The id should reference the project's id that you are posting the photo to. This ensures that the photos will be placed in a folder based on the project's id. | req.body: { id } | This endpoint will return a presigned url and a key. The URL will be used to make a put request to aws to store the photo. The key will be used to store in our database's project_photos table. You will pass it to another asynchronous method. Keep in mind that the key is the right half of the URL that we are reading the photo from. This ensures that if we wanted to change cloud services, we could do so without losing any data |
-| GET    | `/api/v1/photo/projects/:id`             | N/A            | The id should reference the project id.            | req.params: { id }             | This will return an array of photo records based on the project id. |
-| GET    | `/api/v1/photo/projects/one/:id`         | N/A            | The id should reference the project_photo's id.    | req.params: { id }             | This will return a single record based on the project_photos.id |
+| GET    | `/api/v1/photo/projects/:projectId`             | N/A            | The id should reference the project id.            | req.params: { id }             | This will return an array of photo records based on the project id. |
+| GET    | `/api/v1/photo/projects/one/:photoId`         | N/A            | The id should reference the photo's id.    | req.params: { id }             | This will return a single record based on the project_photos.id |
 | POST   | `/api/v1/photo/projects`                 | N/A            | The url will come from the response of the presigned url. Make sure that you are saving the key to the url column. Example: url:key, not url:url. | req.body: { projectId, url, description, title } | This will return the new record you created. |
 | DELETE | `/api/v1/photo/projects/:id`             | N/A            | The id should match the project_photos.id          | req.params: { id }             | This will return a message saying you successfully deleted the photo. |
 
