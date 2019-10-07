@@ -5,16 +5,16 @@ exports.up = function(knex) {
       .integer('userId')
       .unsigned()
       .references('users.id')
+      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('projectId')
       .unsigned()
       .references('user_projects.id')
+      .inTable('user_projects')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl.integer('count').defaultTo(1);
   });
 };
