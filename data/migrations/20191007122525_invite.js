@@ -5,7 +5,6 @@ exports.up = function(knex) {
       .integer('activeUserId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
 
@@ -13,19 +12,17 @@ exports.up = function(knex) {
       .integer('invitedUserId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
       .integer('teamId')
+      .unsigned()
       .references('team.id')
-      .inTable('team')
       .onDelete('CASCADE');
     tbl
       .integer('followersId')
       .references('user_followers.id')
-      .inTable('user_followers')
       .onDelete('CASCADE');
     tbl.text('message');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());

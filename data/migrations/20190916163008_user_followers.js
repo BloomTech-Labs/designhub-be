@@ -5,14 +5,12 @@ exports.up = function(knex) {
       .integer('followingId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
     tbl
       .integer('followedId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());

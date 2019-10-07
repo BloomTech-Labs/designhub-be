@@ -5,26 +5,22 @@ exports.up = function(knex) {
       .integer('userId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
     tbl
       .integer('projectId')
       .unsigned()
       .references('user_projects.id')
-      .inTable('user_projects')
       .onDelete('CASCADE');
     tbl
       .string('username')
       .notNullable()
       .references('users.username')
-      .inTable('users')
       .onDelete('CASCADE');
     tbl
       .integer('imageId')
       .unsigned()
       .references('project_photos.id')
-      .inTable('project_photos')
       .onDelete('CASCADE');
     tbl.string('top');
     tbl.string('left');

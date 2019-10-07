@@ -5,13 +5,11 @@ exports.up = function(knex) {
       .integer('userId')
       .unsigned()
       .references('users.id')
-      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
     tbl
       .integer('teamId')
       .unsigned()
-      .inTable('team')
       .references('team.id')
       .onDelete('CASCADE');
     tbl.boolean('private').defaultTo(false);
