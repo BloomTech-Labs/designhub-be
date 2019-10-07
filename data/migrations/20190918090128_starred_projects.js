@@ -7,14 +7,12 @@ exports.up = function(knex) {
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('projectId')
       .unsigned()
       .references('user_projects.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl.integer('count').defaultTo(1);
   });
 };

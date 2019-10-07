@@ -7,14 +7,11 @@ exports.up = function(knex) {
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('projectId')
       .unsigned()
       .references('user_projects.id')
-      .nullable()
       .onDelete('CASCADE');
-
     tbl
       .string('username')
       .notNullable()
@@ -24,11 +21,9 @@ exports.up = function(knex) {
       .integer('imageId')
       .unsigned()
       .references('project_photos.id')
-      .nullable()
       .onDelete('CASCADE');
-    tbl.string('top').nullable();
-    tbl.string('left').nullable();
-
+    tbl.string('top');
+    tbl.string('left');
     tbl.text('text').notNullable();
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });

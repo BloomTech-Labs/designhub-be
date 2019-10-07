@@ -7,17 +7,14 @@ exports.up = function(knex) {
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('teamId')
-      .nullable()
+      .unsigned()
       .references('team.id')
       .onDelete('CASCADE');
-
     tbl.boolean('private').defaultTo(false);
-
     tbl.string('name').notNullable();
-    tbl.text('description').defaultTo(null);
+    tbl.text('description');
     tbl.string('figma');
     tbl.string('invision');
     tbl.text('mainImg');

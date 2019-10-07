@@ -13,9 +13,7 @@ exports.up = function(knex) {
       .references('team.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl.integer('role').defaultTo(0);
-
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
   });

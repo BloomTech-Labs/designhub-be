@@ -7,14 +7,12 @@ exports.up = function(knex) {
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('followedId')
       .unsigned()
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };

@@ -5,38 +5,15 @@ exports.up = function(knex) {
       .string('auth0Id')
       .unique()
       .notNullable();
-    users
-      .string('username')
-      .unique()
-      .defaultTo(null);
-    users.string('email').defaultTo(null);
-    users
-      .string('phoneNumber')
-      .defaultTo(null);
-    users
-      .string('firstName')
-      .defaultTo(null)
-      .nullable();
-    users
-      .string('lastName')
-      .defaultTo(null)
-      .nullable();
-    users
-      .string('location')
-      .defaultTo(null)
-      .nullable();
-    users
-      .text('bio')
-      .defaultTo(null)
-      .nullable();
-    users
-      .string('website')
-      .defaultTo(null)
-      .nullable();
-    users
-      .string('avatar')
-      .defaultTo(null)
-      .nullable();
+    users.string('username').unique();
+    users.string('email');
+    users.string('phoneNumber');
+    users.string('firstName');
+    users.string('lastName');
+    users.string('location');
+    users.text('bio');
+    users.string('website');
+    users.string('avatar');
     users.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };

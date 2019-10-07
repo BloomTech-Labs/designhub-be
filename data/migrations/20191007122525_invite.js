@@ -11,22 +11,20 @@ exports.up = function(knex) {
     tbl
       .integer('invitedUserId')
       .unsigned()
-      .references('user.id')
+      .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
       .integer('teamId')
-      .nullable()
+      .unsigned()
       .references('team.id')
       .onDelete('CASCADE');
     tbl
       .integer('followersId')
-      .nullable()
       .references('user_followers.id')
       .onDelete('CASCADE');
-
-    tbl.text('message').nullable();
+    tbl.text('message');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
