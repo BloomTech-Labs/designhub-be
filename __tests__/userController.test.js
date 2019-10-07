@@ -31,6 +31,21 @@ const EXPECTED_USER = {
 };
 const EXPECTED_USERNAME = { username: 'mansleen' };
 
+const CREATED_USER = user => ({
+  id: USERID,
+  auth0Id: AUTH0ID,
+  username: null,
+  email: null,
+  phoneNumber: null,
+  firstName: null,
+  lastName: null,
+  location: null,
+  bio: null,
+  website: null,
+  avatar: null,
+  created_at: user[0].created_at
+});
+
 let TEST_USER = {
   auth0Id: AUTH0ID
 };
@@ -46,20 +61,7 @@ describe('userController', () => {
       expect(id[0]).toBe(USERID);
       expect(user).toHaveLength(1);
       expect(user[0].auth0Id).toBe(AUTH0ID);
-      expect(user[0]).toEqual({
-        id: USERID,
-        auth0Id: AUTH0ID,
-        username: null,
-        email: null,
-        phoneNumber: null,
-        firstName: null,
-        lastName: null,
-        location: null,
-        bio: null,
-        website: null,
-        avatar: null,
-        created_at: user[0].created_at
-      });
+      expect(user[0]).toEqual(CREATED_USER(user));
     });
 
     it('should return user if user already exists', async () => {
@@ -68,20 +70,7 @@ describe('userController', () => {
         .where('auth0Id', AUTH0ID);
       expect(user).toHaveLength(1);
       expect(user[0].auth0Id).toBe(AUTH0ID);
-      expect(user[0]).toEqual({
-        id: USERID,
-        auth0Id: AUTH0ID,
-        username: null,
-        email: null,
-        phoneNumber: null,
-        firstName: null,
-        lastName: null,
-        location: null,
-        bio: null,
-        website: null,
-        avatar: null,
-        created_at: user[0].created_at
-      });
+      expect(user[0]).toEqual(CREATED_USER(user));
     });
   });
 
@@ -94,21 +83,7 @@ describe('userController', () => {
     it('should return expected data if user exists', async () => {
       const data = await go.getById('users', 2); // mansleen
       expect(data).toHaveLength(1);
-      expect(data[0]).toEqual({
-        id: 2,
-        auth0Id: 'google-oauth2|115383560506192673006',
-        username: 'mansleen',
-        email: 'mansleen@designhub.com',
-        phoneNumber: '8005550129',
-        firstName: 'Michael',
-        lastName: 'Vansleen',
-        location: 'Denver, CO',
-        bio:
-          'I love designing and always looking for ways to improve and innovate. 🤓 #Usersmatter! #LambdaBound #UXEngineer',
-        website: 'https://mansleen.io',
-        avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
-        created_at: null
-      });
+      expect(data[0]).toEqual(EXPECTED_USER);
       expect(data[0]).toMatchObject(EXPECTED_USER);
       expect(data[0]).toBeTruthy();
     });
@@ -137,21 +112,7 @@ describe('userController', () => {
     it('should return all users with expected results', async () => {
       const data = await go.getMany('users').orderBy('id', 'asc');
       expect(data).toHaveLength(6);
-      expect(data[1]).toEqual({
-        id: 2,
-        auth0Id: 'google-oauth2|115383560506192673006',
-        username: 'mansleen',
-        email: 'mansleen@designhub.com',
-        phoneNumber: '8005550129',
-        firstName: 'Michael',
-        lastName: 'Vansleen',
-        location: 'Denver, CO',
-        bio:
-          'I love designing and always looking for ways to improve and innovate. 🤓 #Usersmatter! #LambdaBound #UXEngineer',
-        website: 'https://mansleen.io',
-        avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
-        created_at: null
-      });
+      expect(data[1]).toEqual(EXPECTED_USER);
       expect(data[1]).toMatchObject(EXPECTED_USER);
       expect(data[1]).toBeTruthy();
     });
