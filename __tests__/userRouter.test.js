@@ -37,15 +37,18 @@ describe('userRouter', () => {
     });
   });
 
+  const userStatus = res => {
+    return expect(res.status).toBe(200);
+  };
+
   describe('GET /:id getUserById', () => {
     it('should return 200 OK', async () => {
       const res = await request(server).get(`${ENDPOINT}/1`);
-      expect(res.status).toBe(200);
+      userStatus(res);
     });
 
     it('should return 400 if id is not in db', async () => {
       const res = await request(server).get(`${ENDPOINT}/1337`);
-
       expect(res.status).toBe(404);
     });
   });
@@ -53,12 +56,11 @@ describe('userRouter', () => {
   describe('GET /check/:username getUserByUsername', () => {
     it('should return 200', async () => {
       const res = await request(server).get(`${ENDPOINT}/check/eriklambert`);
-      expect(res.status).toBe(200);
+      userStatus(res);
     });
 
     it('should return 204 when user does not exist', async () => {
       const res = await request(server).get(`${ENDPOINT}/check/0248`);
-
       expect(res.status).toBe(204);
     });
   });
