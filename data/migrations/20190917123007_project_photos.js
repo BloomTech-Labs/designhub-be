@@ -5,17 +5,15 @@ exports.up = function(knex) {
       .integer('projectId')
       .unsigned()
       .references('user_projects.id')
+      .inTable('users_projects')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .string('url')
       .unique()
       .notNullable();
-
-    tbl.text('description').defaultTo(null);
-    tbl.text('title').defaultTo(null);
-
+    tbl.text('description');
+    tbl.text('title');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
