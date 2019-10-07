@@ -5,17 +5,17 @@ exports.up = function(knex) {
       .integer('userId')
       .unsigned()
       .references('users.id')
+      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
     tbl
       .integer('teamId')
       .unsigned()
       .references('team.id')
+      .inTable('team')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl.integer('role').defaultTo(0);
-
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
   });
