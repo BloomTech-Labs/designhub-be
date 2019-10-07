@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('user_projects', tbl => {
+  return knex.schema.createTable('team_member', tbl => {
     tbl.increments('id');
     tbl
       .integer('userId')
@@ -7,25 +7,20 @@ exports.up = function(knex) {
       .references('users.id')
       .notNullable()
       .onDelete('CASCADE');
-
     tbl
       .integer('teamId')
-      .nullable()
+      .unsigned()
       .references('team.id')
+      .notNullable()
       .onDelete('CASCADE');
 
-    tbl.boolean('private').defaultTo(false);
+    tbl.integer('role').defaultTo(0);
 
-    tbl.string('name').notNullable();
-    tbl.text('description').defaultTo(null);
-    tbl.string('figma');
-    tbl.string('invision');
-    tbl.text('mainImg');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
     tbl.timestamp('updated_at').defaultTo(knex.fn.now());
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('user_projects');
+  return knex.schema.dropTableIfExists('team_member');
 };
