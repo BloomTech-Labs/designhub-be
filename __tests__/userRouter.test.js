@@ -3,7 +3,7 @@ const server = require('../server');
 const go = require('../resources/utils/crud');
 
 const ENDPOINT = '/api/v1/users';
-const AUTH0ID = 'auth0|5d83b8d3d8e1cf0df49647e3';
+const USER_WITH_AUTH0ID = { auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' };
 
 describe('userRouter', () => {
   describe('POST / createUser', () => {
@@ -18,13 +18,13 @@ describe('userRouter', () => {
     beforeEach(async () => {
       await request(server)
         .post(`${ENDPOINT}/`)
-        .send({ sub: AUTH0ID });
+        .send({ sub: USER_WITH_AUTH0ID.auth0Id });
     });
 
     it('should return 200 if User already created', async () => {
       const res = await request(server)
         .post(`${ENDPOINT}/`)
-        .send({ sub: AUTH0ID });
+        .send({ sub: USER_WITH_AUTH0ID.auth0Id });
       expect(res.status).toBe(200);
     });
 
@@ -75,7 +75,7 @@ describe('userRouter', () => {
     it('should return 200', async () => {
       const res = await request(server)
         .put(`${ENDPOINT}/1`)
-        .send({ auth0Id: AUTH0ID });
+        .send(USER_WITH_AUTH0ID);
       expect(res.status).toBe(200);
     });
 
@@ -90,7 +90,7 @@ describe('userRouter', () => {
     it('should return 400 for user not in db', async () => {
       const res = await request(server)
         .put(`${ENDPOINT}/439734`)
-        .send({ auth0Id: AUTH0ID });
+        .send(USER_WITH_AUTH0ID);
 
       expect(res.status).toBe(404);
     });
