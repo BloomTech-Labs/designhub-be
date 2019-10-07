@@ -23,7 +23,7 @@ exports.up = function(knex) {
     tbl
       .integer('followersId')
       .nullable()
-      .references('team.id')
+      .references('user_followers.id')
       .onDelete('CASCADE');
 
     tbl.text('message').nullable();

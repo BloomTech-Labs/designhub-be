@@ -8,6 +8,12 @@ exports.up = function(knex) {
       .notNullable()
       .onDelete('CASCADE');
 
+    tbl
+      .integer('teamId')
+      .nullable()
+      .references('team.id')
+      .onDelete('CASCADE');
+
     tbl.boolean('private').defaultTo(false);
 
     tbl.string('name').notNullable();
