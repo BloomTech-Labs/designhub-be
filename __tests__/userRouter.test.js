@@ -3,6 +3,7 @@ const server = require('../server');
 const go = require('../resources/utils/crud');
 
 const ENDPOINT = '/api/v1/users';
+const AUTH0ID = 'auth0|5d83b8d3d8e1cf0df49647e3';
 
 describe('userRouter', () => {
   describe('POST / createUser', () => {
@@ -17,13 +18,13 @@ describe('userRouter', () => {
     beforeEach(async () => {
       await request(server)
         .post(`${ENDPOINT}/`)
-        .send({ sub: 'auth0|5d83b8d3d8e1cf0df49647e3' });
+        .send({ sub: AUTH0ID });
     });
 
     it('should return 200 if User already created', async () => {
       const res = await request(server)
         .post(`${ENDPOINT}/`)
-        .send({ sub: 'auth0|5d83b8d3d8e1cf0df49647e3' });
+        .send({ sub: AUTH0ID });
       expect(res.status).toBe(200);
     });
 
@@ -37,14 +38,10 @@ describe('userRouter', () => {
     });
   });
 
-  const userStatus = res => {
-    return expect(res.status).toBe(200);
-  };
-
   describe('GET /:id getUserById', () => {
     it('should return 200 OK', async () => {
-      const res = await request(server).get(`${ENDPOINT}/1`);
-      userStatus(res);
+      const userById = await request(server).get(`${ENDPOINT}/1`);
+      expect(userById.status).toBe(200);
     });
 
     it('should return 400 if id is not in db', async () => {
@@ -55,8 +52,10 @@ describe('userRouter', () => {
 
   describe('GET /check/:username getUserByUsername', () => {
     it('should return 200', async () => {
-      const res = await request(server).get(`${ENDPOINT}/check/eriklambert`);
-      userStatus(res);
+      const userByUsername = await request(server).get(
+        `${ENDPOINT}/check/eriklambert`
+      );
+      expect(userByUsername.status).toBe(200);
     });
 
     it('should return 204 when user does not exist', async () => {
@@ -76,7 +75,7 @@ describe('userRouter', () => {
     it('should return 200', async () => {
       const res = await request(server)
         .put(`${ENDPOINT}/1`)
-        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' });
+        .send({ auth0Id: AUTH0ID });
       expect(res.status).toBe(200);
     });
 
@@ -91,7 +90,7 @@ describe('userRouter', () => {
     it('should return 400 for user not in db', async () => {
       const res = await request(server)
         .put(`${ENDPOINT}/439734`)
-        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' });
+        .send({ auth0Id: AUTH0ID });
 
       expect(res.status).toBe(404);
     });
