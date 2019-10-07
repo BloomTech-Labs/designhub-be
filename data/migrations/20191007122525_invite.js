@@ -5,28 +5,29 @@ exports.up = function(knex) {
       .integer('activeUserId')
       .unsigned()
       .references('users.id')
+      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
       .integer('invitedUserId')
       .unsigned()
-      .references('user.id')
+      .references('users.id')
+      .inTable('users')
       .notNullable()
       .onDelete('CASCADE');
 
     tbl
       .integer('teamId')
-      .nullable()
       .references('team.id')
+      .inTable('team')
       .onDelete('CASCADE');
     tbl
       .integer('followersId')
-      .nullable()
       .references('user_followers.id')
+      .inTable('user_followers')
       .onDelete('CASCADE');
-
-    tbl.text('message').nullable();
+    tbl.text('message');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
