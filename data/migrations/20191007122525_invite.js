@@ -42,7 +42,7 @@ exports.up = function(knex) {
     tbl
       .string('activeUsername')
       .notNullable()
-      .references('users.name')
+      .references('users.username')
       .onDelete('CASCADE');
 
     tbl
