@@ -35,7 +35,7 @@ exports.up = function(knex) {
 
     tbl
       .string('activeUserAvatar')
-      .unsigned()
+
       .notNullable()
       .references('users.avatar')
       .onDelete('CASCADE');
