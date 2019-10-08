@@ -44,7 +44,7 @@ exports.getTeamMembersByTeamId = async (req, res) => {
   }
 };
 
-exports.deleteTeamById = async (req, res) => {
+exports.deleteTeamMemberById = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
   }
@@ -58,7 +58,7 @@ exports.deleteTeamById = async (req, res) => {
   }
 };
 
-exports.updateTeamById = async (req, res) => {
+exports.updateTeamMemberById = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
   }
