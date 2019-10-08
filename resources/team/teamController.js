@@ -56,3 +56,22 @@ exports.deleteTeamById = async (req, res) => {
     res.json({ message: 'Unable to delete team' });
   }
 };
+
+exports.updateTeamById = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  if (!req.body) {
+    res.status(400).json({ message: 'there was no req.body' });
+  }
+
+  const { id } = req.params;
+  try {
+    await go.updateById('team', req.body, id);
+    const data = await go.getById('team', id);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't update team.", error: error });
+  }
+};
