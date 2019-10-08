@@ -16,6 +16,8 @@ const heatmapRouter = require('./resources/heatmap/heatmapRouter');
 const starRouter = require('./resources/starredProjects/starRouter');
 const searchBarRouter = require('./resources/searchBar/searchBarRouter');
 const teamRouter = require('./resources/team/teamRouter');
+const teamMemberRouter = require('./resources/teamMember/teamMemberRouter');
+const inviteRouter = require('./resources/invite/inviteRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -40,5 +42,6 @@ server.use('/api/v1/heatmap', heatmapRouter);
 server.use('/api/v1/star', starRouter);
 server.use('/api/v1/search', searchBarRouter);
 server.use('/api/v1/team', teamRouter);
-
+server.use('/api/v1/teamMember', teamMemberRouter);
+server.use('/api/v1/invite', inviteRouter);
 module.exports = server;

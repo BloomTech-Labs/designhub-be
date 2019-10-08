@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('team', tbl => {
     tbl.increments('id');
-
+    tbl.string('avatar');
     tbl.string('name').notNullable();
     tbl.text('description').defaultTo(null);
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
