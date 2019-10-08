@@ -28,6 +28,12 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
 
     tbl
+      .integer('projectId')
+      .unsigned()
+      .references('project.id')
+      .onDelete('CASCADE');
+
+    tbl
       .integer('imageId')
       .unsigned()
       .references('project_photos.id')
