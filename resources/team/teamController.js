@@ -43,27 +43,16 @@ exports.getAllTeams = async (req, res) => {
   }
 };
 
-// exports.deleteStar = async (req, res) => {
-//   if (!req.body.id) {
-//     res
-//       .status(400)
-//       .json({ message: 'userId was not attached to the req.body' });
-//   }
-
-//   if (!req.params.id) {
-//     res
-//       .status(400)
-//       .json({ message: 'projectId was not attached to the req.params' });
-//   }
-
-//   try {
-//     await db('starred_projects')
-//       .del()
-//       .where('projectId', req.params.id)
-//       .andWhere('userId', req.body.id);
-//     res.status(200).json({ message: 'Star successfully deleted' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(400).json({ message: "Couldn't delete star.", error: error });
-//   }
-// };
+exports.deleteTeamById = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+  const { id } = req.params;
+  try {
+    await go.destroyById('team', id);
+    res.json({ message: 'Successfully deleted team' });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to delete team' });
+  }
+};
