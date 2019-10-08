@@ -44,47 +44,19 @@ exports.getTeamMembersByTeamId = async (req, res) => {
   }
 };
 
-// exports.getTeamById = async (req, res) => {
-//   if (!req.params.id) {
-//     res
-//       .status(400)
-//       .json({ message: 'userId was not attached to the req.params' });
-//   }
-
-//   const { id } = req.params;
-
-//   try {
-//     const data = await go.getById('team', id);
-//     res.status(200).json(data);
-//   } catch ({ message }) {
-//     console.error(message);
-//     res.status(400).json({ message: 'Couldnt find team', message });
-//   }
-// };
-
-// exports.getAllTeams = async (req, res) => {
-//   try {
-//     const data = go.getMany('team');
-//     res.status(200).json(data);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json({ message: 'Couldnt teams' });
-//   }
-// };
-
-// exports.deleteTeamById = async (req, res) => {
-//   if (!req.params.id) {
-//     res.status(400).json({ message: 'id was not attached to the req.params' });
-//   }
-//   const { id } = req.params;
-//   try {
-//     await go.destroyById('team', id);
-//     res.json({ message: 'Successfully deleted team' });
-//   } catch (err) {
-//     console.error(err);
-//     res.json({ message: 'Unable to delete team' });
-//   }
-// };
+exports.deleteTeamById = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+  const { id } = req.params;
+  try {
+    await go.destroyById('team_member', id);
+    res.json({ message: 'Successfully deleted teammember' });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to delete team member' });
+  }
+};
 
 // exports.updateTeamById = async (req, res) => {
 //   if (!req.params.id) {
