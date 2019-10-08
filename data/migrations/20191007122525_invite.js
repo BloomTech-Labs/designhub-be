@@ -33,28 +33,14 @@ exports.up = function(knex) {
       .references('project_photos.id')
       .onDelete('CASCADE');
 
-    tbl
-      .string('activeUserAvatar')
+    tbl.string('activeUserAvatar').notNullable();
 
-      .notNullable()
-      .references('users.avatar')
-      .onDelete('CASCADE');
+    tbl.string('mainImgUrl');
 
-    tbl
-      .text('mainImgUrl')
-      .unsigned()
-      .references('user_projects.mainImg')
-      .onDelete('CASCADE');
-
-    tbl
-      .text('commentText')
-      .unsigned()
-      .references('comments.text')
-      .onDelete('CASCADE');
+    tbl.text('commentText');
 
     tbl
       .string('activeUsername')
-      .unsigned()
       .notNullable()
       .references('users.name')
       .onDelete('CASCADE');
