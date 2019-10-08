@@ -16,6 +16,50 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
 
     tbl
+      .integer('starredProjectsId')
+      .unsigned()
+      .references('starred_projects.id')
+      .onDelete('CASCADE');
+
+    tbl
+      .integer('commentsId')
+      .unsigned()
+      .references('comments.id')
+      .onDelete('CASCADE');
+
+    tbl
+      .integer('imageId')
+      .unsigned()
+      .references('project_photos.id')
+      .onDelete('CASCADE');
+
+    tbl
+      .string('activeUserAvatar')
+      .unsigned()
+      .notNullable()
+      .references('users.avatar')
+      .onDelete('CASCADE');
+
+    tbl
+      .text('mainImgUrl')
+      .unsigned()
+      .references('user_projects.mainImg')
+      .onDelete('CASCADE');
+
+    tbl
+      .text('commentText')
+      .unsigned()
+      .references('comments.text')
+      .onDelete('CASCADE');
+
+    tbl
+      .string('activeUsername')
+      .unsigned()
+      .notNullable()
+      .references('users.name')
+      .onDelete('CASCADE');
+
+    tbl
       .integer('teamId')
       .unsigned()
       .references('team.id')
@@ -24,6 +68,9 @@ exports.up = function(knex) {
       .integer('followersId')
       .references('user_followers.id')
       .onDelete('CASCADE');
+
+    tbl.string('type');
+
     tbl.text('message');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });

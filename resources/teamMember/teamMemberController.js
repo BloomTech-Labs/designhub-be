@@ -25,6 +25,25 @@ exports.createTeamMember = async (req, res) => {
   }
 };
 
+exports.getTeamMembersByTeamId = async (req, res) => {
+  if (!req.body.teamId) {
+    res
+      .status(400)
+      .json({ message: 'teamId was not attached to the req.body' });
+  }
+
+  try {
+    const data = await db('team_member').where('teamId', req.body.teamId);
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "Couldn't find team members.", error: error });
+  }
+};
+
 // exports.getTeamById = async (req, res) => {
 //   if (!req.params.id) {
 //     res
