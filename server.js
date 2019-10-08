@@ -15,6 +15,7 @@ const commentsRouter = require('./resources/comments/commentsRouter');
 const heatmapRouter = require('./resources/heatmap/heatmapRouter');
 const starRouter = require('./resources/starredProjects/starRouter');
 const searchBarRouter = require('./resources/searchBar/searchBarRouter');
+const teamRouter = require('./resources/team/teamRouter');
 
 // ***************** MIDDLEWARE **************************
 
@@ -38,5 +39,6 @@ server.use('/api/v1/comments', commentsRouter);
 server.use('/api/v1/heatmap', heatmapRouter);
 server.use('/api/v1/star', starRouter);
 server.use('/api/v1/search', searchBarRouter);
+server.use('/api/v1/team', teamRouter);
 
 module.exports = server;
