@@ -30,7 +30,7 @@ exports.up = function(knex) {
     tbl
       .integer('projectId')
       .unsigned()
-      .references('project.id')
+      .references('user_projects.id')
       .onDelete('CASCADE');
 
     tbl
