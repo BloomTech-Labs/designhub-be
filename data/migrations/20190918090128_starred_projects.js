@@ -14,6 +14,7 @@ exports.up = function(knex) {
       .notNullable()
       .onDelete('CASCADE');
     tbl.integer('count').defaultTo(1);
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 
