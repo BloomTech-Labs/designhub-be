@@ -23,7 +23,7 @@ exports.getInvitesByUserId = async (req, res) => {
   try {
     const data = await db('invite')
       .select('*')
-      .where('invitedUserId', invitedUserId);
+      .where('invitedUserId', invitedUserId, 'invitedUserId');
     res.json(data);
   } catch (err) {
     console.error(err);
