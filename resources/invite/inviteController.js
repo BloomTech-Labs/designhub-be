@@ -1,3 +1,6 @@
+const go = require('../utils/crud');
+const db = require('../../data/dbConfig');
+
 const errorHelper = (res, condition, item) => {
   if (!condition) {
     res
@@ -16,7 +19,7 @@ exports.createFollowInvite = (req, res) => {};
 
 exports.createStarredInvite = (req, res) => {};
 
-exports.createCommentsInvite = (req, res) => {
+exports.createCommentsInvite = async (req, res) => {
   const {
     username,
     commentText,
@@ -36,6 +39,21 @@ exports.createCommentsInvite = (req, res) => {
   errorHelper(res, mainImgUrl, 'mainImgUrl');
   errorHelper(res, commentsId, 'commentsId');
   errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+
+  if (type !== 'comment') {
+    res.status(400).json({
+      message:
+        'To post a comment invite, the the type value needs to be comment'
+    });
+  }
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res.status(201).json({ message: 'Invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
 };
 
 exports.deleteInviteById = (req, res) => {};
