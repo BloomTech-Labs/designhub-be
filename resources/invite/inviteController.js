@@ -17,9 +17,13 @@ const typeCheckHelper = (res, type, check) => {
   }
 };
 
-exports.getInvitesByUserId = (req, res) => {
+exports.getInvitesByUserId = async (req, res) => {
   errorHelper(res, req.body.invitedUserId);
   try {
+    const data = await db('invite')
+      .select('*')
+      .where('invitedUserId', invitedUserId);
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Could not get invites', error: error });
