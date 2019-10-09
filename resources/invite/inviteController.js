@@ -31,7 +31,19 @@ exports.getInvitesByUserId = async (req, res) => {
   }
 };
 
-exports.getInviteCountByUserId = (req, res) => {};
+exports.getInviteCountByUserId = async (req, res) => {
+  const { invitedUserId } = req.body;
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  try {
+    const data = await db('invite')
+      .count('id')
+      .where('invitedUserId', invitedUserId);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Could not get invites', error: error });
+  }
+};
 
 exports.createTeamInvite = async (req, res) => {
   const {
