@@ -79,7 +79,7 @@ exports.createFollowInvite = async (req, res) => {
   }
 };
 
-exports.createStarredInvite = (req, res) => {
+exports.createStarredInvite = async (req, res) => {
   const {
     username,
     type,
@@ -100,6 +100,16 @@ exports.createStarredInvite = (req, res) => {
   errorHelper(res, starredProjectsId, 'starredProjectsId');
   errorHelper(res, projectName, 'projectName');
   typeCheckHelper(res, type, 'star');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Star invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
 };
 
 exports.createCommentsInvite = async (req, res) => {
