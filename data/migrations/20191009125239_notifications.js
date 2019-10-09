@@ -1,6 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('notifications', tbl => {
     tbl.increments('id');
+    tbl.boolean('read').defaultTo(false);
     tbl
       .integer('userId')
       .unsigned()
