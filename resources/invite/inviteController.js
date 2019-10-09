@@ -145,7 +145,19 @@ exports.createCommentsInvite = async (req, res) => {
   }
 };
 
-exports.deleteInviteById = (req, res) => {};
+exports.deleteInviteById = (req, res) => async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+  const { id } = req.params;
+  try {
+    await go.destroyById('invite', id);
+    res.json({ message: 'Successfully deleted invite' });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to delete invite' });
+  }
+};
 
 exports.updateInviteById = async (req, res) => {
   if (!req.params.id) {
