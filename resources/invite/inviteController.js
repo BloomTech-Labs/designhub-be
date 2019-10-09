@@ -9,6 +9,14 @@ const errorHelper = (res, condition, item) => {
   }
 };
 
+const typeCheckHelper = (res, type, check) => {
+  if (type !== check) {
+    res.status(400).json({
+      message: `To post a ${check} invite, the the type value needs to be ${check}`
+    });
+  }
+};
+
 exports.getInvitesByUserId = (req, res) => {};
 
 exports.getInviteCountByUserId = (req, res) => {};
@@ -39,13 +47,7 @@ exports.createCommentsInvite = async (req, res) => {
   errorHelper(res, mainImgUrl, 'mainImgUrl');
   errorHelper(res, commentsId, 'commentsId');
   errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-
-  if (type !== 'comment') {
-    res.status(400).json({
-      message:
-        'To post a comment invite, the the type value needs to be comment'
-    });
-  }
+  typeCheckHelper(res, type, 'comment');
 
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
