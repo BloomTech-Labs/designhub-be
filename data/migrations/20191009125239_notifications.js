@@ -27,7 +27,6 @@ exports.up = function(knex) {
       .references('user_followers.id')
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
-    tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 
