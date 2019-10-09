@@ -19,11 +19,11 @@ const typeCheckHelper = (res, type, check) => {
 
 exports.getInvitesByUserId = async (req, res) => {
   const { invitedUserId } = req.body;
-  errorHelper(res, invitedUserId);
+  errorHelper(res, invitedUserId, 'invitedUserId');
   try {
     const data = await db('invite')
       .select('*')
-      .where('invitedUserId', invitedUserId, 'invitedUserId');
+      .where('invitedUserId', invitedUserId);
     res.json(data);
   } catch (err) {
     console.error(err);
