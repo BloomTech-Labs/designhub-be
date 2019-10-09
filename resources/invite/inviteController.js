@@ -79,7 +79,28 @@ exports.createFollowInvite = async (req, res) => {
   }
 };
 
-exports.createStarredInvite = (req, res) => {};
+exports.createStarredInvite = (req, res) => {
+  const {
+    username,
+    type,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    projectId,
+    starredProjectsId,
+    projectName,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  errorHelper(res, projectId, 'projectId');
+  errorHelper(res, starredProjectsId, 'starredProjectsId');
+  errorHelper(res, projectName, 'projectName');
+  typeCheckHelper(res, type, 'star');
+};
 
 exports.createCommentsInvite = async (req, res) => {
   const {
