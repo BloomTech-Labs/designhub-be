@@ -42,7 +42,9 @@ exports.createTeamInvite = async (req, res) => {
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
-    res.status(201).json({ message: 'Invite successfully created!', data });
+    res
+      .status(201)
+      .json({ message: 'Team invite successfully created!', data });
   } catch (error) {
     res.status(400).json({ message: 'Could not create invite', error: error });
   }
@@ -77,7 +79,9 @@ exports.createCommentsInvite = async (req, res) => {
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
-    res.status(201).json({ message: 'Invite successfully created!', data });
+    res
+      .status(201)
+      .json({ message: 'Comments invite successfully created!', data });
   } catch (error) {
     res.status(400).json({ message: 'Could not create invite', error: error });
   }
