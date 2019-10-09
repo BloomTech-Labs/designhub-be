@@ -67,6 +67,16 @@ exports.createFollowInvite = (req, res) => {
   errorHelper(res, activeUserAvatar, 'activeUserAvatar');
   errorHelper(res, followersId, 'followersId');
   typeCheckHelper(res, type, 'follow');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Follow invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
 };
 
 exports.createStarredInvite = (req, res) => {};
