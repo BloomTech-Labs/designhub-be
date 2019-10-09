@@ -147,4 +147,21 @@ exports.createCommentsInvite = async (req, res) => {
 
 exports.deleteInviteById = (req, res) => {};
 
-exports.updateInviteById = (req, res) => {};
+exports.updateInviteById = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  if (!req.body) {
+    res.status(400).json({ message: 'there was no req.body' });
+  }
+
+  const { id } = req.params;
+  try {
+    await go.updateById('invite', req.body, id);
+    const data = await go.getById('invite', id);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't update invite.", error: error });
+  }
+};
