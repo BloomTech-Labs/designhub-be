@@ -50,7 +50,7 @@ exports.createTeamInvite = async (req, res) => {
   }
 };
 
-exports.createFollowInvite = (req, res) => {
+exports.createFollowInvite = async (req, res) => {
   const {
     username,
     type,
