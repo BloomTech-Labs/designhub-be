@@ -17,7 +17,14 @@ const typeCheckHelper = (res, type, check) => {
   }
 };
 
-exports.getInvitesByUserId = (req, res) => {};
+exports.getInvitesByUserId = (req, res) => {
+  errorHelper(res, req.body.invitedUserId);
+  try {
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Could not get invites', error: error });
+  }
+};
 
 exports.getInviteCountByUserId = (req, res) => {};
 
