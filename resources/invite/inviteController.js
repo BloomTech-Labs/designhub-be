@@ -21,7 +21,32 @@ exports.getInvitesByUserId = (req, res) => {};
 
 exports.getInviteCountByUserId = (req, res) => {};
 
-exports.createTeamInvite = (req, res) => {};
+exports.createTeamInvite = async (req, res) => {
+  const {
+    username,
+    type,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    teamId,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  errorHelper(res, teamId, 'teamId');
+  typeCheckHelper(res, type, 'team');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res.status(201).json({ message: 'Invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
+};
 
 exports.createFollowInvite = (req, res) => {};
 
