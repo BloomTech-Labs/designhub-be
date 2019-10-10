@@ -1,30 +1,22 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
-const errorHelper = (res, condition, item) => {
-  if (!condition) {
-    res
-      .status(400)
-      .json({ message: `${item} was not attatched to the req.body` });
-  }
-};
-
-const typeCheckHelper = (res, type, check) => {
-  if (type !== check) {
-    res.status(400).json({
-      message: `To post a ${check} invite, the the type value needs to be ${check}`
-    });
-  }
-};
-
 exports.getInvitesByUserId = async (req, res) => {
-  const { invitedUserId } = req.body;
-  errorHelper(res, invitedUserId, 'invitedUserId');
+  const { id } = req.params;
+
   try {
-    const data = await db('invite')
+    const unReadNotifications = await db('invite')
       .select('*')
-      .where('invitedUserId', invitedUserId);
-    res.json(data);
+      .where('invitedUserId', id)
+      .andWhere('unread', true)
+      .orderBy('created_at', 'desc');
+
+    const readNotifications = await db('invite')
+      .select('*')
+      .where('invitedUserId', id)
+      .andWhere('unread', false)
+      .orderBy('created_at', 'desc');
+    res.json({ unReadNotifications, readNotifications });
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Could not get invites', error: error });
@@ -47,7 +39,7 @@ exports.getInviteCountByUserId = async (req, res) => {
 
 exports.createTeamInvite = async (req, res) => {
   const {
-    username,
+    activeUsername,
     type,
     invitedUserId,
     activeUserId,
@@ -55,7 +47,8 @@ exports.createTeamInvite = async (req, res) => {
     teamId,
     activeUserAvatar
   } = req.body;
-  errorHelper(res, username, 'username');
+
+  errorHelper(res, activeUsername, 'activeUsername');
   errorHelper(res, invitedUserId, 'invitedUserId');
   errorHelper(res, activeUserId, 'activeUserId');
   errorHelper(res, mainImgUrl, 'mainImgUrl');
@@ -75,23 +68,6 @@ exports.createTeamInvite = async (req, res) => {
 };
 
 exports.createFollowInvite = async (req, res) => {
-  const {
-    username,
-    type,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    followersId,
-    activeUserAvatar
-  } = req.body;
-  errorHelper(res, username, 'username');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  errorHelper(res, followersId, 'followersId');
-  typeCheckHelper(res, type, 'follow');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
@@ -104,27 +80,6 @@ exports.createFollowInvite = async (req, res) => {
 };
 
 exports.createStarredInvite = async (req, res) => {
-  const {
-    username,
-    type,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    projectId,
-    starredProjectsId,
-    projectName,
-    activeUserAvatar
-  } = req.body;
-  errorHelper(res, username, 'username');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  errorHelper(res, projectId, 'projectId');
-  errorHelper(res, starredProjectsId, 'starredProjectsId');
-  errorHelper(res, projectName, 'projectName');
-  typeCheckHelper(res, type, 'star');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
@@ -137,34 +92,16 @@ exports.createStarredInvite = async (req, res) => {
 };
 
 exports.createCommentsInvite = async (req, res) => {
-  const {
-    username,
-    commentText,
-    type,
-    projectId,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    commentsId,
-    activeUserAvatar
-  } = req.body;
-  errorHelper(res, username, 'username');
-  errorHelper(res, commentText, 'commentText');
-  errorHelper(res, projectId, 'projectId');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, commentsId, 'commentsId');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  typeCheckHelper(res, type, 'comment');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+
     res
       .status(201)
-      .json({ message: 'Comments invite successfully created!', data });
+      .send({ message: 'Comments invite successfully created!', data });
   } catch (error) {
+    console.log('heeey there');
+    console.error(error);
     res.status(400).json({ message: 'Could not create invite', error: error });
   }
 };
