@@ -72,10 +72,8 @@ exports.checkFollowBody = (req, res, next) => {
     activeUsername,
     invitedUserId,
     activeUserId,
-    mainImgUrl,
     followersId,
-    activeUserAvatar,
-    projectId
+    activeUserAvatar
   } = req.body;
 
   if (!activeUsername) {
@@ -90,18 +88,10 @@ exports.checkFollowBody = (req, res, next) => {
     return res
       .status(400)
       .json({ message: `activeUserId was not attatched to the req.body` });
-  } else if (!mainImgUrl) {
-    return res
-      .status(400)
-      .json({ message: `mainImgUrl was not attatched to the req.body` });
   } else if (!activeUserAvatar) {
     return res
       .status(400)
       .json({ message: `activeUserAvatar was not attatched to the req.body` });
-  } else if (!projectId) {
-    return res
-      .status(400)
-      .json({ message: `projectId was not attatched to the req.body` });
   } else if (!followersId) {
     return res
       .status(400)
