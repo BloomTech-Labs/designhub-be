@@ -88,27 +88,6 @@ exports.createFollowInvite = async (req, res) => {
 };
 
 exports.createStarredInvite = async (req, res) => {
-  const {
-    username,
-    type,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    projectId,
-    starredProjectsId,
-    projectName,
-    activeUserAvatar
-  } = req.body;
-  errorHelper(res, username, 'username');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  errorHelper(res, projectId, 'projectId');
-  errorHelper(res, starredProjectsId, 'starredProjectsId');
-  errorHelper(res, projectName, 'projectName');
-  typeCheckHelper(res, type, 'star');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
