@@ -1,4 +1,5 @@
 const go = require('../utils/crud');
+const goSend = require('../utils/sendgrid');
 const db = require('../../data/dbConfig');
 
 exports.getInvitesByUserId = async (req, res) => {
@@ -93,8 +94,25 @@ exports.createStarredInvite = async (req, res) => {
 
 exports.createCommentsInvite = async (req, res) => {
   try {
+    const {
+      activeUsername,
+      commentText,
+      invitedUserId,
+      mainImgUrl,
+      activeUserAvatar
+    } = req.body;
+
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+    const timeStamp = data[0].created_at;
+    goSend.comment(
+      activeUserAvatar,
+      activeUsername,
+      commentText,
+      mainImgUrl,
+      invitedUserId,
+      timeStamp
+    );
 
     res
       .status(201)
