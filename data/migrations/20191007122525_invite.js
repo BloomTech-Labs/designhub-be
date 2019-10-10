@@ -66,6 +66,7 @@ exports.up = function(knex) {
     tbl.string('type');
 
     tbl.text('message');
+    tbl.boolean('unread').defaultTo(true);
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
