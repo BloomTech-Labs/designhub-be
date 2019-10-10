@@ -69,9 +69,12 @@ exports.createTeamInvite = async (req, res) => {
 };
 
 exports.createFollowInvite = async (req, res) => {
+  const { activeUsername, invitedUserId, activeUserAvatar } = req.body;
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+    await goSend.follow(activeUserAvatar, activeUsername, invitedUserId);
+
     res
       .status(201)
       .json({ message: 'Follow invite successfully created!', data });
