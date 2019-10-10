@@ -100,3 +100,67 @@ exports.checkFollowBody = (req, res, next) => {
     next();
   }
 };
+
+exports.checkStarType = (req, res, next) => {
+  console.log(req.body);
+  if (req.body.type !== 'star') {
+    return res.status(400).json({
+      message: `To post a star invite, the the type value needs to be star`
+    });
+  }
+  next();
+};
+
+exports.checkStarBody = (req, res, next) => {
+  const {
+    activeUsername,
+
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    projectId,
+    starredProjectsId,
+    projectName,
+    activeUserAvatar
+  } = req.body;
+
+  if (!activeUsername) {
+    return res
+      .status(400)
+      .json({ message: `activeUsername was not attatched to the req.body` });
+  } else if (!invitedUserId) {
+    return res
+      .status(400)
+      .json({ message: `invitedUserId was not attatched to the req.body` });
+  } else if (!activeUserId) {
+    return res
+      .status(400)
+      .json({ message: `activeUserId was not attatched to the req.body` });
+  } else if (!activeUserAvatar) {
+    return res
+      .status(400)
+      .json({ message: `activeUserAvatar was not attatched to the req.body` });
+  } else if (!followersId) {
+    return res
+      .status(400)
+      .json({ message: `followersId was not attatched to the req.body` });
+  } else if (!projectId) {
+    return res
+      .status(400)
+      .json({ message: `projectId was not attatched to the req.body` });
+  } else if (!mainImgUrl) {
+    return res
+      .status(400)
+      .json({ message: `mainImgUrl was not attatched to the req.body` });
+  } else if (!starredProjectsId) {
+    return res
+      .status(400)
+      .json({ message: `starredProjectsId was not attatched to the req.body` });
+  } else if (!projectName) {
+    return res
+      .status(400)
+      .json({ message: `projectName was not attatched to the req.body` });
+  } else {
+    next();
+  }
+};
