@@ -1,15 +1,203 @@
-exports.getInvitesByUserId = (req, res) => {};
+const go = require('../utils/crud');
+const db = require('../../data/dbConfig');
 
-exports.getInviteCountByUserId = (req, res) => {};
+const errorHelper = (res, condition, item) => {
+  if (!condition) {
+    res
+      .status(400)
+      .json({ message: `${item} was not attatched to the req.body` });
+  }
+};
 
-exports.createTeamInvite = (req, res) => {};
+const typeCheckHelper = (res, type, check) => {
+  if (type !== check) {
+    res.status(400).json({
+      message: `To post a ${check} invite, the the type value needs to be ${check}`
+    });
+  }
+};
 
-exports.createFollowInvite = (req, res) => {};
+exports.getInvitesByUserId = async (req, res) => {
+  const { invitedUserId } = req.body;
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  try {
+    const data = await db('invite')
+      .select('*')
+      .where('invitedUserId', invitedUserId);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Could not get invites', error: error });
+  }
+};
 
-exports.createStarredInvite = (req, res) => {};
+exports.getInviteCountByUserId = async (req, res) => {
+  const { invitedUserId } = req.body;
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  try {
+    const data = await db('invite')
+      .count('id')
+      .where('invitedUserId', invitedUserId);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Could not get invites', error: error });
+  }
+};
 
-exports.createCommentsInvite = (req, res) => {};
+exports.createTeamInvite = async (req, res) => {
+  const {
+    username,
+    type,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    teamId,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  errorHelper(res, teamId, 'teamId');
+  typeCheckHelper(res, type, 'team');
 
-exports.deleteInviteById = (req, res) => {};
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Team invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
+};
 
-exports.updateInviteById = (req, res) => {};
+exports.createFollowInvite = async (req, res) => {
+  const {
+    username,
+    type,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    followersId,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  errorHelper(res, followersId, 'followersId');
+  typeCheckHelper(res, type, 'follow');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Follow invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
+};
+
+exports.createStarredInvite = async (req, res) => {
+  const {
+    username,
+    type,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    projectId,
+    starredProjectsId,
+    projectName,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  errorHelper(res, projectId, 'projectId');
+  errorHelper(res, starredProjectsId, 'starredProjectsId');
+  errorHelper(res, projectName, 'projectName');
+  typeCheckHelper(res, type, 'star');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Star invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
+};
+
+exports.createCommentsInvite = async (req, res) => {
+  const {
+    username,
+    commentText,
+    type,
+    projectId,
+    invitedUserId,
+    activeUserId,
+    mainImgUrl,
+    commentsId,
+    activeUserAvatar
+  } = req.body;
+  errorHelper(res, username, 'username');
+  errorHelper(res, commentText, 'commentText');
+  errorHelper(res, projectId, 'projectId');
+  errorHelper(res, invitedUserId, 'invitedUserId');
+  errorHelper(res, activeUserId, 'activeUserId');
+  errorHelper(res, mainImgUrl, 'mainImgUrl');
+  errorHelper(res, commentsId, 'commentsId');
+  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
+  typeCheckHelper(res, type, 'comment');
+
+  try {
+    const [id] = await go.createOne('invite', 'id', req.body);
+    const data = await go.getById('invite', id);
+    res
+      .status(201)
+      .json({ message: 'Comments invite successfully created!', data });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not create invite', error: error });
+  }
+};
+
+exports.deleteInviteById = (req, res) => async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+  const { id } = req.params;
+  try {
+    await go.destroyById('invite', id);
+    res.json({ message: 'Successfully deleted invite' });
+  } catch (err) {
+    console.error(err);
+    res.json({ message: 'Unable to delete invite' });
+  }
+};
+
+exports.updateInviteById = async (req, res) => {
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
+
+  if (!req.body) {
+    res.status(400).json({ message: 'there was no req.body' });
+  }
+
+  const { id } = req.params;
+  try {
+    await go.updateById('invite', req.body, id);
+    const data = await go.getById('invite', id);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ message: "Couldn't update invite.", error: error });
+  }
+};
