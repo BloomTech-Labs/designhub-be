@@ -18,19 +18,12 @@ exports.comment = async (
     from: 'notifications@DesignHubX.com',
     subject: `${activeUsername} left a comment for you on DesignHubX.com`,
     text: `${activeUsername}: ${commentText} \n ${moment(timeStamp)}`,
-    html: `
-		<section style="display:flex; align-items:center; justify-content:center; text-align:center; justify-items:center; vertical-align:center;">
+    html: `<section style="display:flex; align-items:center; justify-content:center; text-align:center; justify-items:center; vertical-align:center;">
 			<img alt="${activeUsername} avatar" src="${activeUserAvatar}" style="display:block; border-radius:50%; width:65px; height:65px;"/>
-
-			<div>
-				<strong style="color:#5557FE;"> ${activeUsername} Commented: </strong>${commentText}
-			</div>
-			
+			<div><strong style="color:#5557FE;"> ${activeUsername} Commented: </strong>${commentText}</div>
 			<img alt="project image" src="${mainImgUrl}" style="display:block; width:161px; height:105px;  object-fit:cover;"/>
-		</section>
-		`
+		</section>`
   };
-  console.log('goSend.comment() msg', msg);
   sgMail.send(msg);
 };
 
@@ -41,13 +34,10 @@ exports.follow = async (activeUserAvatar, activeUsername, invitedUserId) => {
     from: 'notifications@DesignHubX.com',
     subject: `${activeUsername} started following you on DesignHubX.com`,
     text: `${activeUsername} started following you on DesignHubX.com`,
-    html: `
-		<section style="display:flex; align-items:center; justify-content:center; text-align:center; justify-items:center; vertical-align:center;">
+    html: `<section style="display:flex; align-items:center; justify-content:center; text-align:center; justify-items:center; vertical-align:center;">
 			<img alt="${activeUsername} avatar" src="${activeUserAvatar}" style="display:block; border-radius:50%; width:65px; height:65px;"/>
 				<strong style="color:#5557FE;"> ${activeUsername} </strong> started following you on DesignHubX.com
-		</section>
-		`
+		</section>`
   };
-  console.log('goSend.comment() msg', msg);
   sgMail.send(msg);
 };
