@@ -76,24 +76,6 @@ exports.createTeamInvite = async (req, res) => {
 };
 
 exports.createFollowInvite = async (req, res) => {
-  const {
-    username,
-    type,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    followersId,
-    activeUserAvatar
-  } = req.body;
-
-  errorHelper(res, username, 'username');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  errorHelper(res, followersId, 'followersId');
-  typeCheckHelper(res, type, 'follow');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);

@@ -6,7 +6,12 @@ const middleware = require('./inviteMiddleWare');
 router.post('/', inviteController.getInvitesByUserId);
 router.get('/count', inviteController.getInvitesByUserId);
 router.post('/team', inviteController.createTeamInvite);
-router.post('/follow', inviteController.createFollowInvite);
+router.post(
+  '/follow',
+  middleware.checkFollowType,
+  middleware.checkFollowBody,
+  inviteController.createFollowInvite
+);
 router.post('/star', inviteController.createStarredInvite);
 router.post(
   '/comments',
