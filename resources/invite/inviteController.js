@@ -47,7 +47,7 @@ exports.getInviteCountByUserId = async (req, res) => {
 
 exports.createTeamInvite = async (req, res) => {
   const {
-    username,
+    activeUsername,
     type,
     invitedUserId,
     activeUserId,
@@ -55,7 +55,8 @@ exports.createTeamInvite = async (req, res) => {
     teamId,
     activeUserAvatar
   } = req.body;
-  errorHelper(res, username, 'username');
+
+  errorHelper(res, activeUsername, 'activeUsername');
   errorHelper(res, invitedUserId, 'invitedUserId');
   errorHelper(res, activeUserId, 'activeUserId');
   errorHelper(res, mainImgUrl, 'mainImgUrl');
@@ -84,6 +85,7 @@ exports.createFollowInvite = async (req, res) => {
     followersId,
     activeUserAvatar
   } = req.body;
+
   errorHelper(res, username, 'username');
   errorHelper(res, invitedUserId, 'invitedUserId');
   errorHelper(res, activeUserId, 'activeUserId');
@@ -137,34 +139,16 @@ exports.createStarredInvite = async (req, res) => {
 };
 
 exports.createCommentsInvite = async (req, res) => {
-  const {
-    username,
-    commentText,
-    type,
-    projectId,
-    invitedUserId,
-    activeUserId,
-    mainImgUrl,
-    commentsId,
-    activeUserAvatar
-  } = req.body;
-  errorHelper(res, username, 'username');
-  errorHelper(res, commentText, 'commentText');
-  errorHelper(res, projectId, 'projectId');
-  errorHelper(res, invitedUserId, 'invitedUserId');
-  errorHelper(res, activeUserId, 'activeUserId');
-  errorHelper(res, mainImgUrl, 'mainImgUrl');
-  errorHelper(res, commentsId, 'commentsId');
-  errorHelper(res, activeUserAvatar, 'activeUserAvatar');
-  typeCheckHelper(res, type, 'comment');
-
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+
     res
       .status(201)
-      .json({ message: 'Comments invite successfully created!', data });
+      .send({ message: 'Comments invite successfully created!', data });
   } catch (error) {
+    console.log('heeey there');
+    console.error(error);
     res.status(400).json({ message: 'Could not create invite', error: error });
   }
 };
