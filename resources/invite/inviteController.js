@@ -1,30 +1,22 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
-const errorHelper = (res, condition, item) => {
-  if (!condition) {
-    res
-      .status(400)
-      .json({ message: `${item} was not attatched to the req.body` });
-  }
-};
-
-const typeCheckHelper = (res, type, check) => {
-  if (type !== check) {
-    res.status(400).json({
-      message: `To post a ${check} invite, the the type value needs to be ${check}`
-    });
-  }
-};
-
 exports.getInvitesByUserId = async (req, res) => {
-  const { invitedUserId } = req.body;
-  errorHelper(res, invitedUserId, 'invitedUserId');
+  const { id } = req.params;
+
   try {
-    const data = await db('invite')
+    const unReadNotifications = await db('invite')
       .select('*')
-      .where('invitedUserId', invitedUserId);
-    res.json(data);
+      .where('invitedUserId', id)
+      .andWhere('unread', true)
+      .orderBy('created_at', 'desc');
+
+    const readNotifications = await db('invite')
+      .select('*')
+      .where('invitedUserId', id)
+      .andWhere('unread', false)
+      .orderBy('created_at', 'desc');
+    res.json({ unReadNotifications, readNotifications });
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Could not get invites', error: error });

@@ -3,7 +3,7 @@ const router = express.Router();
 const inviteController = require('./inviteController');
 const middleware = require('./inviteMiddleWare');
 
-router.post('/', inviteController.getInvitesByUserId);
+router.get('/:id', inviteController.getInvitesByUserId);
 router.get('/count', inviteController.getInvitesByUserId);
 router.post('/team', inviteController.createTeamInvite);
 router.post(
