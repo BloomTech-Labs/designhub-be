@@ -105,7 +105,7 @@ exports.createCommentsInvite = async (req, res) => {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
     const timeStamp = data[0].created_at;
-    goSend.comment(
+    await goSend.comment(
       activeUserAvatar,
       activeUsername,
       commentText,
