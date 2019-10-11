@@ -1,4 +1,5 @@
 const go = require('../utils/crud');
+const goSend = require('../utils/sendgrid');
 const db = require('../../data/dbConfig');
 
 exports.getInvitesByUserId = async (req, res) => {
@@ -68,9 +69,12 @@ exports.createTeamInvite = async (req, res) => {
 };
 
 exports.createFollowInvite = async (req, res) => {
+  const { activeUsername, invitedUserId, activeUserAvatar } = req.body;
   try {
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+    await goSend.follow(activeUserAvatar, activeUsername, invitedUserId);
+
     res
       .status(201)
       .json({ message: 'Follow invite successfully created!', data });
@@ -93,8 +97,25 @@ exports.createStarredInvite = async (req, res) => {
 
 exports.createCommentsInvite = async (req, res) => {
   try {
+    const {
+      activeUsername,
+      commentText,
+      invitedUserId,
+      mainImgUrl,
+      activeUserAvatar
+    } = req.body;
+
     const [id] = await go.createOne('invite', 'id', req.body);
     const data = await go.getById('invite', id);
+    const timeStamp = data[0].created_at;
+    await goSend.comment(
+      activeUserAvatar,
+      activeUsername,
+      commentText,
+      mainImgUrl,
+      invitedUserId,
+      timeStamp
+    );
 
     res
       .status(201)
