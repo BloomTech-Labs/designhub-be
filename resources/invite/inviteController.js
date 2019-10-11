@@ -138,3 +138,19 @@ exports.updateInviteById = async (req, res) => {
     res.status(400).json({ message: "Couldn't update invite.", error: error });
   }
 };
+
+exports.getNewNotificationBoolean = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [count] = await db('invite')
+      .count('id')
+      .where('invitedUserId', id)
+      .andWhere('unread', true);
+
+    count.count > 0 ? res.json(true) : res.json(false);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Could not get invites', error: error });
+  }
+};
