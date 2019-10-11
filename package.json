@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/labs16-designhub/backend#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "@sentry/node": "5.6.2",
     "aws-sdk": "^2.528.0",
     "body-parser": "^1.19.0",
