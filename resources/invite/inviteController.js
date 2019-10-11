@@ -138,7 +138,7 @@ exports.updateInviteById = async (req, res) => {
     res.status(400).json({ message: "Couldn't update invite.", error: error });
   }
 };
-
+//
 exports.getNewNotificationBoolean = async (req, res) => {
   const { id } = req.params;
 
