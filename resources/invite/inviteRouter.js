@@ -5,6 +5,7 @@ const middleware = require('./inviteMiddleWare');
 
 router.get('/:id', inviteController.getInvitesByUserId);
 router.get('/count', inviteController.getInvitesByUserId);
+router.get('/bool/:id', inviteController.getNewNotificationBoolean);
 router.post('/team', inviteController.createTeamInvite);
 router.post(
   '/follow',
