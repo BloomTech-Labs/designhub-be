@@ -2,9 +2,9 @@ const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
 exports.getExploreOptions = async (req, res) => {
-  //   if (!req.params.id) {
-  //     res.status(400).json({ message: 'id was not attached to the req.params' });
-  //   }
+  if (!req.params.id) {
+    res.status(400).json({ message: 'id was not attached to the req.params' });
+  }
   const { id } = req.params;
   try {
     const following = await db('user_projects as p')
