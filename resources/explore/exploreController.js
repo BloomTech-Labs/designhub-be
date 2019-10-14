@@ -9,7 +9,7 @@ exports.getExploreOptions = async (req, res) => {
   try {
     const recent = await go
       .getMany('user_projects')
-      .orderBy('created_at', desc);
+      .orderBy('created_at', 'desc');
     res.status(200).json({ recent });
   } catch (err) {
     console.error(error);
