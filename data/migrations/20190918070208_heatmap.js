@@ -20,7 +20,7 @@ exports.up = function(knex) {
       .references('project_photos.id')
       .onDelete('CASCADE');
     tbl.integer('count').defaultTo(1);
-    tbl.string('date').defaultTo(moment(new Date()).format('YYYY-MM-DD'));
+    tbl.string('date');
     tbl.text('contribution');
   });
 };
