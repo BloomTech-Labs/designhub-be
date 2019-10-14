@@ -93,3 +93,19 @@ exports.deleteStar = async (req, res) => {
     res.status(400).json({ message: "Couldn't delete star.", error: error });
   }
 };
+
+exports.getStarStatus = async (req, res) => {
+  try {
+    const result = await db('starred_projects')
+      .where('projectId', req.params.projectId)
+      .andWhere('userId', req.params.userId);
+    if (result.length === 0) {
+      res.json({ isStarred: false });
+    } else {
+      res.json({ isStarred: true });
+    }
+  } catch ({ message }) {
+    console.error(message);
+    res.status(400).json({ message: 'something went wrong', message });
+  }
+};
