@@ -24,7 +24,16 @@ exports.getExploreOptions = async (req, res) => {
     const recent = await go
       .getMany('user_projects')
       .orderBy('created_at', 'desc');
-    res.status(200).json({ recent, following });
+
+    const popular = await db('user_projects as p')
+      .select('p.*')
+      .count('p.id')
+
+      .innerJoin('starred_projects as s', 'p.id', 's.projectId')
+      .groupBy('p.id')
+      .orderBy('count', 'desc');
+
+    res.status(200).json({ recent, following, popular });
   } catch (err) {
     console.error(error);
     res
