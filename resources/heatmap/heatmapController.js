@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
@@ -8,9 +10,12 @@ exports.createHeatmap = async (req, res) => {
       .json({ message: 'userId was not attached to the req.body' });
   }
   try {
-    const [id] = await go.createOne('heatmap', 'id', req.body);
+    const body = {
+      ...req.body,
+      date: moment(new Date()).format('YYYY-MM-DD')
+    };
+    const [id] = await go.createOne('heatmap', 'id', body);
     const data = await go.getById('heatmap', id);
-    console.log(data);
     res.status(201).json({ message: 'Heatmap successfully created!', data });
   } catch (error) {
     res.status(400).json({ message: "Couldn't create heatmap", error: error });
