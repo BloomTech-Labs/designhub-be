@@ -38,8 +38,22 @@ exports.getCommentsByImageId = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await db('comments')
-      .select('*')
-      .where('imageId', id);
+      .select(
+        'comments.id',
+        'u.username',
+        'u.avatar as userAvatar',
+        'comments.userId',
+        'comments.projectId',
+        'comments.imageId',
+        'comments.top',
+        'comments.left',
+        'comments.text',
+        'comments.created_at'
+      )
+      .where('imageId', id)
+      .innerJoin('users as u', 'comments.userId', '=', 'u.id')
+      .orderBy('comments.id', 'desc');
+
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
@@ -100,7 +114,8 @@ exports.getCommentsByProjectId = async (req, res) => {
         'comments.created_at'
       )
       .where('projectId', id)
-      .innerJoin('users as u', 'comments.userId', '=', 'u.id');
+      .innerJoin('users as u', 'comments.userId', '=', 'u.id')
+      .orderBy('comments.id', 'asc');
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
