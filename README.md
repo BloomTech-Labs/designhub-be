@@ -75,7 +75,7 @@ To get the server running locally:
 
 | Method | Endpoint | Access Control | Description | Attached to req | Returned |
 | -:| :-| :-: | :- | :- | :- |
-| GET | `/followers/:followingId/:followedId` | N/A | ??? | req.params: { `followingId, followedId` } | This will return a boolean |
+| GET | `/followers/:followingId/:followedId` | N/A |  | req.params: { `followingId, followedId` } | This will return a boolean |
 | GET | `/followers/count/following/:id` | N/A | The id should reference the users id | req.params: { `id` } | This will return the count of the total amount of people that the user is following based on the users id |
 | GET | `/followers/count/followers/:id` | N/A | The id should reference the users id | req.params: { `id` } | This will return the count of the total amount of people that are following the users id 
 | GET | `/followers/following/:id` | N/A | The id should reference the users id | req.params: { `id` } | This will return the user info of all people that the user is following |
@@ -100,6 +100,31 @@ To get the server running locally:
 | GET | `/star/count/:id` | N/A | The id should reference the projects id | req.params: { `id` } | This will return the count of the total stars that the project has |
 | POST | `/star` | N/A | The userId will reference the user that is doing the starring. The projectId will reference the project that is being starred | req.body: { `userId, projectId` } | It will return the star record you created |
 | POST | `/star/unstar/:id` | N/A | The id in the req.params should reference the project's id. The id in the body should reference the user's id | req.params: { `id` } req.body: { `id` } | This will return a message saying you unstarred the project |
+
+## INVITE
+
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| GET | `/invite/:id` | N/A | The id should reference the users id | req.params: { `id` } | This will return all notifications for the given user id |
+| GET | `/invite/bool/:id` | N/A | The id should reference the users id | req.params: { `id` } | This will return a COUNT of all notifications for the given user id |
+| POST | `/invite/team` | N/A | Invites a user to join a team | req.body: { `activeUsername, type, invitedUserId, activeUserId, mainImgUrl, teamId, activeUserAvatar` } | Returns a new team invite notification |
+| POST | `/invite/follow` | N/A | Creates a follow notification | req.body: { `activeUsername, invitedUserId, activeUserAvatar` } | Returns a new follow notification |
+| POST | `/invite/star` | N/A | Creates a star notification | req.body: { `id` } | Returns a new star notification |
+| POST | `/invite/comments` | N/A | Creates a comment notification | req.body: { `activeUsername, commentText, invitedUserId, mainImgUrl, activeUserAvatar` } | Returns a new comment notification |
+| PUT | `/:id` | N/A | The id should reference the invite id | req.params: { `id` } req.body: { `key/value pairs` of the updated invite } | This will return the updated record. |
+| DELETE | `/:id` | N/A | The id should reference the invite id | req.params: { `id` } | Returns success message |
+
+## SEARCHBAR 
+
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| POST | `/search` | N/A | Searches users and projects that are LIKE the searchText | req.body: { `searchText` } | Returns search results |
+
+## EXPLORE
+
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| GET | `/explore/:id` | N/A | Populates Explore page on frontend client | req.params: { `id` } | Returns projects by followed users, recent projects by all users, popular projects |
 
 # Data Model
 ## users
@@ -216,7 +241,7 @@ To get the server running locally:
 	teamId: FK - string, references team id,
 	followersId: FK - integer, references the follow,
 	type: string, the type of invite being created,
-	message: text, ???,
+	message: text,
 	unread: boolean, default to true,
 	created_at: AUTO timestamp,
 }
