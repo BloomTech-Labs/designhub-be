@@ -51,7 +51,8 @@ exports.getCommentsByImageId = async (req, res) => {
         'comments.created_at'
       )
       .where('imageId', id)
-      .innerJoin('users as u', 'comments.userId', '=', 'u.id');
+      .innerJoin('users as u', 'comments.userId', '=', 'u.id')
+      .orderBy('comments.id', 'desc');
 
     res.status(200).json(data);
   } catch (err) {
@@ -113,7 +114,8 @@ exports.getCommentsByProjectId = async (req, res) => {
         'comments.created_at'
       )
       .where('projectId', id)
-      .innerJoin('users as u', 'comments.userId', '=', 'u.id');
+      .innerJoin('users as u', 'comments.userId', '=', 'u.id')
+      .orderBy('comments.id', 'asc');
     res.status(200).json(data);
   } catch (err) {
     console.error(error);
