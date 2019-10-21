@@ -79,7 +79,10 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
-  const { auth0Id } = req.body;
+  const { auth0Id, website } = req.body;
+  const regex = /^(https?:\/\/)/i;
+  if (!website.match(regex) && website.length > 0)
+    req.body.website = 'https://' + website;
   if (!auth0Id) {
     res.status(422).json({ message: 'missing auth0Id fields' });
   } else {
