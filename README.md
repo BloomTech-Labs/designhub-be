@@ -151,7 +151,7 @@ To get the server running locally:
 	id: PK - AUTO increment,
 	userId: FK - (required) integer, references user's id who created the project,
 	teamId: FK - references team id
-	private: boolean for if its a private repository or not. Default to false,
+	privateProjects: boolean for if its a private repository or not. Default to false,
 	name: (required) string,
 	description: text,
 	created_at: AUTO timestamp,
