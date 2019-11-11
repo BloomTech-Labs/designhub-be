@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('./userProjectsController');
 
+const secured = require('../utils/secured');
+
 router.post('/', projectController.createProject);
-router.get('/:id', projectController.getProjectById);
+router.get('/:id', secured, projectController.getProjectById);
 router.get('/', projectController.getAllProjects);
 router.get('/users/:userId/', projectController.getProjectByUserId);
 router.get('/recent/:userId/', projectController.getRecentProjectByUserId);

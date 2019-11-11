@@ -22,7 +22,22 @@ exports.getProjectById = async (req, res) => {
       .select('up.*', 'u.username')
       .where('up.id', id)
       .innerJoin('users as u', 'up.userId', '=', 'u.id');
-    res.status(200).json(data);
+    
+    if(data[0] && data[0].privateProjects) {
+      const user = await go.getById('users', data[0].userId);
+
+      if(user[0] && user[0].auth0Id === req.headers.openToken.sub) {
+        res.status(200).json(data);
+      } else {
+        // TODO: When implementing teams, this is where you check to see if this user
+        // is in fact a team member.
+        
+        res.status(401).json({message: "You are not authorized to view this project!"});
+      }
+
+    } else {
+      res.status(200).json(data);
+    }
   } catch ({ message }) {
     res.status(400).json({ message: "Couldn't find project.", error: message });
   }

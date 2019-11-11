@@ -19,6 +19,7 @@ exports.getExploreOptions = async (req, res) => {
         'f.*'
       )
       .where('followingId', id)
+      .where('privateProjects', false)
       .innerJoin('user_followers as f', 'p.userId', '=', 'f.followedId');
 
     const recent = await go
@@ -28,6 +29,7 @@ exports.getExploreOptions = async (req, res) => {
 
     const popular = await db('user_projects as p')
       .select('p.*')
+      .where('privateProjects', false)
       .count('p.id')
 
       .innerJoin('starred_projects as s', 'p.id', 's.projectId')
