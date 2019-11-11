@@ -23,6 +23,7 @@ exports.getExploreOptions = async (req, res) => {
 
     const recent = await go
       .getMany('user_projects')
+      .where('privateProjects', false)
       .orderBy('created_at', 'desc');
 
     const popular = await db('user_projects as p')
