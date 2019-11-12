@@ -34,7 +34,7 @@ exports.getProjectById = async (req, res) => {
         .json({ message: 'A project with that ID was not found!' });
     }
 
-    if (userMatches(req.headers.openToken, data[0].userId)) {      
+    if (await userMatches(req.headers.openToken, data[0].userId)) {      
 
       res.status(200).json(data);
     } else {
@@ -56,19 +56,20 @@ exports.getProjectByUserId = async (req, res) => {
  
 
   try {
-    if (userMatches(req.headers.openToken, userId)) {
+    if ( await userMatches(req.headers.openToken, userId)) {
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
         .innerJoin('users as u', 'up.userId', '=', 'u.id');
 
       res.status(200).json(data);
     } else {
+      console.log('user doesnt match')
       /*
     Create a middleware that checks if this user is part of a team
     */
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
-        .where('privateProjects', false)
+        .where('privateProjects', '=', false)
         .innerJoin('users as u', 'up.userId', '=', 'u.id');
 
       res.status(200).json(data);
@@ -86,7 +87,7 @@ exports.getRecentProjectByUserId = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    if (userMatches(req.headers.openToken, userId)) {
+    if (await userMatches(req.headers.openToken, userId)) {
       const data = await go
         .getByUserId('user_projects', userId)
         .orderBy('created_at', 'desc')
@@ -107,27 +108,6 @@ exports.getRecentProjectByUserId = async (req, res) => {
   }
 };
 
-//***********************************TEST*********************/
-//FOR RECENT PUBLIC PROJECT VIEW
-
-exports.getRecentPublicProjectsByUserId = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const data = await go
-        .getByUserId('user_projects', userId)
-        .where('privateProjects', '=', 'false')
-        .orderBy('created_at', 'desc')
-        .limit(8);
-      res.status(200).json(data);    
-  } catch ({ message }) {
-    res
-      .status(400)
-      .json({ message: "Couldn't get projects by user.", error: message });
-  }
-};
-
-//*******************************END TEST*********************/
 
 exports.getAllProjects = async (req, res) => {
   try {
@@ -136,7 +116,7 @@ exports.getAllProjects = async (req, res) => {
         'user_projects.id',
         'user_projects.userId',
         'u.username',
-        'user_projects.private',
+        'user_projects.privateProjects',
         'user_projects.name',
         'user_projects.description',
         'user_projects.figma',
@@ -145,7 +125,7 @@ exports.getAllProjects = async (req, res) => {
         'user_projects.created_at',
         'user_projects.updated_at'
       )
-      .where('privateProjects', false)
+      .where('privateProjects', '=', false)
       .orderBy('id', 'asc')
       .innerJoin('users as u', 'u.id', '=', 'user_projects.userId');
 
@@ -179,7 +159,7 @@ exports.updateProjectById = async (req, res) => {
     if (data.length === 0) {
       res.status(404).json({ message: 'Invalid project ID' });
     } else {
-      if (!userMatches(req.headers.openToken, data[0].userId)) {
+      if (!(await userMatches(req.headers.openToken, data[0].userId))) {
         // TODO: Check if part of a team!!!!
 
         res
@@ -210,7 +190,7 @@ exports.deleteProjectById = async (req, res) => {
         .status(404)
         .json({ message: 'A project with that ID could not be found!' });
     } else {
-      if (userMatches(req.headers.openToken, data[0].userId)) {
+      if (await userMatches(req.headers.openToken, data[0].userId)) {
         await go.destroyById('user_projects', id);
         res.status(200).json({ message: 'Project successfully deleted' });
       } else {
