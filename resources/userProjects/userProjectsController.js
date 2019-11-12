@@ -18,7 +18,7 @@ exports.createProject = async (req, res) => {
 };
 
 exports.getProjectById = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;  
   
   console.log('sending post...');
 
@@ -34,7 +34,8 @@ exports.getProjectById = async (req, res) => {
         .json({ message: 'A project with that ID was not found!' });
     }
 
-    if (userMatches(req.headers.openToken, data[0].userId)) {
+    if (userMatches(req.headers.openToken, data[0].userId)) {      
+
       res.status(200).json(data);
     } else {
       /*
@@ -51,6 +52,8 @@ exports.getProjectById = async (req, res) => {
 
 exports.getProjectByUserId = async (req, res) => {
   const { userId } = req.params;
+
+ 
 
   try {
     if (userMatches(req.headers.openToken, userId)) {
@@ -103,6 +106,28 @@ exports.getRecentProjectByUserId = async (req, res) => {
       .json({ message: "Couldn't get projects by user.", error: message });
   }
 };
+
+//***********************************TEST*********************/
+//FOR RECENT PUBLIC PROJECT VIEW
+
+exports.getRecentPublicProjectsByUserId = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const data = await go
+        .getByUserId('user_projects', userId)
+        .where('privateProjects', '=', 'false')
+        .orderBy('created_at', 'desc')
+        .limit(8);
+      res.status(200).json(data);    
+  } catch ({ message }) {
+    res
+      .status(400)
+      .json({ message: "Couldn't get projects by user.", error: message });
+  }
+};
+
+//*******************************END TEST*********************/
 
 exports.getAllProjects = async (req, res) => {
   try {
