@@ -16,7 +16,7 @@ exports.createStar = async (req, res) => {
   }
 
   try {
-    if (await userMatches(req.headers.openToken, req.body.userId)) {
+    if (await userMatches(req.user, req.body.userId)) {
       const [id] = await go.createOne('starred_projects', 'id', req.body);
       const data = await go.getById('starred_projects', id);
       res
@@ -92,7 +92,7 @@ exports.deleteStar = async (req, res) => {
 
   try {
 
-    if (await userMatches(req.headers.openToken, req.body.id)) {
+    if (await userMatches(req.user, req.body.id)) {
       await db('starred_projects')
         .del()
         .where('projectId', req.params.id)

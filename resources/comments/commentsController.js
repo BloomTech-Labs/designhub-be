@@ -24,7 +24,7 @@ exports.createPhotoComment = async (req, res) => {
   }
   //Add middleware when Team members functionality is online so only specific people can comment
   try {
-    if (await userMatches(req.headers.openToken, req.body.userId)) {
+    if (await userMatches(req.user, req.body.userId)) {
       const [id] = await go.createOne('comments', 'id', req.body);
       const data = await go.getById('comments', id);
       res.status(201).json({ message: 'Comment successfully created!', data });
@@ -92,7 +92,7 @@ exports.createProjectComment = async (req, res) => {
   }
   //Add middleware when Team members functionality is online so only specific people can comment
   try {
-    if (await userMatches(req.headers.openToken, req.body.userId)) {
+    if (await userMatches(req.user, req.body.userId)) {
       const [id] = await go.createOne('comments', 'id', req.body);
       const data = await go.getById('comments', id);
       res.status(201).json({ message: 'Comment successfully created!', data });
@@ -147,7 +147,7 @@ exports.updateCommentById = async (req, res) => {
   try {
     const data = await go.getById('comments', id);
 
-    if (await userMatches(req.headers.openToken, data[0].userId)) {
+    if (await userMatches(req.user, data[0].userId)) {
       await go.updateById('comments', req.body, id);
       const data = await go.getById('comments', id);
       res.status(200).json(data);
