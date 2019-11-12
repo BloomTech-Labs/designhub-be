@@ -12,6 +12,7 @@ exports.up = function(knex) {
       .unsigned()
       .references('team.id')
       .onDelete('CASCADE');
+      //added a privateProjects field, private caused a reserved keyword error on the front end
     tbl.boolean('private').defaultTo(false);
     tbl.string('name').notNullable();
     tbl.text('description');
