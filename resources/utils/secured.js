@@ -1,14 +1,21 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
-const secured = (req, res, next) => {
-  if(!req.headers.authorization) {
-    res.status(401).json({message: 'Please provide an authorization header to access this resource.'});
-  } else {
-    const openToken = jwt.decode(req.headers.authorization);
+const secured = jwt({
+  // Dynamically provide a signing key
+  // based on the kid in the header and 
+  // the signing keys provided by the JWKS endpoint.
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://team-designhub-dev.auth0.com/.well-known/jwks.json`
+  }),
 
-    req.headers.openToken = openToken;
-    next();
-  }
-}
+  // Validate the audience and the issuer.
+  audience: process.env.AUDIENCE_URL,
+  issuer: `https://team-designhub-dev.auth0.com/`,
+  algorithms: ['RS256']
+});
 
 module.exports = secured;
