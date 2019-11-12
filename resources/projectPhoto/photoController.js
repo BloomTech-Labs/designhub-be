@@ -89,7 +89,7 @@ exports.createProjectPhoto = async (req, res) => {
       .status(404)
       .json({ message: 'A project with that ID could not be found!' });
   }
-  if (! await userMatches(req.headers.openToken, project[0].userId)) {
+  if (! await userMatches(req.user, project[0].userId)) {
     return res
         .status(401)
         .json({
@@ -123,7 +123,7 @@ exports.deletePhotoById = async (req, res) => {
   } else {
     const project = await go.getById('user_projects', data[0].projectId);
 
-    if (await userMatches(req.headers.openToken, project[0].userId)) {
+    if (await userMatches(req.user, project[0].userId)) {
       await go.destroyById('project_photos', id);
       res.status(200).json({ message: 'Successfully deleted photo.' });
     } else {
