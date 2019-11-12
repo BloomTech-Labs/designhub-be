@@ -34,7 +34,7 @@ exports.getProjectById = async (req, res) => {
         .json({ message: 'A project with that ID was not found!' });
     }
 
-    if (await userMatches(req.headers.openToken, data[0].userId)) {      
+    if (!data[0].privateProjects || await userMatches(req.headers.openToken, data[0].userId)) {      
 
       res.status(200).json(data);
     } else {
