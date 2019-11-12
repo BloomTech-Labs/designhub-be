@@ -91,7 +91,6 @@ exports.deleteStar = async (req, res) => {
   }
 
   try {
-
     if (await userMatches(req.headers.openToken, req.body.userId)) {
       await db('starred_projects')
         .del()

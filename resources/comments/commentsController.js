@@ -24,9 +24,15 @@ exports.createPhotoComment = async (req, res) => {
   }
   //Add middleware when Team members functionality is online so only specific people can comment
   try {
-    const [id] = await go.createOne('comments', 'id', req.body);
-    const data = await go.getById('comments', id);
-    res.status(201).json({ message: 'Comment successfully created!', data });
+    if (await userMatches(req.headers.openToken, req.body.userId)) {
+      const [id] = await go.createOne('comments', 'id', req.body);
+      const data = await go.getById('comments', id);
+      res.status(201).json({ message: 'Comment successfully created!', data });
+    }
+    else {
+      res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Couldn't create comment", error: error });
@@ -86,9 +92,15 @@ exports.createProjectComment = async (req, res) => {
   }
   //Add middleware when Team members functionality is online so only specific people can comment
   try {
-    const [id] = await go.createOne('comments', 'id', req.body);
-    const data = await go.getById('comments', id);
-    res.status(201).json({ message: 'Comment successfully created!', data });
+    if (await userMatches(req.headers.openToken, req.body.userId)) {
+      const [id] = await go.createOne('comments', 'id', req.body);
+      const data = await go.getById('comments', id);
+      res.status(201).json({ message: 'Comment successfully created!', data });
+    }
+    else {
+      res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Couldn't create comment", error: error });
