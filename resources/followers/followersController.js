@@ -28,7 +28,7 @@ exports.createFollow = async (req, res) => {
   }
 
   try {
-    if (await userMatches(req.headers.openToken, req.body.followingId)) {
+    if (await userMatches(req.user, req.body.followingId)) {
     const [id] = await go.createOne('user_followers', 'id', req.body);
     const data = await go.getById('user_followers', id);
     res.status(201).json({ message: 'Follow successfully created!', data });
@@ -199,7 +199,7 @@ exports.unfollow = async (req, res) => {
   }
 
   try {
-    if (await userMatches(req.headers.openToken, req.body.id)) {
+    if (await userMatches(req.user, req.body.id)) {
     await db('user_followers')
       .del()
       .where('followedId', req.params.id)
