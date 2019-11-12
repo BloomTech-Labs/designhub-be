@@ -1,6 +1,8 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
+const userMatches = require('../utils/userMatches');
+
 //test
 
 // exports.getAllFollowers = async (req, res) => {
@@ -26,9 +28,18 @@ exports.createFollow = async (req, res) => {
   }
 
   try {
+    if (await userMatches(req.headers.openToken, req.body.followingId)) {
     const [id] = await go.createOne('user_followers', 'id', req.body);
     const data = await go.getById('user_followers', id);
     res.status(201).json({ message: 'Follow successfully created!', data });
+    } else {
+      res
+      .status(401)
+      .json({
+        message:
+          "Unauthorized: You are not authorized to follow users for this account."
+      });
+    }
   } catch (error) {
     res
       .status(400)
@@ -188,11 +199,20 @@ exports.unfollow = async (req, res) => {
   }
 
   try {
+    if (await userMatches(req.headers.openToken, req.body.id)) {
     await db('user_followers')
       .del()
       .where('followedId', req.params.id)
       .andWhere('followingId', req.body.id);
     res.status(200).json({ message: 'Follow successfully deleted' });
+    } else {
+      res
+      .status(401)
+      .json({
+        message:
+          "Unauthorized: You are not authorized to unfollow for this account."
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Couldn't delete follow.", error: error });
