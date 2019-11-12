@@ -19,8 +19,6 @@ exports.createProject = async (req, res) => {
 
 exports.getProjectById = async (req, res) => {
   const { id } = req.params;  
-  
-  console.log('sending post...');
 
   try {
     const data = await db('user_projects as up')
@@ -34,7 +32,7 @@ exports.getProjectById = async (req, res) => {
         .json({ message: 'A project with that ID was not found!' });
     }
 
-    if (!data[0].privateProjects || await userMatches(req.headers.openToken, data[0].userId)) {      
+    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId)) {      
 
       res.status(200).json(data);
     } else {
@@ -56,7 +54,7 @@ exports.getProjectByUserId = async (req, res) => {
  
 
   try {
-    if ( await userMatches(req.headers.openToken, userId)) {
+    if ( await userMatches(req.user, userId)) {
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
         .innerJoin('users as u', 'up.userId', '=', 'u.id');
@@ -87,7 +85,7 @@ exports.getRecentProjectByUserId = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    if (await userMatches(req.headers.openToken, userId)) {
+    if (await userMatches(req.user, userId)) {
       const data = await go
         .getByUserId('user_projects', userId)
         .orderBy('created_at', 'desc')
@@ -159,7 +157,7 @@ exports.updateProjectById = async (req, res) => {
     if (data.length === 0) {
       res.status(404).json({ message: 'Invalid project ID' });
     } else {
-      if (!(await userMatches(req.headers.openToken, data[0].userId))) {
+      if (!(await userMatches(req.user, data[0].userId))) {
         // TODO: Check if part of a team!!!!
 
         res
@@ -190,7 +188,7 @@ exports.deleteProjectById = async (req, res) => {
         .status(404)
         .json({ message: 'A project with that ID could not be found!' });
     } else {
-      if (await userMatches(req.headers.openToken, data[0].userId)) {
+      if (await userMatches(req.user, data[0].userId)) {
         await go.destroyById('user_projects', id);
         res.status(200).json({ message: 'Project successfully deleted' });
       } else {
