@@ -9,12 +9,12 @@ const secured = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://team-designhub-dev.auth0.com/.well-known/jwks.json`
+    jwksUri: `${process.env.AUTH0URI}/.well-known/jwks.json`
   }),
 
   // Validate the audience and the issuer.
   audience: process.env.AUDIENCE_URL,
-  issuer: `https://team-designhub-dev.auth0.com/`,
+  issuer: `${process.env.AUTH0URI}/`,
   algorithms: ['RS256']
 });
 
