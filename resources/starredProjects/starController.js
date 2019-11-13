@@ -1,6 +1,8 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
+const userMatches = require('../utils/userMatches');
+
 exports.createStar = async (req, res) => {
   if (!req.body.userId) {
     res
@@ -14,11 +16,17 @@ exports.createStar = async (req, res) => {
   }
 
   try {
-    const [id] = await go.createOne('starred_projects', 'id', req.body);
-    const data = await go.getById('starred_projects', id);
-    res
-      .status(201)
-      .json({ message: 'Starring a project successfully created!', data });
+    if (await userMatches(req.user, req.body.userId)) {
+      const [id] = await go.createOne('starred_projects', 'id', req.body);
+      const data = await go.getById('starred_projects', id);
+      res
+        .status(201)
+        .json({ message: 'Starring a project successfully created!', data });
+    }
+    else {
+      res.status(401).json({ message: "Unauthorized: You may not star projects for someone else " });
+    }
+
   } catch (error) {
     res
       .status(400)
@@ -83,11 +91,18 @@ exports.deleteStar = async (req, res) => {
   }
 
   try {
-    await db('starred_projects')
-      .del()
-      .where('projectId', req.params.id)
-      .andWhere('userId', req.body.id);
-    res.status(200).json({ message: 'Star successfully deleted' });
+
+    if (await userMatches(req.user, req.body.id)) {
+      await db('starred_projects')
+        .del()
+        .where('projectId', req.params.id)
+        .andWhere('userId', req.body.id);
+      res.status(200).json({ message: 'Star successfully deleted' });
+    }
+    else {
+      res.status(401).json({ message: 'Unauthorized: You can not delete a star that belongs to someone else' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Couldn't delete star.", error: error });
