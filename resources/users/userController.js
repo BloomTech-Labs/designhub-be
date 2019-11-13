@@ -80,7 +80,7 @@ exports.getAllUsers = async (req, res) => {
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
 
-  if(!await userMatches(req.user, id)) {
+  if(await !userMatches(req.user, id)) {
     return res.status(401).json({message: "You may not update another user's profile."});
   }
 
