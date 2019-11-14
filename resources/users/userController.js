@@ -1,6 +1,8 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
+const userMatches = require('../utils/userMatches');
+
 exports.createUser = async (req, res) => {
   const { sub } = req.body;
   let user = [];
@@ -80,10 +82,6 @@ exports.getAllUsers = async (req, res) => {
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
 
-  if(!(await userMatches(req.user, id))) {
-    return res.status(401).json({message: "You may not update another user's profile."});
-  }
-
   const { auth0Id, website } = req.body;
   const regex = /^(https?:\/\/)/i;
   if (!website.match(regex) && website.length > 0)
@@ -92,12 +90,17 @@ exports.updateUserById = async (req, res) => {
     res.status(422).json({ message: 'missing auth0Id fields' });
   } else {
     try {
-      await go.updateById('users', req.body, id);
-      const data = await go.getById('users', id);
-      if (data.length > 0) {
-        res.status(200).json(data);
-      } else {
-        res.status(404).json({ message: 'User does not exist' });
+      if (!(await userMatches(req.user, id))) {
+        return res.status(401).json({ message: "You may not update another user's profile." });
+      }
+      else {
+        await go.updateById('users', req.body, id);
+        const data = await go.getById('users', id);
+        if (data.length > 0) {
+          res.status(200).json(data);
+        } else {
+          res.status(404).json({ message: 'User does not exist' });
+        }
       }
     } catch ({ message }) {
       res.status(500).json({ message: 'Something went wrong', error: message });
@@ -108,9 +111,9 @@ exports.updateUserById = async (req, res) => {
 exports.deleteUserById = async (req, res) => {
   const { id } = req.params;
 
-  if(!(await userMatches(req.user, id))) {
+  if (!(await userMatches(req.user, id))) {
     console.log("No match!");
-    return res.status(401).json({message: "You may not delete another user's profile."})
+    return res.status(401).json({ message: "You may not delete another user's profile." })
   }
 
   console.log("yes match!");
