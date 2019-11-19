@@ -46,9 +46,20 @@ describe('userProjectsRouter', () => {
         });
         it('should return 400 if id not given correctly', () => {
             return request(server)
-                .get(`${ENDPOINT}/id`)
+                .get(`${ENDPOINT}/users/id`)
                 .then(res => expect(res.status).toBe(400));
         });
     });
-
+    describe('GET / getRecentProjectByUserId', () => {
+        it('should return 200 if successful', () => {
+            return request(server)
+                .get(`${ENDPOINT}/recent/1`)
+                .then(res => expect(res.status).toBe(200));
+        });
+        it('should return 400 if unsuccessful', () => {
+            return request(server)
+                .get(`${ENDPOINT}/recent/id`)
+                .then(res => expect(res.status).toBe(400));
+        });
+    })
 });
