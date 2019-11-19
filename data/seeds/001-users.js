@@ -29,9 +29,9 @@ exports.seed = function(knex) {
       avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4'
     },
     {
-      auth0Id: 'sub|3',
-      username: 'kimmilang',
-      email: 'kimmilang@designhub.com',
+      auth0Id: 'auth0|5dc999e4d958d80e7bb7b597',
+      username: 'test',
+      email: 'test@test.com',
       phoneNumber: 8615556958,
       firstName: 'Kimmi',
       lastName: 'Lang',
