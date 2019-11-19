@@ -108,4 +108,22 @@ describe('userProjectsRouter', () => {
                 .then(res => expect(res.status).toBe(400));
         });
     });
+
+    describe('DELETE / deleteProjectByID', () => {
+        it('should return 200 if successful', () => {
+            return request(server)
+                .delete(`${ENDPOINT}/1`)
+                .then(res => expect(res.status).toBe(200));
+        });
+        it('should return 404 if project id not found', () => {
+            return request(server)
+                .delete(`${ENDPOINT}/100`)
+                .then(res => expect(res.status).toBe(404));
+        });
+        it('should return 400 if unsuccessful', () => {
+            return request(server)
+                .delete(`${ENDPOINT}/id`)
+                .then(res => expect(res.status).toBe(400));
+        });
+    })
 });
