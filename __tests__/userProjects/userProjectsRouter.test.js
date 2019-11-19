@@ -50,6 +50,7 @@ describe('userProjectsRouter', () => {
                 .then(res => expect(res.status).toBe(400));
         });
     });
+
     describe('GET / getRecentProjectByUserId', () => {
         it('should return 200 if successful', () => {
             return request(server)
@@ -61,5 +62,30 @@ describe('userProjectsRouter', () => {
                 .get(`${ENDPOINT}/recent/id`)
                 .then(res => expect(res.status).toBe(400));
         });
-    })
+    });
+
+    //testing db needs updating, tests failing because privateProjects doesnt exist
+
+    // describe('GET / getAllProjects', () => {
+    //     it('should return 200 if successful', () => {
+    //         return request(server)
+    //             .get(`${ENDPOINT}/`)
+    //             .then(res => expect(res.status).toBe(200));
+    //     });
+    // });
+
+    // describe('POST / getProjectsByName', () => {
+    //     it('should return 200 if successful', () => {
+    //         return request(server)
+    //             .post(`${ENDPOINT}/name`)
+    //             .send({ name: 'Design Session' })
+    //             .then(res => expect(res.status).toBe(200));
+    //     });
+    //     it('should return 400 if unsuccessful', () => {
+    //         return request(server)
+    //             .post(`${ENDPOINT}/name`)
+    //             .send({ name: 'Wrong Name' })
+    //             .then(res => expect(res.status).toBe(400));
+    //     });
+    // });
 });
