@@ -50,7 +50,7 @@ exports.createPhotoComment = async (req, res) => {
 
 exports.getCommentsByImageId = async (req, res) => {
   if (!req.params.id) {
-    res.status(400).json({ message: 'id was not attached to the req.params' });
+    return res.status(400).json({ message: 'id was not attached to the req.params' });
   }
   const { id } = req.params;
   try {
@@ -71,7 +71,7 @@ exports.getCommentsByImageId = async (req, res) => {
       .innerJoin('users as u', 'comments.userId', '=', 'u.id')
       .orderBy('comments.id', 'desc');
 
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (err) {
     console.error(error);
     res
@@ -93,7 +93,7 @@ exports.createProjectComment = async (req, res) => {
       .status(400)
       .json({ message: 'userId was not attached to the req.body' });
   } else if (!req.body.text) {
-    res.status(400).json({ message: 'text was not attached to the req.body' });
+    return res.status(400).json({ message: 'text was not attached to the req.body' });
   } else if (!req.body.username) {
     res
       .status(400)
@@ -104,21 +104,21 @@ exports.createProjectComment = async (req, res) => {
     if (await userMatches(req.user, req.body.userId)) {
       const [id] = await go.createOne('comments', 'id', req.body);
       const data = await go.getById('comments', id);
-      res.status(201).json({ message: 'Comment successfully created!', data });
+      return res.status(201).json({ message: 'Comment successfully created!', data });
     }
     else {
-      res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
+      return res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
     }
 
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "Couldn't create comment", error: error });
+    return res.status(400).json({ message: "Couldn't create comment", error: error });
   }
 };
 
 exports.getCommentsByProjectId = async (req, res) => {
   if (!req.params.id) {
-    res.status(400).json({ message: 'id was not attached to the req.params' });
+    return res.status(400).json({ message: 'id was not attached to the req.params' });
   }
 
   const { id } = req.params;
@@ -139,7 +139,7 @@ exports.getCommentsByProjectId = async (req, res) => {
       .where('projectId', id)
       .innerJoin('users as u', 'comments.userId', '=', 'u.id')
       .orderBy('comments.id', 'asc');
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (err) {
     console.error(error);
     res
@@ -159,14 +159,14 @@ exports.updateCommentById = async (req, res) => {
     if (await userMatches(req.user, data[0].userId)) {
       await go.updateById('comments', req.body, id);
       const data = await go.getById('comments', id);
-      res.status(200).json(data);
+      return res.status(200).json(data);
     }
     else {
-      res.status(401).json({ message: "Unauthorized: You may not update comments that don't belong to you." });
+      return res.status(401).json({ message: "Unauthorized: You may not update comments that don't belong to you." });
     }
 
   } catch (error) {
-    res.status(400).json({ message: "Couldn't update comment.", error: error });
+    return res.status(400).json({ message: "Couldn't update comment.", error: error });
   }
 };
 
@@ -174,8 +174,8 @@ exports.deleteProjectById = async (req, res) => {
   const { id } = req.params;
   try {
     await go.destroyById('comments', id);
-    res.status(200).json({ message: 'Comment successfully deleted' });
+    return res.status(200).json({ message: 'Comment successfully deleted' });
   } catch (error) {
-    res.status(400).json({ message: "Couldn't delete comment.", error: error });
+    return res.status(400).json({ message: "Couldn't delete comment.", error: error });
   }
 };
