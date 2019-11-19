@@ -8,34 +8,43 @@ const userMatches = require('../utils/userMatches');
 
 exports.createPhotoComment = async (req, res) => {
   if (!req.body.imageId) {
-    res
+    return res
       .status(400)
       .json({ message: 'imageId was not attached to the req.body' });
   } else if (!req.body.userId) {
-    res
+    return res
       .status(400)
       .json({ message: 'userId was not attached to the req.body' });
   } else if (!req.body.text) {
-    res.status(400).json({ message: 'text was not attached to the req.body' });
+    return res.status(400).json({ message: 'text was not attached to the req.body' });
   } else if (!req.body.username) {
-    res
+    return res
       .status(400)
       .json({ message: 'username was not attached to the req.body' });
   }
   //Add middleware when Team members functionality is online so only specific people can comment
   try {
     if (await userMatches(req.user, req.body.userId)) {
-      const [id] = await go.createOne('comments', 'id', req.body);
+      const comment = {
+        imageId: req.body.imageId,
+        userId: req.body.userId,
+        text: req.body.text,
+        username: req.body.username
+      }
+
+      console.log(comment);
+
+      const [id] = await go.createOne('comments', 'id', comment);
       const data = await go.getById('comments', id);
-      res.status(201).json({ message: 'Comment successfully created!', data });
+      return res.status(201).json({ message: 'Comment successfully created!', data });
     }
     else {
-      res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
+      return res.status(401).json({ message: 'Unauthorized: You are not authorized to create a comment for someone else' });
     }
 
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "Couldn't create comment", error: error });
+    return res.status(400).json({ message: "Couldn't create comment", error: error });
   }
 };
 
