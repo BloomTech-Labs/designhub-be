@@ -1,6 +1,5 @@
 const request = require('supertest');
 const server = require('../../server');
-const go = require('../../resources/utils/crud');
 
 const ENDPOINT = '/api/v1/projects';
 
@@ -88,4 +87,25 @@ describe('userProjectsRouter', () => {
     //             .then(res => expect(res.status).toBe(400));
     //     });
     // });
+
+    describe('PUT / updateProjectById', () => {
+        it('should return 200 if successful', () => {
+            return request(server)
+                .put(`${ENDPOINT}/1`)
+                .send({ name: 'Design Session' })
+                .then(res => expect(res.status).toBe(200));
+        });
+        it('should return 404 if project id not found', () => {
+            return request(server)
+                .put(`${ENDPOINT}/100`)
+                .send({ name: 'Design Session' })
+                .then(res => expect(res.status).toBe(404));
+        });
+        it('should return 400 if unsuccessful', () => {
+            return request(server)
+                .put(`${ENDPOINT}/id`)
+                .send({ name: 'Design Session' })
+                .then(res => expect(res.status).toBe(400));
+        });
+    });
 });
