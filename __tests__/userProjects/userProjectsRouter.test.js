@@ -19,4 +19,21 @@ describe('userProjectsRouter', () => {
                 .then(res => expect(res.status).toBe(400))
         });
     });
+    describe('GET / getProjectById', () => {
+        it('should return 200 if successful', () => {
+            return request(server)
+                .get(`${ENDPOINT}/1`)
+                .then(res => expect(res.status).toBe(200));
+        });
+        it('should return 404 if project id not found', () => {
+            return request(server)
+                .get(`${ENDPOINT}/100`)
+                .then(res => expect(res.status).toBe(404));
+        });
+        it('should return 400 if id is not given correctly', () => {
+            return request(server)
+                .get(`${ENDPOINT}/id`)
+                .then(res => expect(res.status).toBe(400));
+        });
+    })
 });
