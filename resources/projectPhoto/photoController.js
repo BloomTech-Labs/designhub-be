@@ -51,11 +51,11 @@ exports.getPhotoById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('project_photos', id);
+    res.status(200).json(data);    
 
-    res.json(data);
   } catch (err) {
     console.error(err);
-    res.json({ message: 'Unable to get photo' });
+    res.status(400).json({ message: 'Unable to get photo' });
   }
 };
 
@@ -71,10 +71,10 @@ exports.getPhotosByProjectId = async (req, res) => {
         url: `${process.env.S3_URL}${item.url}`
       };
     });
-    res.json(newData);
+    res.status(200).json(newData);
   } catch (err) {
     console.error(err);
-    res.send({ error: err });
+    res.status(400).send({ error: err });
   }
 };
 
@@ -137,7 +137,7 @@ exports.deletePhotoById = async (req, res) => {
   }   
   }catch (err) {
     console.error(err);
-    res.json({ message: 'Unable to delete photo' });
+    res.status(400).json({ message: 'Unable to delete photo' });
   }
 };
 

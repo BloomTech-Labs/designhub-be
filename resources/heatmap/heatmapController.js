@@ -42,10 +42,10 @@ exports.getHeatmapsFromUserId = async (req, res) => {
 
     res.status(200).json(data);
   } catch (err) {
-    console.error(error);
+    console.error(err);
     res
       .status(400)
-      .json({ message: "Couldn't find the user's heatmaps", error: error });
+      .json({ message: "Couldn't find the user's heatmaps", error: err });
   }
 };
 
@@ -62,10 +62,10 @@ exports.getAllHeatmapsFromUserId = async (req, res) => {
       .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
-    console.error(error);
+    console.error(err);
     res
       .status(400)
-      .json({ message: "Couldn't find the user's heatmaps", error: error });
+      .json({ message: "Couldn't find the user's heatmaps", error: err });
   }
 };
 
@@ -107,10 +107,10 @@ exports.getTotalHeatmapContributions = async (req, res) => {
       .where('userId', id);
     res.status(200).json(data);
   } catch (err) {
-    console.error(error);
+    console.error(err);
     res.status(400).json({
       message: "Couldn't find the user's heatmap total",
-      error: error
+      error: err
     });
   }
 };
