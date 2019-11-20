@@ -10,7 +10,7 @@ exports.getAllInvites = async (req, res) => {
 
     return res.status(200).json(invites);
   } catch (err) {
-    return res.status(500).json({message: "Ooops!"});
+    return res.status(500).json({ message: "Ooops!" });
   }
 }
 
@@ -75,6 +75,20 @@ exports.createProjectInvite = async (req, res) => {
 };
 
 // Get invites by user
+exports.getInvitesByUser = async (req, res) => {
+  try {
+    const [user] = await db('users').select('id').where('auth0Id', req.user.sub);
+
+    const invites = await db('project_teams').where('userId', user.id);
+
+    res.status(200).json(invites);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "could not access db" })
+  }
+}
+
 
 // Get invites by project
 

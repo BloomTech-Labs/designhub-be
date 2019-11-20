@@ -8,8 +8,8 @@ const controller = require('./projectInvitesController');
 // For testing purposes
 router.get('/all', controller.getAllInvites);
 
-router.post('/create', secured, controller.createProjectInvite) // create invitations for project.
-router.get(':/id')  
+router.post('/create', secured, controller.createProjectInvite);
+router.get('/', secured, controller.getInvitesByUser);
 
 
 module.exports = router;
