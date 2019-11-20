@@ -5,42 +5,44 @@ exports.getExploreOptions = async (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: 'id was not attached to the req.params' });
   }
-  const { id } = req.params;
-  try {
-    const following = await db('user_projects as p')
-      .select(
-        'p.id as projectId',
-        'p.name as projectName',
-        'p.teamId',
-        'p.description as projectDescription',
-        'p.figma as projectFigma',
-        'p.mainImg as projectImage',
-        'p.created_at as projectTimestamp',
-        'f.*'
-      )
-      .where('followingId', id)
-      .where('privateProjects', false)
-      .innerJoin('user_followers as f', 'p.userId', '=', 'f.followedId');
+  else {
+    const { id } = req.params;
+    try {
+      const following = await db('user_projects as p')
+        .select(
+          'p.id as projectId',
+          'p.name as projectName',
+          'p.teamId',
+          'p.description as projectDescription',
+          'p.figma as projectFigma',
+          'p.mainImg as projectImage',
+          'p.created_at as projectTimestamp',
+          'f.*'
+        )
+        .where('followingId', id)
+        .where('privateProjects', false)
+        .innerJoin('user_followers as f', 'p.userId', '=', 'f.followedId');
 
-    const recent = await go
-      .getMany('user_projects')
-      .where('privateProjects', false)
-      .orderBy('created_at', 'desc');
+      const recent = await go
+        .getMany('user_projects')
+        .where('privateProjects', false)
+        .orderBy('created_at', 'desc');
 
-    const popular = await db('user_projects as p')
-      .select('p.*')
-      .where('privateProjects', false)
-      .count('p.id')
+      const popular = await db('user_projects as p')
+        .select('p.*')
+        .where('privateProjects', false)
+        .count('p.id')
 
-      .innerJoin('starred_projects as s', 'p.id', 's.projectId')
-      .groupBy('p.id')
-      .orderBy('count', 'desc');
+        .innerJoin('starred_projects as s', 'p.id', 's.projectId')
+        .groupBy('p.id')
+        .orderBy('count', 'desc');
 
-    res.status(200).json({ recent, following, popular });
-  } catch (err) {
-    console.error(error);
-    res
-      .status(400)
-      .json({ message: "Couldn't find the photo's comments", error: error });
+      res.status(200).json({ recent, following, popular });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "Couldn't access database", error: err });
+    }
   }
+
 };
