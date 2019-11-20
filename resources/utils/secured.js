@@ -1,4 +1,3 @@
-require('dotenv').config();
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
@@ -19,14 +18,6 @@ const secured = (process.env.DB_ENV !== 'testing') ?
     issuer: `${process.env.AUTH0URI}/`,
     algorithms: ['RS256']
     }) :
-    (
-      (request, response, next) => {
-        console.log('we in here', process.env.DB_ENV)
-        //  const secured = jwt({sub: 'asdfadsf?'})
-        // request.user = {sub: 'auth0|5d83b8d3d8e1cf0df49647e3'}
-        // request.user.sub = 
-        next()
-      }
-    )
+    (req, res, next) => { next() };
 
 module.exports = secured;
