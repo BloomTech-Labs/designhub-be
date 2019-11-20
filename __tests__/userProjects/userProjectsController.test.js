@@ -11,7 +11,7 @@ afterAll(async () => {
     await db.destroy(); // Necessary to prevent connections from not closing (which could eventually clog the Postgres database if left unchecked)
 });
 
-const PROJECTID = 1;
+const PROJECTID = 3;
 const PROJECTNAME = "Design Session"
 const EXPECTED_PROJECT = {
     id: 1,
