@@ -19,29 +19,101 @@ describe('commentsRouter', () => {
   describe('POST /photo createPhotoComment', () => {
     it('should return 400 if imageId is not attached to body', () => {
       return request(server)
-      .post(`${ENDPOINT}/photo`)
+        .post(`${ENDPOINT}/photo`)
+        .send({})
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+
+    it('should return 400 if userId is not attached to body', () => {
+      return request(server)
+        .post(`${ENDPOINT}/photo`)
+        .send({
+          imageId: 1
+        })
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+
+    it('should return 400 if text is not attached to body', () => {
+      return request(server)
+        .post(`${ENDPOINT}/photo`)
+        .send({
+          imageId: 1,
+          userId: 1
+        })
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+
+    it('should return 400 if username is not attached to body', () => {
+      return request(server)
+        .post(`${ENDPOINT}/photo`)
+        .send({
+          imageId: 1,
+          userId: 1,
+          text: 'Test comment'
+        })
+        .then(res => {
+          expect(res.status).toBe(400);
+        });
+    });
+
+    it('creates the comment successfully', () => {
+      return request(server)
+        .post(`${ENDPOINT}/photo`)
+        .send({
+          imageId: 1,
+          userId: 1,
+          text: 'Test comment',
+          username: 'eriklambert'
+        })
+        .then(res => {
+          expect(res.status).toBe(201);
+        });
+    });
+  });
+
+  describe('GET /photo/:id getCommentsByImageId', () => {
+    it('sends back comments successfully', () => {
+
+      request(server)
+        .get(`${ENDPOINT}/photo/1`)
+        .then(res => {
+          expect(res.status).toBe(200);
+        });
+    });
+  });
+
+  describe('POST /project createProjectComment', () => {
+    it('returns 400 if projectId is not attached to body', () => {
+      request(server)
+      .post(`${ENDPOINT}/project`)
       .send({})
       .then(res => {
         expect(res.status).toBe(400);
       })
     })
 
-    it('should return 400 if userId is not attached to body', () => {
-      return request(server)
-      .post(`${ENDPOINT}/photo`)
+    it('returns 400 if userId is not attached to body', () => {
+      request(server)
+      .post(`${ENDPOINT}/project`)
       .send({
-        imageId: 1
+        projectId: 1,
       })
       .then(res => {
         expect(res.status).toBe(400);
       })
     })
 
-    it('should return 400 if text is not attached to body', () => {
-      return request(server)
-      .post(`${ENDPOINT}/photo`)
+    it('returns 400 if text is not attached to body', () => {
+      request(server)
+      .post(`${ENDPOINT}/project`)
       .send({
-        imageId: 1,
+        projectId: 1,
         userId: 1
       })
       .then(res => {
@@ -49,26 +121,26 @@ describe('commentsRouter', () => {
       })
     })
 
-    it('should return 400 if username is not attached to body', () => {
-      return request(server)
-      .post(`${ENDPOINT}/photo`)
+    it('returns 400 if username is not attached to body', () => {
+      request(server)
+      .post(`${ENDPOINT}/project`)
       .send({
-        imageId: 1,
+        projectId: 1,
         userId: 1,
-        text: 'Test comment'
+        text: 'This is a project comment'
       })
       .then(res => {
         expect(res.status).toBe(400);
       })
     })
 
-    it('creates the comment successfully', () => {
-      return request(server)
-      .post(`${ENDPOINT}/photo`)
+    it(`creates the comment successfully`, () => {
+      request(server)
+      .post(`${ENDPOINT}/project`)
       .send({
-        imageId: 1,
+        projectId: 1,
         userId: 1,
-        text: 'Test comment',
+        text: 'This is a project comment',
         username: 'eriklambert'
       })
       .then(res => {
@@ -76,4 +148,14 @@ describe('commentsRouter', () => {
       })
     })
   })
-})
+
+  describe('GET /project/:id getCommentsByProjectId', () => {
+    it('sends back comments successfully', () => {
+      request(server)
+      .get(`${ENDPOINT}/project/1`)
+      .then(res => {
+        expect(res.status).toBe(200);
+      })
+    })
+  })
+});
