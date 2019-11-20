@@ -7,6 +7,9 @@ describe('followersRouter', ()=>{
 
     describe('POST / createFollow', ()=>{
 
+        //  Commented out due to the 'Cannot set headers after they are sent to the client'
+        //  error.
+
         // it('should return 400 if followingId is not included in body', ()=>{
         //     return request(server)
         //     .post(`${ENDPOINT}/`)
@@ -113,6 +116,9 @@ describe('followersRouter', ()=>{
     });
 
     describe('POST /unfollow/:id unfollow', ()=>{
+
+        //  Commented out due to the 'Cannot set headers after they are sent to the client'
+        //  error.
 
         // it('should return 400 if followingId is not included in body', ()=>{
         //     return request(server)
