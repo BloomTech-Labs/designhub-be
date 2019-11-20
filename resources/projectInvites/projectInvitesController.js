@@ -91,6 +91,25 @@ exports.getInvitesByUser = async (req, res) => {
 
 
 // Get invites by project
+exports.getInvitesByProjectId = async (req, res) => {
+  const projectId = req.params.id;
+
+  try {
+    const project = await go.getById('user_projects', projectId);
+
+    if (project.length === 0) {
+      return res.status(404).json({ message: 'A project does not exist with that id' });
+    }
+    const invites = await db('project_teams').where('projectId', projectId);
+
+    res.status(200).json(invites);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'could not access db' });
+  }
+
+}
 
 // Accept an invite to a project
 
