@@ -1,13 +1,13 @@
 exports.up = function(knex) {
     return knex.schema.createTable('project_teams', tbl => {
       tbl.increments();
-      tbl.integer('project_id')
+      tbl.integer('projectId')
       .unsigned()
       .references('user_projects.id')
       .notNullable()
       .onDelete('CASCADE');
       // In the controller, we set if the user with the provided email exists
-      tbl.integer('user_id')
+      tbl.integer('userId')
       .unsigned()
       .references('users.id')
       .onDelete('CASCADE');
