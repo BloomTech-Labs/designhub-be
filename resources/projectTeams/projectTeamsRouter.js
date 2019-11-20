@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const projectTeamsController = require('./projectTeamsController');
 
-router.post() // create invitations for project.
-router.get(':/id')  
 
 
 module.exports = router;
