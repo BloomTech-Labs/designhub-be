@@ -49,6 +49,14 @@ exports.createProjectInvite = async (req, res) => {
     // Retrieve user ID from email
     const user = await go.getUserByEmail(email);
 
+    const invites = await db('project_teams')
+                          .where('email', email)
+                          .andWhere('projectId', projectId);
+
+    if(invites.length > 0) {
+      return res.status(401).json({message: `You've already invited this user to this project!`});
+    }
+
     if (user.length === 0) {
       // Send out an email using Twilio
     } else {
@@ -56,14 +64,15 @@ exports.createProjectInvite = async (req, res) => {
     }
 
     // Create invite
-    await go.createOne('project_teams', 'id', {
+    const [invite] = await go.createOne('project_teams', '*', {
       projectId,
       userId: user.length === 0 ? null : user[0].id,
       email,
       write
     });
 
-    return res.status(201).json({ message: 'Invite successfully sent.' });
+    return res.status(201).json(invite);
+    
   } catch (err) {
     console.log(err);
     return res
