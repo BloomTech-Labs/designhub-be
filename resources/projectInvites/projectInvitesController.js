@@ -114,11 +114,6 @@ exports.getInvitesByProjectId = async (req, res) => {
 // Accept an invite to a project
 exports.acceptInviteById = async (req, res) => {
 
-  if (req.body.pending === true) {
-    return res.status(400).json({ message: "You have to accept this invite." })
-
-  }
-
   try {
 
     const invite = await go.getById('project_teams', req.params.id);
@@ -133,7 +128,7 @@ exports.acceptInviteById = async (req, res) => {
         .json({ message: 'You may not accept invites for this project!' });
     }
 
-    await go.updateById('project_teams', { pending: req.body.pending }, req.params.id);
+    await go.updateById('project_teams', { pending: false}, req.params.id);
 
     const updatedInvite = await go.getById('project_teams', req.params.id);
 
