@@ -112,5 +112,41 @@ exports.getInvitesByProjectId = async (req, res) => {
 }
 
 // Accept an invite to a project
+exports.acceptInviteById = async (req, res) => {
+  
+  if(req.body.pending === true){
+    return res.status(400).json({message: "You have to accept this invite."})
+
+  }
+
+  try {
+
+    const invite = await go.getById('project_teams', req.params.id);
+
+    if(invite.length === 0){
+      return res.status(404).json({message: 'A valid invite id is required.'});
+    }
+
+    if (!(await userMatches(req.user, invite[0].userId))) {
+      return res
+        .status(401)
+        .json({ message: 'You may not accept invites for this project!' });
+    }
+
+    await go.updateById('project_teams', {pending: req.body.pending}, req.params.id);
+
+    const updatedInvite = await go.getById('project_teams', req.params.id);
+
+    res.status(200).json(updatedInvite);
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({message: 'There was an error updating the invite in the database.'})
+
+  }
+
+
+}
 
 // Delete an invite to a project
