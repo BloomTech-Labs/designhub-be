@@ -113,9 +113,9 @@ exports.getInvitesByProjectId = async (req, res) => {
 
 // Accept an invite to a project
 exports.acceptInviteById = async (req, res) => {
-  
-  if(req.body.pending === true){
-    return res.status(400).json({message: "You have to accept this invite."})
+
+  if (req.body.pending === true) {
+    return res.status(400).json({ message: "You have to accept this invite." })
 
   }
 
@@ -123,8 +123,8 @@ exports.acceptInviteById = async (req, res) => {
 
     const invite = await go.getById('project_teams', req.params.id);
 
-    if(invite.length === 0){
-      return res.status(404).json({message: 'A valid invite id is required.'});
+    if (invite.length === 0) {
+      return res.status(404).json({ message: 'A valid invite id is required.' });
     }
 
     if (!(await userMatches(req.user, invite[0].userId))) {
@@ -133,7 +133,7 @@ exports.acceptInviteById = async (req, res) => {
         .json({ message: 'You may not accept invites for this project!' });
     }
 
-    await go.updateById('project_teams', {pending: req.body.pending}, req.params.id);
+    await go.updateById('project_teams', { pending: req.body.pending }, req.params.id);
 
     const updatedInvite = await go.getById('project_teams', req.params.id);
 
@@ -142,7 +142,7 @@ exports.acceptInviteById = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).json({message: 'There was an error accepting the invite in the database.'})
+    res.status(500).json({ message: 'There was an error accepting the invite in the database.' })
 
   }
 
@@ -150,32 +150,59 @@ exports.acceptInviteById = async (req, res) => {
 }
 // Update an invite to a project
 
-exports.updateInviteById = async (req, res) =>{
-    const id = req.params.id;
-    const changes = req.body;
+exports.updateInviteById = async (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
 
-    try{
-        const invite = await go.getById('project_teams', id);
-        if( invite.length === 0 ){
-            return res.status(404).json({message: 'The invite id provided is invalid.'})
-        }
-        const project = await go.getById('user_projects', invite[0].projectId);
-        if (!(await userMatches(req.user, project[0].userId))) {
-            console.log(project)
-            return res
-              .status(401)
-              .json({ message: 'You may not update invites for this project!' });
-          }
+  try {
+    const invite = await go.getById('project_teams', id);
+    if (invite.length === 0) {
+      return res.status(404).json({ message: 'The invite id provided is invalid.' })
+    }
+    const project = await go.getById('user_projects', invite[0].projectId);
+    if (!(await userMatches(req.user, project[0].userId))) {
+      console.log(project)
+      return res
+        .status(401)
+        .json({ message: 'You may not update invites for this project!' });
+    }
 
     await go.updateById('project_teams', changes, req.params.id);
     const updatedInvite = await go.getById('project_teams', id);
-        res.status(200).json(updatedInvite);
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).json({message: 'There was an error updating the invite.'})
-    }
+    res.status(200).json(updatedInvite);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'There was an error updating the invite.' })
+  }
 
 
 }
+
+
 // Delete an invite to a project
+exports.deleteInviteById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const invite = await go.getById('project_teams', id);
+
+    if (invite.length === 0) {
+      return res.status(404).json({ message: 'An invite with that id was not found' });
+    }
+
+    const project = await go.getById('user_projects', invite[0].projectId);
+
+    if (! await userMatches(req.user, project[0].userId)) {
+      return res.status(401).json({ message: "You are not authorized to delete this invite" });
+    }
+
+    await go.destroyById('project_teams', id);
+    res.status(200).json({ message: 'This invite has been deleted' });
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'There was an error deleting the invite.' })
+  }
+}

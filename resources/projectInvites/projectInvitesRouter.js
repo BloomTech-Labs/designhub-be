@@ -13,6 +13,6 @@ router.get('/', secured, controller.getInvitesByUser);
 router.get('/:id', secured, controller.getInvitesByProjectId);
 router.put('/accept/:id', secured, controller.acceptInviteById);
 router.put('/:id', secured, controller.updateInviteById);
-
+router.delete('/:id', secured, controller.deleteInviteById);
 
 module.exports = router;
