@@ -179,6 +179,30 @@ exports.updateInviteById = async (req, res) => {
 
 }
 
+exports.rejectInviteById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const invite = await go.getById('project_teams', id);
+
+    if (invite.length === 0) {
+      return res.status(404).json({ message: 'An invite with that id was not found' });
+    }
+
+    if (! await userMatches(req.user, invite[0].userId)) {
+      return res.status(401).json({ message: "You are not authorized to reject this invite" });
+    }
+
+    await go.destroyById('project_teams', id);
+    res.status(200).json({ message: 'This invite has been rejected' });
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'There was an error rejecting the invite.' })
+  }
+}
+
 
 // Delete an invite to a project
 exports.deleteInviteById = async (req, res) => {
