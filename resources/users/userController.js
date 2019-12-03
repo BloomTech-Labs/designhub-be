@@ -135,9 +135,14 @@ exports.getUserByEmail = async (req, res) => {
 
   try {
     const user = await go.getUserByEmail(email);
-    res.status(200).json(user);
+    if(user.length > 0){
+      res.status(200).json(user);
+    }else {
+      res.status(204).json({ message: 'user does not exist', user: [] });
+    }    
   }
   catch (err) {
-    res.status(500).json({ message: "Couldn't get user.", error: error });
+    res.status(500).json({ message: "Couldn't find email.", err: error });
   }
-}
+};
+
