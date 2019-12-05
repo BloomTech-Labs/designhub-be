@@ -30,17 +30,17 @@ exports.createProjectInvite = async (req, res) => {
   const { projectId, email } = req.body;
   const write = req.body.write ? req.body.write : false;
 
-  const project = await go.getById('user_projects', projectId);
+  const [project] = await go.getById('user_projects', projectId);
 
   // Does the project exist?
-  if (project.length === 0) {
+  if (!project) {
     return res
       .status(404)
       .json({ message: 'A project with that ID does not exist!' });
   }
 
   // Is this person allowed to make invites?
-  if (!(await userMatches(req.user, project[0].userId))) {
+  if (!(await userMatches(req.user, project.userId))) {
     return res
       .status(401)
       .json({ message: 'You may not create invites for this project!' });
@@ -48,7 +48,7 @@ exports.createProjectInvite = async (req, res) => {
   try {
     // Is this user registered?
     // Retrieve user ID from email
-    const user = await go.getUserByEmail(email);
+    const [user] = await go.getUserByEmail(email);
 
     const invites = await db('project_teams')
       .where('email', email)
@@ -61,10 +61,10 @@ exports.createProjectInvite = async (req, res) => {
     }
 
     // Create notification for invite
-    const activeUser = await go.getById('users', project[0].userId);
+    const [activeUser] = await go.getById('users', project.userId);
 
     try {
-      if (user.length !== 0) {
+      if (!user) {
         const inviteContent = {
           activeUserId: activeUser.id,
           invitedUserId: user.id,
@@ -90,7 +90,7 @@ exports.createProjectInvite = async (req, res) => {
     // Create invite
     const [invite] = await go.createOne('project_teams', '*', {
       projectId,
-      userId: user.length === 0 ? null : user[0].id,
+      userId: !user ? null : user.id,
       email,
       write
     });
