@@ -64,9 +64,10 @@ exports.createProjectInvite = async (req, res) => {
     const [activeUser] = await go.getById('users', project.userId);
 
     try {
-      if (!user) {
+      if (user) {
         const inviteContent = {
           activeUserId: activeUser.id,
+          activeUserAvatar: activeUser.avatar,
           invitedUserId: user.id,
           projectId: project.id,
           projectName: project.name,
@@ -75,7 +76,8 @@ exports.createProjectInvite = async (req, res) => {
           type: 'collab'
         };
 
-        await go.createOne('invite', 'id', inviteContent);
+        const [notif] = await go.createOne('invite', 'id', inviteContent);
+
       }
       await goSend.invite(
         activeUser.avatar,
