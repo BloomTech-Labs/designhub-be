@@ -81,7 +81,7 @@ exports.createProjectInvite = async (req, res) => {
           projectName: project.name,
           mainImgUrl: project.mainImg,
           activeUsername: activeUser.username,
-          message: invite.id,
+          message: invite.id + " " + user.email,
           type: 'collab'
         };
 
