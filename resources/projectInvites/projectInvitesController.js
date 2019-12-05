@@ -61,7 +61,7 @@ exports.createProjectInvite = async (req, res) => {
     }
 
     // Create notification for invite
-    const activeUser = await go.getById('users', project.userId);
+    const activeUser = await go.getById('users', project[0].userId);
 
     try {
       if (user.length !== 0) {
