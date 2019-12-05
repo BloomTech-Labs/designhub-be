@@ -102,10 +102,23 @@ exports.createProjectInvite = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({
-      message: 'An unknown error occured while creating this invite.'
+      message: 'An unknown error occurred while creating this invite.'
     });
   }
 };
+
+exports.getInviteById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const invite = await go.getById('project_teams', id);
+    res.status(200).json(invite);
+  }
+  catch (err) {
+    res.status(500).json({ message: 'An unknown error occurred while getting this invite' })
+  }
+
+}
 
 // Get invites by user
 exports.getInvitesByUser = async (req, res) => {
