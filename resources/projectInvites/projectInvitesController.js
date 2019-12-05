@@ -60,6 +60,14 @@ exports.createProjectInvite = async (req, res) => {
         .json({ message: `You've already invited this user to this project!` });
     }
 
+    // Create invite
+    const [invite] = await go.createOne('project_teams', '*', {
+      projectId,
+      userId: !user ? null : user.id,
+      email,
+      write
+    });
+
     // Create notification for invite
     const [activeUser] = await go.getById('users', project.userId);
 
@@ -73,6 +81,7 @@ exports.createProjectInvite = async (req, res) => {
           projectName: project.name,
           mainImgUrl: project.mainImg,
           activeUsername: activeUser.username,
+          message: invite.id,
           type: 'collab'
         };
 
@@ -88,14 +97,6 @@ exports.createProjectInvite = async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-
-    // Create invite
-    const [invite] = await go.createOne('project_teams', '*', {
-      projectId,
-      userId: !user ? null : user.id,
-      email,
-      write
-    });
 
     return res.status(201).json(invite);
   } catch (err) {
