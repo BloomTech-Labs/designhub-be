@@ -1,5 +1,6 @@
 const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
+const goSend = require('../utils/sendgrid');
 
 const userMatches = require('../utils/userMatches');
 
@@ -10,9 +11,9 @@ exports.getAllInvites = async (req, res) => {
 
     return res.status(200).json(invites);
   } catch (err) {
-    return res.status(500).json({ message: "Ooops!" });
+    return res.status(500).json({ message: 'Ooops!' });
   }
-}
+};
 
 // Create an invite to a project
 exports.createProjectInvite = async (req, res) => {
@@ -50,17 +51,40 @@ exports.createProjectInvite = async (req, res) => {
     const user = await go.getUserByEmail(email);
 
     const invites = await db('project_teams')
-                          .where('email', email)
-                          .andWhere('projectId', projectId);
+      .where('email', email)
+      .andWhere('projectId', projectId);
 
-    if(invites.length > 0) {
-      return res.status(401).json({message: `You've already invited this user to this project!`});
+    if (invites.length > 0) {
+      return res
+        .status(401)
+        .json({ message: `You've already invited this user to this project!` });
     }
 
-    if (user.length === 0) {
-      // Send out an email using Twilio
-    } else {
-      // Create notification for invite
+    // Create notification for invite
+    const activeUser = await go.getUserById(project.userId);
+
+    try {
+      if (user.length !== 0) {
+        const inviteContent = {
+          activeUserId: activeUser.id,
+          invitedUserId: user.id,
+          projectId: project.id,
+          projectName: project.name,
+          mainImgUrl: project.mainImg,
+          activeUsername: activeUser.username,
+          type: 'collab'
+        };
+
+        await go.createOne('invite', 'id', inviteContent);
+      }
+      await goSend.invite(
+        activeUser.avatar,
+        activeUser.username,
+        email,
+        project.name
+      );
+    } catch (error) {
+      console.log(error);
     }
 
     // Create invite
@@ -72,32 +96,29 @@ exports.createProjectInvite = async (req, res) => {
     });
 
     return res.status(201).json(invite);
-    
   } catch (err) {
     console.log(err);
-    return res
-      .status(500)
-      .json({
-        message: 'An unknown error occured while creating this invite.'
-      });
+    return res.status(500).json({
+      message: 'An unknown error occured while creating this invite.'
+    });
   }
 };
 
 // Get invites by user
 exports.getInvitesByUser = async (req, res) => {
   try {
-    const [user] = await db('users').select('id').where('auth0Id', req.user.sub);
+    const [user] = await db('users')
+      .select('id')
+      .where('auth0Id', req.user.sub);
 
     const invites = await db('project_teams').where('userId', user.id);
 
     res.status(200).json(invites);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "could not access db" })
+    res.status(500).json({ message: 'could not access db' });
   }
-}
-
+};
 
 // Get invites by project
 exports.getInvitesByProjectId = async (req, res) => {
@@ -107,28 +128,28 @@ exports.getInvitesByProjectId = async (req, res) => {
     const project = await go.getById('user_projects', projectId);
 
     if (project.length === 0) {
-      return res.status(404).json({ message: 'A project does not exist with that id' });
+      return res
+        .status(404)
+        .json({ message: 'A project does not exist with that id' });
     }
     const invites = await db('project_teams').where('projectId', projectId);
 
     res.status(200).json(invites);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'could not access db' });
   }
-
-}
+};
 
 // Accept an invite to a project
 exports.acceptInviteById = async (req, res) => {
-
   try {
-
     const invite = await go.getById('project_teams', req.params.id);
 
     if (invite.length === 0) {
-      return res.status(404).json({ message: 'A valid invite id is required.' });
+      return res
+        .status(404)
+        .json({ message: 'A valid invite id is required.' });
     }
 
     if (!(await userMatches(req.user, invite[0].userId))) {
@@ -137,21 +158,20 @@ exports.acceptInviteById = async (req, res) => {
         .json({ message: 'You may not accept invites for this project!' });
     }
 
-    await go.updateById('project_teams', { pending: false}, req.params.id);
+    await go.updateById('project_teams', { pending: false }, req.params.id);
 
     const updatedInvite = await go.getById('project_teams', req.params.id);
 
     res.status(200).json(updatedInvite);
-
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ message: 'There was an error accepting the invite in the database.' })
-
+    res
+      .status(500)
+      .json({
+        message: 'There was an error accepting the invite in the database.'
+      });
   }
-
-
-}
+};
 // Update an invite to a project
 
 exports.updateInviteById = async (req, res) => {
@@ -161,11 +181,13 @@ exports.updateInviteById = async (req, res) => {
   try {
     const invite = await go.getById('project_teams', id);
     if (invite.length === 0) {
-      return res.status(404).json({ message: 'The invite id provided is invalid.' })
+      return res
+        .status(404)
+        .json({ message: 'The invite id provided is invalid.' });
     }
     const project = await go.getById('user_projects', invite[0].projectId);
     if (!(await userMatches(req.user, project[0].userId))) {
-      console.log(project)
+      console.log(project);
       return res
         .status(401)
         .json({ message: 'You may not update invites for this project!' });
@@ -174,12 +196,13 @@ exports.updateInviteById = async (req, res) => {
     await go.updateById('project_teams', changes, req.params.id);
     const updatedInvite = await go.getById('project_teams', id);
     res.status(200).json(updatedInvite);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ message: 'There was an error updating the invite.' })
+    res
+      .status(500)
+      .json({ message: 'There was an error updating the invite.' });
   }
-}
+};
 
 exports.deleteInviteById = async (req, res) => {
   const id = req.params.id;
@@ -188,23 +211,28 @@ exports.deleteInviteById = async (req, res) => {
     const invite = await go.getById('project_teams', id);
 
     if (invite.length === 0) {
-      return res.status(404).json({ message: 'An invite with that id was not found' });
+      return res
+        .status(404)
+        .json({ message: 'An invite with that id was not found' });
     }
 
     const project = await go.getById('user_projects', invite[0].projectId);
 
-    if ((await userMatches(req.user, project[0].userId)) || (await userMatches(req.user, invite[0].userId))) {
-
+    if (
+      (await userMatches(req.user, project[0].userId)) ||
+      (await userMatches(req.user, invite[0].userId))
+    ) {
       await go.destroyById('project_teams', id);
       return res.status(200).json({ message: 'This invite has been deleted' });
-
     } else {
-      return res.status(401).json({ message: "You are not authorized to delete this invite" });
+      return res
+        .status(401)
+        .json({ message: 'You are not authorized to delete this invite' });
     }
-
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ message: 'There was an error deleting the invite.' })
+    res
+      .status(500)
+      .json({ message: 'There was an error deleting the invite.' });
   }
-}
+};
