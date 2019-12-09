@@ -221,10 +221,10 @@ exports.updateInviteById = async (req, res) => {
 };
 
 exports.deleteInviteById = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id;  
 
   try {
-    const invite = await go.getById('project_teams', id);
+    const invite = await go.getById('project_teams', id);          
 
     if (invite.length === 0) {
       return res
@@ -238,8 +238,15 @@ exports.deleteInviteById = async (req, res) => {
       (await userMatches(req.user, project[0].userId)) ||
       (await userMatches(req.user, invite[0].userId))
     ) {
+      if (invite.userId === null) {     
+        await go.destroyById('project_teams', id);
+        return res.status(200).json({ message: 'This invite has been deleted' });
+      }else {
+      const notification = await db('invite').where('projectId', project.id).andWhere('message', invite[0].id + " " + invite[0].email);
+      await go.destroyById('invite', notification.id);
       await go.destroyById('project_teams', id);
       return res.status(200).json({ message: 'This invite has been deleted' });
+      }
     } else {
       return res
         .status(401)
