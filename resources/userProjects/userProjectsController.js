@@ -32,14 +32,9 @@ exports.getProjectById = async (req, res) => {
         .status(404)
         .json({ message: 'A project with that ID was not found!' });
     }
-    console.log('collabMatches', await collaboratorMatches(req.user, data[0].id));
-    console.log('user token', req.user);
-    console.log('projectId', data[0].id);
-    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId || await collaboratorMatches(req.user, data[0].id))) {
-      console.log('collab matches runs');
+    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId) || await collaboratorMatches(req.user, data[0].id)) {
       res.status(200).json(data);
     } else {
-      console.log('collab matches doesnt run');
       res
         .status(401)
         .json({ message: 'You are not authorized to view this project!' });
