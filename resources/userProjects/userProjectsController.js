@@ -34,9 +34,10 @@ exports.getProjectById = async (req, res) => {
     }
 
     if (!data[0].privateProjects || await userMatches(req.user, data[0].userId || await collaboratorMatches(req.user, data[0].id))) {
-
+      console.log('collab matches runs');
       res.status(200).json(data);
     } else {
+      console.log('collab matches doesnt run');
       res
         .status(401)
         .json({ message: 'You are not authorized to view this project!' });
@@ -48,8 +49,6 @@ exports.getProjectById = async (req, res) => {
 
 exports.getProjectByUserId = async (req, res) => {
   const { userId } = req.params;
-
-
 
   try {
     if (await userMatches(req.user, userId)) {
