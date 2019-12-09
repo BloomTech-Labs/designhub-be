@@ -242,8 +242,8 @@ exports.deleteInviteById = async (req, res) => {
         await go.destroyById('project_teams', id);
         return res.status(200).json({ message: 'This invite has been deleted' });
       }else {
-      const notification = await db('invite').where('projectId', project.id).andWhere('message', invite[0].id + " " + invite[0].email);
-      await go.destroyById('invite', notification.id);
+      const notification = await db('invite').where('projectId', project[0].id).andWhere('message', invite[0].id + " " + invite[0].email);
+      await go.destroyById('invite', notification[0].id);
       await go.destroyById('project_teams', id);
       return res.status(200).json({ message: 'This invite has been deleted' });
       }
