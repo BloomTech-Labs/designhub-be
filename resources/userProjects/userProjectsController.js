@@ -2,6 +2,7 @@ const go = require('../utils/crud');
 const db = require('../../data/dbConfig');
 
 const userMatches = require('../utils/userMatches');
+const collaboratorMatches = require('../utils/collaboratorMatches');
 
 exports.createProject = async (req, res) => {
   try {
@@ -18,7 +19,7 @@ exports.createProject = async (req, res) => {
 };
 
 exports.getProjectById = async (req, res) => {
-  const { id } = req.params;  
+  const { id } = req.params;
 
   try {
     const data = await db('user_projects as up')
@@ -32,13 +33,10 @@ exports.getProjectById = async (req, res) => {
         .json({ message: 'A project with that ID was not found!' });
     }
 
-    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId)) {      
+    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId || await collaboratorMatches(req.user, data[0].id))) {
 
       res.status(200).json(data);
     } else {
-      /*
-    Create a middleware that checks if this user is part of a team
-    */
       res
         .status(401)
         .json({ message: 'You are not authorized to view this project!' });
@@ -51,10 +49,10 @@ exports.getProjectById = async (req, res) => {
 exports.getProjectByUserId = async (req, res) => {
   const { userId } = req.params;
 
- 
+
 
   try {
-    if ( await userMatches(req.user, userId)) {
+    if (await userMatches(req.user, userId)) {
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
         .innerJoin('users as u', 'up.userId', '=', 'u.id');
