@@ -1,4 +1,4 @@
-const db = require('../data/dbConfig');
+const db = require('../../data/dbConfig');
 
 const collaboratorMatches = async (token, projectId) => {
     const [user] = await db('users').where('auth0Id', token.sub);
