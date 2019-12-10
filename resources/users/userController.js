@@ -31,10 +31,12 @@ exports.createUser = async (req, res) => {
         const [id] = await go.createOne('users', 'id', userObject);
         const [user] = await go.getById('users', id);
 
-        console.log(user);
+        console.log('USER:', user);
 
         // Look for invites that this email has
         const invites = await db('project_teams').where('email', user.email);
+
+        console.log('INVITES:', invites);
 
         invites.forEach(async invite => {
           go.updateById('project_teams', {
@@ -45,6 +47,9 @@ exports.createUser = async (req, res) => {
           // Create a noticiation for each dormant invite
           const [project] = await go.getById('user_projects', invite.projectId);
           const [activeUser] = await go.getById('users', project.userId);
+
+          console.log('PROJECT:', project);
+          console.log('ACTIVE_USER:', activeUser);
 
           const inviteContent = {
             activeUserId: activeUser.id,
