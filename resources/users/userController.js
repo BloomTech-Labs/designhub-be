@@ -104,7 +104,7 @@ exports.updateUserById = async (req, res) => {
           const invites = await db('project_teams').where('email', req.body.email);
 
           invites.forEach(async invite => {
-            go.updateById(
+            await go.updateById(
               'project_teams',
               {
                 ...invite,
