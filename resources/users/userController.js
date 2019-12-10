@@ -134,7 +134,7 @@ exports.updateUserById = async (req, res) => {
               projectName: project.name,
               mainImgUrl: project.mainImg,
               activeUsername: activeUser.username,
-              message: invite.id + ' ' + user.email,
+              message: invite.id + ' ' + req.body.email,
               type: 'collab'
             };
 
