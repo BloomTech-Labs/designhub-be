@@ -138,7 +138,9 @@ exports.updateUserById = async (req, res) => {
               type: 'collab'
             };
 
-            go.createOne('invite', 'id', inviteContent);
+            const notif = await go.createOne('invite', '*', inviteContent);
+
+            console.log("NOTIFICATION: ", notif);
           });
         }
 
