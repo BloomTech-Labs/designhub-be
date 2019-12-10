@@ -99,12 +99,9 @@ exports.updateUserById = async (req, res) => {
         const [user] = await go.getById('users', id);
 
         if (!user.email && req.body.email) {
-          console.log('USER:', user);
 
           // Look for invites that this email has
           const invites = await db('project_teams').where('email', req.body.email);
-
-          console.log('INVITES:', invites);
 
           invites.forEach(async invite => {
             go.updateById(
@@ -123,9 +120,6 @@ exports.updateUserById = async (req, res) => {
             );
             const [activeUser] = await go.getById('users', project.userId);
 
-            console.log('PROJECT:', project);
-            console.log('ACTIVE_USER:', activeUser);
-
             const inviteContent = {
               activeUserId: activeUser.id,
               activeUserAvatar: activeUser.avatar,
@@ -138,9 +132,7 @@ exports.updateUserById = async (req, res) => {
               type: 'collab'
             };
 
-            const notif = await go.createOne('invite', '*', inviteContent);
-
-            console.log("NOTIFICATION: ", notif);
+            await go.createOne('invite', '*', inviteContent);
           });
         }
 
