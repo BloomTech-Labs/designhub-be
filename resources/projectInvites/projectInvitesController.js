@@ -238,7 +238,7 @@ exports.deleteInviteById = async (req, res) => {
       (await userMatches(req.user, project[0].userId)) ||
       (await userMatches(req.user, invite[0].userId))
     ) {
-      if (invite.userId === null) {     
+      if (invite[0].userId === null) {     
         await go.destroyById('project_teams', id);
         return res.status(200).json({ message: 'This invite has been deleted' });
       }else {
