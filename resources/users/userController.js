@@ -31,41 +31,6 @@ exports.createUser = async (req, res) => {
         const [id] = await go.createOne('users', 'id', userObject);
         const [user] = await go.getById('users', id);
 
-        console.log('USER:', user);
-
-        // Look for invites that this email has
-        const invites = await db('project_teams').where('email', user.email);
-
-        console.log('INVITES:', invites);
-
-        invites.forEach(async invite => {
-          go.updateById('project_teams', {
-            ...invite,
-            userId: id
-          }, invite.id)
-
-          // Create a noticiation for each dormant invite
-          const [project] = await go.getById('user_projects', invite.projectId);
-          const [activeUser] = await go.getById('users', project.userId);
-
-          console.log('PROJECT:', project);
-          console.log('ACTIVE_USER:', activeUser);
-
-          const inviteContent = {
-            activeUserId: activeUser.id,
-            activeUserAvatar: activeUser.avatar,
-            invitedUserId: user.id,
-            projectId: project.id,
-            projectName: project.name,
-            mainImgUrl: project.mainImg,
-            activeUsername: activeUser.username,
-            message: invite.id + " " + user.email,
-            type: 'collab'
-          };
-
-          go.createOne('invite', 'id', inviteContent);
-        })
-
         res
           .status(201)
           .json({ message: 'Account successfully created!', user });
@@ -127,9 +92,56 @@ exports.updateUserById = async (req, res) => {
   } else {
     try {
       if (!(await userMatches(req.user, id))) {
-        return res.status(401).json({ message: "You may not update another user's profile." });
-      }
-      else {
+        return res
+          .status(401)
+          .json({ message: "You may not update another user's profile." });
+      } else {
+        const [user] = await go.getById('users', id);
+
+        if (!user.email && req.body.email) {
+          console.log('USER:', user);
+
+          // Look for invites that this email has
+          const invites = await db('project_teams').where('email', user.email);
+
+          console.log('INVITES:', invites);
+
+          invites.forEach(async invite => {
+            go.updateById(
+              'project_teams',
+              {
+                ...invite,
+                userId: id
+              },
+              invite.id
+            );
+
+            // Create a noticiation for each dormant invite
+            const [project] = await go.getById(
+              'user_projects',
+              invite.projectId
+            );
+            const [activeUser] = await go.getById('users', project.userId);
+
+            console.log('PROJECT:', project);
+            console.log('ACTIVE_USER:', activeUser);
+
+            const inviteContent = {
+              activeUserId: activeUser.id,
+              activeUserAvatar: activeUser.avatar,
+              invitedUserId: user.id,
+              projectId: project.id,
+              projectName: project.name,
+              mainImgUrl: project.mainImg,
+              activeUsername: activeUser.username,
+              message: invite.id + ' ' + user.email,
+              type: 'collab'
+            };
+
+            go.createOne('invite', 'id', inviteContent);
+          });
+        }
+
         await go.updateById('users', req.body, id);
         const data = await go.getById('users', id);
         if (data.length > 0) {
@@ -148,11 +160,13 @@ exports.deleteUserById = async (req, res) => {
   const { id } = req.params;
 
   if (!(await userMatches(req.user, id))) {
-    console.log("No match!");
-    return res.status(401).json({ message: "You may not delete another user's profile." })
+    console.log('No match!');
+    return res
+      .status(401)
+      .json({ message: "You may not delete another user's profile." });
   }
 
-  console.log("yes match!");
+  console.log('yes match!');
 
   try {
     const user = await go.destroyById('users', id);
@@ -171,14 +185,12 @@ exports.getUserByEmail = async (req, res) => {
 
   try {
     const user = await go.getUserByEmail(email);
-    if(user.length > 0){
+    if (user.length > 0) {
       res.status(200).json(user);
-    }else {
+    } else {
       res.status(204).json({ message: 'user does not exist', user: [] });
-    }    
-  }
-  catch (err) {
+    }
+  } catch (err) {
     res.status(500).json({ message: "Couldn't find email.", err: error });
   }
 };
-
