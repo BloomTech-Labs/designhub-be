@@ -102,7 +102,7 @@ exports.updateUserById = async (req, res) => {
           console.log('USER:', user);
 
           // Look for invites that this email has
-          const invites = await db('project_teams').where('email', user.email);
+          const invites = await db('project_teams').where('email', req.body.email);
 
           console.log('INVITES:', invites);
 
