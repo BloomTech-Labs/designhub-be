@@ -29,7 +29,7 @@ exports.createUser = async (req, res) => {
         };
 
         const [id] = await go.createOne('users', 'id', userObject);
-        const [user] = await go.getById('users', id);
+        const user = await go.getById('users', id);
 
         res
           .status(201)
