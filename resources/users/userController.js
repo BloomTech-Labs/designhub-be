@@ -29,7 +29,38 @@ exports.createUser = async (req, res) => {
         };
 
         const [id] = await go.createOne('users', 'id', userObject);
-        const user = await go.getById('users', id);
+        const [user] = await go.getById('users', id);
+
+        console.log(user);
+
+        // Look for invites that this email has
+        const invites = await db('project_teams').where('email', user.email);
+
+        invites.forEach(async invite => {
+          go.updateById('project_teams', {
+            ...invite,
+            userId: id
+          }, invite.id)
+
+          // Create a noticiation for each dormant invite
+          const [project] = await go.getById('user_projects', invite.projectId);
+          const [activeUser] = await go.getById('users', project.userId);
+
+          const inviteContent = {
+            activeUserId: activeUser.id,
+            activeUserAvatar: activeUser.avatar,
+            invitedUserId: user.id,
+            projectId: project.id,
+            projectName: project.name,
+            mainImgUrl: project.mainImg,
+            activeUsername: activeUser.username,
+            message: invite.id + " " + user.email,
+            type: 'collab'
+          };
+
+          go.createOne('invite', 'id', inviteContent);
+        })
+
         res
           .status(201)
           .json({ message: 'Account successfully created!', user });
