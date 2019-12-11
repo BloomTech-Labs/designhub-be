@@ -151,20 +151,20 @@ exports.updateProjectById = async (req, res) => {
     if (data.length === 0) {
       res.status(404).json({ message: 'Invalid project ID' });
     } else {
-      if (!(await userMatches(req.user, data[0].userId))) {
-        // TODO: Check if part of a team!!!!
 
+      if(await userMatches(req.user, data[0].userId) || (await collaboratorMatches(req.user, id, true))) {
+        await go.updateById('user_projects', req.body, id);
+        const updatedData = await go.getById('user_projects', id);
+
+        res.status(200).json(updatedData);
+      } else {
+        // TODO: Check if part of a team!!!!
         res
           .status(401)
           .json({
             message:
               "Unauthorized: You may not update projects that don't belong to you."
           });
-      } else {
-        await go.updateById('user_projects', req.body, id);
-        const updatedData = await go.getById('user_projects', id);
-
-        res.status(200).json(updatedData);
       }
     }
   } catch (error) {
