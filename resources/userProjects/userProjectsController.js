@@ -183,6 +183,8 @@ exports.deleteProjectById = async (req, res) => {
         .json({ message: 'A project with that ID could not be found!' });
     } else {
       if (await userMatches(req.user, data[0].userId)) {
+        await db('project_teams').del().where('projectId' === id)
+        await db('invite').del().where('projectId' === id)
         await go.destroyById('user_projects', id);
         res.status(200).json({ message: 'Project successfully deleted' });
       } else {
