@@ -32,7 +32,11 @@ exports.getProjectById = async (req, res) => {
         .status(404)
         .json({ message: 'A project with that ID was not found!' });
     }
-    if (!data[0].privateProjects || await userMatches(req.user, data[0].userId) || await collaboratorMatches(req.user, data[0].id)) {
+    if (
+      !data[0].privateProjects ||
+      (await userMatches(req.user, data[0].userId)) ||
+      (await collaboratorMatches(req.user, data[0].id))
+    ) {
       res.status(200).json(data);
     } else {
       res
@@ -55,7 +59,7 @@ exports.getProjectByUserId = async (req, res) => {
 
       res.status(200).json(data);
     } else {
-      console.log('user doesnt match')
+      console.log('user doesnt match');
       /*
     Create a middleware that checks if this user is part of a team
     */
@@ -99,7 +103,6 @@ exports.getRecentProjectByUserId = async (req, res) => {
       .json({ message: "Couldn't get projects by user.", error: message });
   }
 };
-
 
 exports.getAllProjects = async (req, res) => {
   try {
@@ -145,26 +148,30 @@ exports.getProjectsByName = async (req, res) => {
 exports.updateProjectById = async (req, res) => {
   const { id } = req.params;
 
+  // Remove essential properties that cannot be update from the request
+  delete req.body.userId;
+  delete req.body.privateProjects;
+
   try {
     const data = await go.getById('user_projects', id);
 
     if (data.length === 0) {
       res.status(404).json({ message: 'Invalid project ID' });
     } else {
-
-      if(await userMatches(req.user, data[0].userId) || (await collaboratorMatches(req.user, id, true))) {
+      if (
+        (await userMatches(req.user, data[0].userId)) ||
+        (await collaboratorMatches(req.user, id, true))
+      ) {
         await go.updateById('user_projects', req.body, id);
         const updatedData = await go.getById('user_projects', id);
 
         res.status(200).json(updatedData);
       } else {
         // TODO: Check if part of a team!!!!
-        res
-          .status(401)
-          .json({
-            message:
-              "Unauthorized: You may not update projects that don't belong to you."
-          });
+        res.status(401).json({
+          message:
+            "Unauthorized: You may not update projects that don't belong to you."
+        });
       }
     }
   } catch (error) {
@@ -183,17 +190,19 @@ exports.deleteProjectById = async (req, res) => {
         .json({ message: 'A project with that ID could not be found!' });
     } else {
       if (await userMatches(req.user, data[0].userId)) {
-        await db('project_teams').del().where('projectId' === id)
-        await db('invite').del().where('projectId' === id)
+        await db('project_teams')
+          .del()
+          .where('projectId' === id);
+        await db('invite')
+          .del()
+          .where('projectId' === id);
         await go.destroyById('user_projects', id);
         res.status(200).json({ message: 'Project successfully deleted' });
       } else {
-        res
-          .status(401)
-          .json({
-            message:
-              "Unauthorized: You may not delete projects that don't belong to you."
-          });
+        res.status(401).json({
+          message:
+            "Unauthorized: You may not delete projects that don't belong to you."
+        });
       }
     }
   } catch (error) {
