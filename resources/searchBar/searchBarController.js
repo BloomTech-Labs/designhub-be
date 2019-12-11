@@ -12,7 +12,8 @@ exports.search = async (req, res) => {
   try {
     const projects = await db('user_projects')
       .select('*')
-      .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`]);
+      .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
+      .andWhere('privateProjects', false);
 
     const users = await db('users')
       .select('*')
