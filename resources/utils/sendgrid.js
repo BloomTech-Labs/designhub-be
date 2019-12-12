@@ -41,3 +41,22 @@ exports.follow = async (activeUserAvatar, activeUsername, invitedUserId) => {
   };
   sgMail.send(msg);
 };
+
+exports.invite = async (
+  activeUserAvatar,
+  activeUsername,
+  email,
+  projectTitle
+) => {
+  const msg = {
+    to: email,
+    from: 'notifications@DesignHubX.com',
+    subject: `${activeUsername} has invited you to their project on DesignhubX.com`,
+    text: `${activeUsername} has invited you to their project on DesignhubX.com`,
+    html: `<section style="display:flex; align-items:center; justify-content:center; text-align:center; justify-items:center; vertical-align:center;">
+			<img alt="${activeUsername} avatar" src="${activeUserAvatar}" style="display:block; border-radius:50%; width:65px; height:65px;"/>
+        <strong style="color:#5557FE;"> ${activeUsername} </strong> has invited you to work on ${projectTitle} on <a href='https://www.designhubx.com/'>DesignhubX.com</a>
+		</section>`
+  };
+  sgMail.send(msg);
+};

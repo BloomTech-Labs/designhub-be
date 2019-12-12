@@ -6,13 +6,14 @@ exports.search = async (req, res) => {
   const { searchText } = req.body;
   if (!searchText) {
     res.status(400).json({ message: 'No searchText attached to req.body' });
-  } else {
-    const projectText = searchText.toLowerCase();
-    const userText = searchText.replace(/\s+/g, '').toLowerCase();
-    try {
-      const projects = await db('user_projects')
-        .select('*')
-        .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`]);
+  }
+  const projectText = searchText.toLowerCase();
+  const userText = searchText.replace(/\s+/g, '').toLowerCase();
+  try {
+    const projects = await db('user_projects')
+      .select('*')
+      .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
+      .andWhere('privateProjects', false);
 
       const users = await db('users')
         .select('*')

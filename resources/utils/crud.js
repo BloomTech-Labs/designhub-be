@@ -22,6 +22,12 @@ exports.getByUserId = (table, id, ...columns) => {
     .where('userId', id);
 };
 
+exports.getUserByEmail = (email, ...columns) => {
+  return db('users')
+  .select(columns ? columns : '*')
+  .where('email', email);
+}
+
 exports.getByUsername = (table, username, ...columns) => {
   return db(table)
     .select(columns ? columns : '*')
