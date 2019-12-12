@@ -15,21 +15,23 @@ exports.search = async (req, res) => {
       .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
       .andWhere('privateProjects', false);
 
-    const users = await db('users')
-      .select('*')
-      .whereRaw(`LOWER(username) LIKE ?`, [`%${userText}%`])
-      .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
-        `%${userText}%`
-      ]);
-    //   .orWhereRaw(`LOWER("lastName") LIKE ?`, [`%${newText}%`]);
-    // const users = await db('users')
-    //   .select('*')
-    //
-    //   .orWhere('firstName', 'like', `%${newText}%`)
-    //   .orWhere('lastName', 'like', `%${newText}%`);
+      const users = await db('users')
+        .select('*')
+        .whereRaw(`LOWER(username) LIKE ?`, [`%${userText}%`])
+        .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
+          `%${userText}%`
+        ]);
+      //   .orWhereRaw(`LOWER("lastName") LIKE ?`, [`%${newText}%`]);
+      // const users = await db('users')
+      //   .select('*')
+      //
+      //   .orWhere('firstName', 'like', `%${newText}%`)
+      //   .orWhere('lastName', 'like', `%${newText}%`);
 
-    res.status(200).json({ projects, users });
-  } catch (err) {
-    console.error(err);
+      res.status(200).json({ projects, users });
+    } catch (err) {
+      console.error(err);
+    }
   }
+
 };

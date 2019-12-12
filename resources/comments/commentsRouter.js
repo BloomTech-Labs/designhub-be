@@ -19,6 +19,6 @@ router.get('/project/:id', commentsController.getCommentsByProjectId);
 //****************************************************************** */
 
 router.put('/:id', secured, commentsController.updateCommentById);
-router.delete('/:id', commentsController.deleteProjectById);
+router.delete('/:id', secured, commentsController.deleteCommentById);
 
 module.exports = router;

@@ -37,6 +37,7 @@ describe('userRouter', () => {
         .send({ sub: `${randomNum}` })
         .then(res => {
           expect(res.status).toBe(201);
+          // console.log(res)
         });
     });
   });
@@ -91,9 +92,12 @@ describe('userRouter', () => {
     it('should return 200', () => {
       return request(server)
         .put(`${ENDPOINT}/1`)
-        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3' })
+        // .set({user: 'auth0|5d83b8d3d8e1cf0df49647e3'})
+        .set('Content-Type', 'application/json')
+        .send({ auth0Id: 'auth0|5d83b8d3d8e1cf0df49647e3', firstName: 'mansleen ' })
         .then(res => {
           expect(res.status).toBe(200);
+          // console.log(res)
         });
     });
 

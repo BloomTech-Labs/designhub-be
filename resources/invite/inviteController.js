@@ -20,7 +20,7 @@ exports.getInvitesByUserId = async (req, res) => {
     res.json({ unReadNotifications, readNotifications });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ message: 'Could not get invites', error: error });
+    res.status(500).json({ message: 'Could not get invites', error: err });
   }
 };
 
@@ -169,7 +169,7 @@ exports.getNewNotificationBoolean = async (req, res) => {
       .where('invitedUserId', id)
       .andWhere('unread', true);
 
-    count.count > 0 ? res.json(true) : res.json(false);
+    count.count > 0 ? res.status(200).json(true) : res.status(200).json(false);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Could not get invites', error: error });

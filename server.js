@@ -21,6 +21,7 @@ const inviteRouter = require('./resources/invite/inviteRouter');
 const exploreRouter = require('./resources/explore/exploreRouter');
 const projectInvitesRouter = require('./resources/projectInvites/projectInvitesRouter');
 
+
 // ***************** MIDDLEWARE **************************
 
 server.use(morgan('dev'));
@@ -48,5 +49,6 @@ server.use('/api/v1/teamMember', teamMemberRouter);
 server.use('/api/v1/invite', inviteRouter);
 server.use('/api/v1/explore', exploreRouter);
 server.use('/api/v1/projectInvites', projectInvitesRouter);
+
 
 module.exports = server;

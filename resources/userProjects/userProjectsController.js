@@ -50,7 +50,7 @@ exports.getProjectById = async (req, res) => {
 
 exports.getProjectByUserId = async (req, res) => {
   const { userId } = req.params;
-
+  
   try {
     if (await userMatches(req.user, userId)) {
       const data = await go
@@ -131,11 +131,11 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.getProjectsByName = async (req, res) => {
-  const term = req.body.projectName;
+  const term = req.body.name;
 
   try {
     const data = await db('user_projects')
-      .where('projectName', 'like', `%${term}%`)
+      .where('name', 'like', `%${term}%`)
       .andWhere('privateProjects', false);
 
     res.status(200).json(data);

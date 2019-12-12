@@ -82,10 +82,10 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
-
+  console.log(req.user)
   const { auth0Id, website } = req.body;
   const regex = /^(https?:\/\/)/i;
-  if (!website.match(regex) && website.length > 0)
+  if (website && !website.match(regex) && website.length > 0)
     req.body.website = 'https://' + website;
   if (!auth0Id) {
     res.status(422).json({ message: 'missing auth0Id fields' });
@@ -150,6 +150,9 @@ exports.updateUserById = async (req, res) => {
   }
 };
 
+// This needs to be refactored. If user does not exist, 
+// you still receive a 401. Anything but a success in userMatches
+// will result in a 401
 exports.deleteUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -163,6 +166,10 @@ exports.deleteUserById = async (req, res) => {
   console.log('yes match!');
 
   try {
+    if (!(await userMatches(req.user, id))) {
+      console.log("No match!");
+      return res.status(401).json({ message: "You may not delete another user's profile." })
+    }
     const user = await go.destroyById('users', id);
     if (user === 1) {
       res.status(200).json({ message: 'User successfully deleted' });
