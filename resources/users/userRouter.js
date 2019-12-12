@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('./userController');
 
-const securing = require('../utils/secured');
+const secured = require('../utils/secured');
 
 router.post('/', userController.createUser);
 router.get('/:id', userController.getUserById);
