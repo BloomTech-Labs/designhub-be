@@ -28,6 +28,12 @@ exports.getUserByEmail = (email, ...columns) => {
   .where('email', email);
 }
 
+exports.getCategoriesBySearch = (category, ...columns) => {
+  return db('category_names')
+  .select(columns ? columns : '*')
+  .where('category', category);
+}
+
 exports.getByUsername = (table, username, ...columns) => {
   return db(table)
     .select(columns ? columns : '*')
