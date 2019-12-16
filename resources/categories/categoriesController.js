@@ -245,6 +245,37 @@ exports.deleteCategoryById = async (req, res) => {
         .status(500)
         .json({ message: 'An error occurred in the database while deleting this category from the project.' });
     }
-  };
+};
   
-  
+//GET Projects by Category Id
+
+exports.getProjectsByCategoryId = async (req, res) => {
+  const categoryId = req.params.id;
+  //get the category id
+  //search the categories table to see if tht category exists
+  //if it exists, use the project ids that matches the category id to search the projects table and return projects
+
+  try {
+    const searchData = await go.getById('category_names', categoryId);
+    /*const searchData = await db('poject_tags')
+    .where('tag', 'like', `%${tag}%`);*/
+
+    if (searchData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'That category does not exist.' });
+    }      
+       
+    
+    //const [project] = await go.getById('user_projects', searchData[0].projectId);
+    const projects = await db('user_projects')
+    .join('project_categories', 'user_projects.id', '=', 'project_categories.projectId')
+    .join('category_names', 'category_names.id', '=', 'project_categories.categoryId')
+    .where( 'project_categories.categoryId', categoryId ) 
+
+    res.status(200).json(projects);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'There was an error retrieving the searched projects from the database.' });
+  }
+};
