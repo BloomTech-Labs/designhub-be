@@ -49,6 +49,6 @@ server.use('/api/v1/teamMember', teamMemberRouter);
 server.use('/api/v1/invite', inviteRouter);
 server.use('/api/v1/explore', exploreRouter);
 server.use('/api/v1/projectInvites', projectInvitesRouter);
-server.use('/api/v1/projectCategories', categoriesRouter);
+server.use('/api/v1/categories', categoriesRouter);
 
 module.exports = server;
