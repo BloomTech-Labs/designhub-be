@@ -93,6 +93,7 @@ exports.createUserResearch = async (req, res) => {
         res.status(201).json({ message: 'User Research successfully created', id });
     }
     catch (err) {
+        console.log('\n\n ERROR: ', err)
         res.status(400).json({ message: 'Unable to create user research' });
     }
 }
