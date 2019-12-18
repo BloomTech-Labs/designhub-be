@@ -75,10 +75,12 @@ exports.createUserResearch = async (req, res) => {
     console.log('\nproject', project)
 
     if (project.length === 0) {
+        console.log('\nPROJECT DOESNT EXIST')
         return res.status(404).json({ message: 'A project with that ID could not be found!' });
     }
 
     if (!(await userMatches(req.user, project[0].userId))) {
+        console.log('\nUSER NOT AUTHORIZED')
         return res.status(401).json({ message: "Unauthorized: You may not add photos to this project." });
     }
     console.log('\npassed all checks\n');
