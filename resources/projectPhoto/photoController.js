@@ -90,7 +90,7 @@ exports.createProjectPhoto = async (req, res) => {
       .status(404)
       .json({ message: 'A project with that ID could not be found!' });
   }
-  if (!(await userMatches(req.user, project[0].userId)) ||
+  if (!(await userMatches(req.user, project[0].userId)) &&
     !(await collaboratorMatches(req.user, project[0].id))) {
     return res
       .status(401)
