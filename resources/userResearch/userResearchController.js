@@ -72,6 +72,7 @@ exports.getResearchByProjectId = async (req, res) => {
 exports.createUserResearch = async (req, res) => {
     const project = await go.getById('user_projects', req.body.projectId);
     console.log('\ncreate user research req body', req.body)
+    console.log('\nproject', project)
 
     if (project.length === 0) {
         return res.status(404).json({ message: 'A project with that ID could not be found!' });
@@ -80,9 +81,10 @@ exports.createUserResearch = async (req, res) => {
     if (!(await userMatches(req.user, project[0].userId))) {
         return res.status(401).json({ message: "Unauthorized: You may not add photos to this project." });
     }
-
+    console.log('\npassed all checks\n');
     try {
         const [id] = await go.createOne('user_research', 'id', req.body);
+        console.log('\ncreation success', id);
         res.status(201).json({ message: 'User Research successfully created', id });
     }
     catch (err) {
