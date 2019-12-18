@@ -20,9 +20,7 @@ const s3 = new AWS.S3({
 exports.signedUrl = async (req, res) => {
   const { id } = req.body;
   const key = `${id}/${uuid()}.jpeg`;
-  console.log('\nphoto signed key', key);
 
-  console.log('\nphoto access id and access key', accessId, accessKey);
   s3.getSignedUrl(
     'putObject',
     {
