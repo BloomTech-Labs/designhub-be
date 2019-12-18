@@ -3,7 +3,7 @@ const db = require('../../data/dbConfig');
 
 const userMatches = require('../utils/userMatches');
 
-//get all category names: /api/v1/projectCategories/all
+//get all category names: /api/v1/categories/all
 exports.getAllCategoryNames = async (req, res) => {
     try {
       const categoryNames = await db('category_names');
@@ -14,7 +14,7 @@ exports.getAllCategoryNames = async (req, res) => {
     }
   };
 
-//all categories that have projects assigned: /api/v1/projectCategories/projects/all
+//all categories that have projects assigned: /api/v1/categories/projects/all
 exports.getAssignedProjectCategories = async (req, res) => {
 
     try {
@@ -33,7 +33,7 @@ exports.getAssignedProjectCategories = async (req, res) => {
     }
   };
 
-//add a category to a project /api/v1/projectCategories/add
+//add a category to a project /api/v1/categories/project/add
 exports.addCategoryToAProject = async (req, res) => {
     // projectId
     // userId
@@ -95,7 +95,7 @@ exports.addCategoryToAProject = async (req, res) => {
     }
   };
 
-//all categories that a user assigned to all their projects /api/v1/projectCategories/user/:id 
+//all categories that a user assigned to all their projects /api/v1/categories/user/:id 
 exports.getCategoriesByUserId = async (req, res) => {
     try {
       const [user] = await db('users')
@@ -116,7 +116,7 @@ exports.getCategoriesByUserId = async (req, res) => {
     }
 };
 
-///api/v1/projectCategories/:id
+// /api/v1/categories/:id
 exports.getCategoryByCategoryId = async (req, res) => {
     const categoryId = req.params.id;
   
@@ -133,7 +133,7 @@ exports.getCategoryByCategoryId = async (req, res) => {
   
 }
 
-//get all categories assigned to a project /api/v1/projectCategories/projects/:id
+//get all categories assigned to a project /api/v1/categories/projects/:id
 exports.getCategoriesByProjectId = async (req, res) => {
     const projectId = req.params.id;
   
@@ -163,7 +163,7 @@ exports.getCategoriesByProjectId = async (req, res) => {
     }
   }; 
 
-//delete a category from a project by project_category id /api/v1/projectCategories/:id
+//delete a category from a project by project_category id /api/v1/categories/project/:id
 exports.deleteCategoryFromProject = async (req, res) => {
 
     const id = req.params.id;  
@@ -194,8 +194,42 @@ exports.deleteCategoryFromProject = async (req, res) => {
         .json({ message: 'An error occurred in the database while deleting this category from the project.' });
     }
 };
+
+//update a category for a project by project_category id /api/v1/categories/project/:id
+exports.updateProjectCategoryById = async (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;  
+
+  try {
+    const category = await go.getById('project_categories', id);          
   
-//get all projects assigned to a category
+    if (category.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'That category is not assigned to this project.' });
+    }
+
+    const project = await go.getById('user_projects', category[0].projectId);
+  
+      if (await userMatches(req.user, project[0].userId)) {
+          await go.updateById('project_categories', changes, id);
+          const updatedProjectCategory = await go.getById('project_categories', id);
+          return res.status(200).json(updatedProjectCategory);          
+      } else {
+        return res
+          .status(401)
+          .json({ message: 'You are not authorized to update categories for this project.' });
+      }
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ message: 'An error occurred in the database while updating the category for this project.' });
+    }
+    
+};
+  
+//get all projects assigned to a category /api/v1/categories/projects/category/:id
 exports.getProjectsByCategoryId = async (req, res) => {
   const categoryId = req.params.id;
   //get the category id
@@ -237,3 +271,5 @@ exports.getProjectsByCategoryId = async (req, res) => {
     res.status(500).json({ message: 'There was an error retrieving the searched projects from the database.' });
   }
 };
+
+
