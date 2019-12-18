@@ -10,17 +10,13 @@ exports.getExploreOptions = async (req, res) => {
     try {
       const following = await db('user_projects as p')
         .select(
-          'p.id as projectId',
-          'p.name as projectName',
-          'p.teamId',
-          'p.description as projectDescription',
-          'p.figma as projectFigma',
-          'p.mainImg as projectImage',
-          'p.created_at as projectTimestamp',
+          'p.*',
+          'f.id as followerId',
+          'f.name as followerName',
           'f.*'
         )
         .where('followingId', id)
-        .where('privateProjects', false)
+        .andWhere('privateProjects', false)
         .innerJoin('user_followers as f', 'p.userId', '=', 'f.followedId');
 
       const recent = await go
