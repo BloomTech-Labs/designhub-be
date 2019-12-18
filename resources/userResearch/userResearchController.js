@@ -19,9 +19,6 @@ const s3 = new AWS.S3({
 exports.signedUrl = async (req, res) => {
     const { id } = req.body;
     const key = `${id}/${uuid()}.pdf`;
-    console.log('\nsigned key', key);
-
-    console.log('\naccess id and access key', accessId, accessKey);
     s3.getSignedUrl(
         'putObject',
         {
@@ -72,28 +69,20 @@ exports.getResearchByProjectId = async (req, res) => {
 exports.createUserResearch = async (req, res) => {
     try {
         const project = await go.getById('user_projects', req.body.projectId);
-        console.log('\ncreate user research req body', req.body)
-        console.log('\nproject', project)
 
         if (project.length === 0) {
-            console.log('\nPROJECT DOESNT EXIST')
             return res.status(404).json({ message: 'A project with that ID could not be found!' });
         }
 
-        console.log('\npassed first checks\n');
-
         if (!(await userMatches(req.user, project[0].userId))) {
-            console.log('\nUSER NOT AUTHORIZED')
             return res.status(401).json({ message: "Unauthorized: You may not add photos to this project." });
         }
-        console.log('\npassed all checks\n');
 
         const [id] = await go.createOne('user_research', 'id', req.body);
-        console.log('\ncreation success', id);
         res.status(201).json({ message: 'User Research successfully created', id });
     }
     catch (err) {
-        console.log('\n\n ERROR: ', err)
+        console.log('ERROR: ', err)
         res.status(400).json({ message: 'Unable to create user research' });
     }
 }
