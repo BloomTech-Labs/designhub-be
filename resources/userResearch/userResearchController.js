@@ -19,9 +19,9 @@ const s3 = new AWS.S3({
 exports.signedUrl = async (req, res) => {
     const { id } = req.body;
     const key = `${id}/${uuid()}.pdf`;
-    console.log(key);
+    console.log('\nsigned key', key);
 
-    console.log(accessId, accessKey);
+    console.log('\naccess id and access key', accessId, accessKey);
     s3.getSignedUrl(
         'putObject',
         {
@@ -71,6 +71,7 @@ exports.getResearchByProjectId = async (req, res) => {
 
 exports.createUserResearch = async (req, res) => {
     const project = await go.getById('user_projects', req.body.projectId);
+    console.log('\ncreate user research req body', req.body)
 
     if (project.length === 0) {
         return res.status(404).json({ message: 'A project with that ID could not be found!' });
