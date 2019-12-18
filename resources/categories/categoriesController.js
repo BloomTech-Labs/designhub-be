@@ -15,7 +15,7 @@ exports.getAllCategoryNames = async (req, res) => {
   };
 
 //all categories that have projects assigned: /api/v1/projectCategories/projects/all
-exports.getAllProjectCategories = async (req, res) => {
+exports.getAssignedProjectCategories = async (req, res) => {
 
     try {
       const projectCategories = await db('project_categories')     
@@ -164,7 +164,7 @@ exports.getCategoriesByProjectId = async (req, res) => {
   }; 
 
 //delete a category from a project by project_category id /api/v1/projectCategories/:id
-exports.deleteCategoryByProjectCategoryId = async (req, res) => {
+exports.deleteCategoryFromProject = async (req, res) => {
 
     const id = req.params.id;  
   
