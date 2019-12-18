@@ -150,7 +150,6 @@ exports.updateProjectById = async (req, res) => {
 
   // Remove essential properties that cannot be update from the request
   delete req.body.userId;
-  delete req.body.privateProjects;
 
   try {
     const data = await go.getById('user_projects', id);
