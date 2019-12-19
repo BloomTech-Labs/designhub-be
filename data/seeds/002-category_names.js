@@ -5,12 +5,13 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('category_names').insert([
-        {category: 'Animation'},
-        {category: 'Branding'},
         {category: 'Illustration'},
-        {category: 'Mobile'},
-        {category: 'Typography'},
         {category: 'Web Design'},
+        {category: 'Graphic Design'},
+        {category: 'UX Design'},
+        {category: 'UI Design'},
+        {category: 'Motion Design'},
+        {category: 'Animation'},    
         {category: 'Product Design'}
       ]);
     });
