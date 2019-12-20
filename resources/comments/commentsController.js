@@ -31,7 +31,9 @@ exports.createPhotoComment = async (req, res) => {
         imageId: req.body.imageId,
         userId: req.body.userId,
         text: req.body.text,
-        username: req.body.username
+        username: req.body.username,
+        left: req.body.left,
+        top: req.body.top
       };
 
       const [id] = await go.createOne('comments', 'id', comment);
