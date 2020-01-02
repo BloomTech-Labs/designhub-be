@@ -5,6 +5,7 @@ const AWS = require('aws-sdk');
 const db = require('../../data/dbConfig');
 
 const userMatches = require('../utils/userMatches');
+const collaboratorMatches = require('../utils/collaboratorMatches');
 
 const accessId = process.env.ACCESS_KEY_ID;
 const accessKey = process.env.SECRET_ACCESS_KEY;
@@ -87,7 +88,12 @@ exports.createProjectPhoto = async (req, res) => {
       .status(404)
       .json({ message: 'A project with that ID could not be found!' });
   }
+<<<<<<< HEAD
   if (!(await userMatches(req.user, project[0].userId))) {
+=======
+  if (!(await userMatches(req.user, project[0].userId)) &&
+    !(await collaboratorMatches(req.user, project[0].id))) {
+>>>>>>> master
     return res
       .status(401)
       .json({
@@ -121,7 +127,12 @@ exports.deletePhotoById = async (req, res) => {
     } else {
       const project = await go.getById('user_projects', data[0].projectId);
 
+<<<<<<< HEAD
       if (await userMatches(req.user, project[0].userId)) {
+=======
+      if (await userMatches(req.user, project[0].userId) ||
+        await collaboratorMatches(req.user, project[0].id)) {
+>>>>>>> master
         await go.destroyById('project_photos', id);
         res.status(200).json({ message: 'Successfully deleted photo.' });
       } else {
