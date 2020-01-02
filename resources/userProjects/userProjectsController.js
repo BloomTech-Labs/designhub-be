@@ -55,7 +55,8 @@ exports.getProjectByUserId = async (req, res) => {
     if (await userMatches(req.user, userId)) {
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
-        .innerJoin('users as u', 'up.userId', '=', 'u.id');
+        .innerJoin('users as u', 'up.userId', '=', 'u.id')
+        .orderBy('created_at', 'desc');
 
       res.status(200).json(data);
     } else {
@@ -66,7 +67,8 @@ exports.getProjectByUserId = async (req, res) => {
       const data = await go
         .getByUserId('user_projects as up', userId, 'up.*', 'u.username')
         .where('privateProjects', '=', false)
-        .innerJoin('users as u', 'up.userId', '=', 'u.id');
+        .innerJoin('users as u', 'up.userId', '=', 'u.id')
+        .orderBy('created_at', 'desc');
 
       res.status(200).json(data);
     }
@@ -150,7 +152,6 @@ exports.updateProjectById = async (req, res) => {
 
   // Remove essential properties that cannot be update from the request
   delete req.body.userId;
-  delete req.body.privateProjects;
 
   try {
     const data = await go.getById('user_projects', id);

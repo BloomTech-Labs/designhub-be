@@ -5,6 +5,7 @@ const AWS = require('aws-sdk');
 const db = require('../../data/dbConfig');
 
 const userMatches = require('../utils/userMatches');
+const collaboratorMatches = require('../utils/collaboratorMatches');
 
 const accessId = process.env.ACCESS_KEY_ID;
 const accessKey = process.env.SECRET_ACCESS_KEY;
@@ -51,7 +52,7 @@ exports.getPhotoById = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await go.getById('project_photos', id);
-    res.status(200).json(data);    
+    res.status(200).json(data);
 
   } catch (err) {
     console.error(err);
@@ -82,20 +83,21 @@ exports.getPhotosByProjectId = async (req, res) => {
 exports.createProjectPhoto = async (req, res) => {
   console.log(req.body);
 
-  const project= await go.getById('user_projects', req.body.projectId);
+  const project = await go.getById('user_projects', req.body.projectId);
 
-  if(project.length == 0) {
+  if (project.length == 0) {
     return res
       .status(404)
       .json({ message: 'A project with that ID could not be found!' });
   }
-  if (! (await userMatches(req.user, project[0].userId))) {
+  if (!(await userMatches(req.user, project[0].userId)) &&
+    !(await collaboratorMatches(req.user, project[0].id))) {
     return res
-        .status(401)
-        .json({
-          message:
-            "Unauthorized: You may not add photos to this project."
-        }); 
+      .status(401)
+      .json({
+        message:
+          "Unauthorized: You may not add photos to this project."
+      });
 
   }
   try {
@@ -105,7 +107,7 @@ exports.createProjectPhoto = async (req, res) => {
     console.error(err);
     res.status(400).json({ message: 'Unable to create photo' });
   }
-  
+
 };
 
 exports.deletePhotoById = async (req, res) => {
@@ -113,29 +115,30 @@ exports.deletePhotoById = async (req, res) => {
 
   try {
     const data = await go.getById('project_photos', id);
-    
-    console.log("data", data);
-    
-  if (data.length === 0) {
-    res
-      .status(404)
-      .json({ message: 'A photo with that ID could not be found!' });
-  } else {
-    const project = await go.getById('user_projects', data[0].projectId);
 
-    if (await userMatches(req.user, project[0].userId)) {
-      await go.destroyById('project_photos', id);
-      res.status(200).json({ message: 'Successfully deleted photo.' });
-    } else {
+    console.log("data", data);
+
+    if (data.length === 0) {
       res
-        .status(401)
-        .json({
-          message:
-            "Unauthorized: You may not delete photos that don't belong to you."
-        });
+        .status(404)
+        .json({ message: 'A photo with that ID could not be found!' });
+    } else {
+      const project = await go.getById('user_projects', data[0].projectId);
+
+      if (await userMatches(req.user, project[0].userId) ||
+        await collaboratorMatches(req.user, project[0].id)) {
+        await go.destroyById('project_photos', id);
+        res.status(200).json({ message: 'Successfully deleted photo.' });
+      } else {
+        res
+          .status(401)
+          .json({
+            message:
+              "Unauthorized: You may not delete photos that don't belong to you."
+          });
+      }
     }
-  }   
-  }catch (err) {
+  } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Unable to delete photo' });
   }
