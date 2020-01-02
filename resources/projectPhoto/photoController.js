@@ -21,9 +21,7 @@ const s3 = new AWS.S3({
 exports.signedUrl = async (req, res) => {
   const { id } = req.body;
   const key = `${id}/${uuid()}.jpeg`;
-  console.log(key);
 
-  console.log(accessId, accessKey);
   s3.getSignedUrl(
     'putObject',
     {
@@ -90,6 +88,7 @@ exports.createProjectPhoto = async (req, res) => {
       .status(404)
       .json({ message: 'A project with that ID could not be found!' });
   }
+
   if (!(await userMatches(req.user, project[0].userId)) &&
     !(await collaboratorMatches(req.user, project[0].id))) {
     return res

@@ -20,8 +20,8 @@ const teamMemberRouter = require('./resources/teamMember/teamMemberRouter');
 const inviteRouter = require('./resources/invite/inviteRouter');
 const exploreRouter = require('./resources/explore/exploreRouter');
 const projectInvitesRouter = require('./resources/projectInvites/projectInvitesRouter');
+const userResearchRouter = require('./resources/userResearch/userResearchRouter');
 const categoriesRouter = require('./resources/categories/categoriesRouter');
-
 
 // ***************** MIDDLEWARE **************************
 
@@ -50,7 +50,7 @@ server.use('/api/v1/teamMember', teamMemberRouter);
 server.use('/api/v1/invite', inviteRouter);
 server.use('/api/v1/explore', exploreRouter);
 server.use('/api/v1/projectInvites', projectInvitesRouter);
+server.use('/api/v1/research', userResearchRouter);
 server.use('/api/v1/categories', categoriesRouter);
-
 
 module.exports = server;
