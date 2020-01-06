@@ -126,6 +126,41 @@ To get the server running locally:
 | -:| :-| :-: | :- | :- | :- |
 | GET | `/explore/:id` | N/A | Populates Explore page on frontend client | req.params: { `id` } | Returns projects by followed users, recent projects by all users, popular projects |
 
+
+## CATEGORIES
+
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| GET | `/projects/all` | N/A | Get Assigned Project Categories | N/A | Returns categories assigned to projects |
+| POST | `/project/add` | N/A | Add Category to Project | req.params: { `id`, `category` } | Assigns category to project |
+| GET | `/user/:id` | N/A | Get Category By User Id | req.params: { `id` } | Returns categories associated with user |
+| GET | `/projects/:id` | N/A | Get Categories By Project Id | req.params: { `id` } | Returns categories assigned to project |
+| GET | `/projects/category/:id` | N/A | Get Projects By Category Id | req.params: { `id` } | Returns projects assigned to a category |
+| DELETE | `/project/:id` | N/A | Delete Category By Id | req.params: { `id` } | Delete category |
+| PUT | `/project/:id` | N/A | Update Category By Id | req.params: { `id`, `category` } | Update category |
+
+## USER RESEARCH
+
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| POST | `/signed` | N/A | The id should reference the project's id that you are posting the photo to. This ensures that the pdf will be placed in a folder based on the project's id. | req.body: {`id`} | This endpoint will return a presigned url and a key. The URL will be used to make a put request to aws to store the pdf. The key will be used to store in our database's user_research table. You will pass it to another asynchronous method. Keep in mind that the key is the right half of the URL that we are reading the pdf from. This ensures that if we wanted to change cloud services, we could do so without losing any data |
+| POST | `/` | N/A | The url will come from the response of the presigned url. Make sure that you are saving the key to the url column. Example: url:key, not url:url. | req.body: { `projectId, url` } | This will return the new record you created. |
+| GET | `/:id` | N/A | Get User Research By  Id | req.params: { `id` } | Returns user research |
+| GET | `/project/:id` | N/A | Get User Research By Project Id | req.params: { `id` } | Returns user research assigned to project |
+| DELETE | `/:id` | N/A | Delete User Research By Id | req.params: { `id` } | Delete user research |
+
+## PROJECT INVITE
+| Method | Endpoint | Access Control | Description | Attached to req | Returned |
+| -:| :-| :-: | :- | :- | :- |
+| GET | `/projectInvites/all` | N/A | Get list of all project invites | N/A | This will return all project invites accross the application |
+| GET | `/projectInvites/` | N/A | Get list of all invites sent to a user | N/A | This will return all project invites sent to a user |
+| GET | `/projectInvites/:id` | N/A | The id should reference project invite id | req.params: { `id` } | This will return a single project invite |
+| GET | `/projectInvites/invite/:id` | N/A | Get list of all invites created by user | N/A | This will return all project invites issued by user |
+| POST | `/projectInvites/create` | N/A | Creates a project invite | req.body: { `projectId, email, write` } | Returns a new project invite notification |
+| PUT | `projectInvites/accept/:id` | N/A | The id should reference the project invite id | req.params: { `id` } req.body: { `key/value pairs` of the updated invite } | This will accept the invite. |
+| PUT | `projectInvites/:id` | N/A | The id should reference the project invite id | req.params: { `id` } req.body: { `key/value pairs` of the updated project invite } | This will return the updated record. |
+| DELETE | `projectInvites/:id` | N/A | The id should reference the project invite id | req.params: { `id` } | Returns success message |
+
 # Data Model
 ## users
 ```
@@ -267,6 +302,37 @@ To get the server running locally:
 	teamId: FK - (required) string, references team id,
 	role: integer, default to 0,
 	description: text,
+	created_at: AUTO timestamp,
+	updated_at: AUTO timestamp,
+}
+```
+---
+## category
+```
+{
+	id: PK - AUTO increment,
+	category: (required) string
+}
+```
+---
+## user_research
+```
+{
+	id: PK - AUTO increment,
+	url: (required) string,
+	projectId: (required) integer, references project id,
+	created_at: AUTO timestamp,
+}
+```
+---
+## project_teams
+```
+{
+	id: PK - AUTO increment,
+	email: (required) string,
+	projectId: (required) integer, references project id,
+	boolean: (required) write,
+	boolean: pending
 	created_at: AUTO timestamp,
 	updated_at: AUTO timestamp,
 }
