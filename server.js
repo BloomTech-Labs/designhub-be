@@ -1,6 +1,9 @@
 require('dotenv').config();
 const go = require('./resources/utils/crud');
+
+// Imports apollo and graphql stuff we need
 const { ApolloServer, gql } = require('apollo-server-express');
+
 // middleware imports
 const express = require('express');
 const morgan = require('morgan');
@@ -56,6 +59,7 @@ app.use('/api/v1/projectInvites', projectInvitesRouter);
 app.use('/api/v1/research', userResearchRouter);
 app.use('/api/v1/categories', categoriesRouter);
 
+// Defines the types for our GQL schema
 const typeDefs = gql`
   input FullGreetInput {
     firstName: String!
@@ -69,6 +73,7 @@ const typeDefs = gql`
   }
 `;
 
+// Defines the logic of our queries / mutations
 const resolvers = {
   Query: {
     hello() {
@@ -83,11 +88,13 @@ const resolvers = {
   },
 };
 
+// Creates a new instance of apollo and feeds it out gql data
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
+// wraps our GQL server with our entire express app
 server.applyMiddleware({ app });
 
 module.exports = app;
