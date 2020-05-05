@@ -7,6 +7,10 @@
 
 ![Travis CI](https://travis-ci.com/Lambda-School-Labs/designhub-be.svg?branch=master)
 
+[![maintainability](https://api.codeclimate.com/v1/badges/0a4a96bab029d8b3eb1c/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/designhub-be/maintainability)
+
+[![maintainability](https://api.codeclimate.com/v1/badges/0a4a96bab029d8b3eb1c/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/designhub-be/test_coverage)
+
 ## Installation Instructions
 
 To get the server running locally:
@@ -14,6 +18,7 @@ To get the server running locally:
 - Clone this repo
 - **yarn** to install required dependencies
 - **yarn dev** to start the local server
+
 
 To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/graphql).
 
@@ -30,6 +35,7 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 |    PUT | `/users/:id`             |      N/A       | Update a user by ID                                                              | {`id`} -> from req.params && {`auth0Id` (required)} -> from req.body && {`updated key/value pairs`} -> from req.body (see user schema below) | Returns updated user                                                                                          |
 | DELETE | `/users/:id`             |      N/A       | Delete a single user                                                             | {`id`} -> from req.params                                                                                                                    | Returns message "User successfully deleted"                                                                   |
 
+
 ## PROJECTS
 
 | Method | Endpoint                   | Access Control | Description                 | Attached to req                                                                                          | Returned                                                |
@@ -43,7 +49,7 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 |    PUT | `/projects/:id`            |      N/A       | Updates a project           | { `id` } -> from req.params && {`updated key/value pairs`} -> from req.body (check project schema below) | Returns updated project                                 |
 | DELETE | `/projects/:id`            |      N/A       | Delete a single project     | { `id` } -> from req.params                                                                              | Returns success message                                 |
 
-## PROJECT PHOTOS
+## PROJECT PHOTO
 
 | Method | Endpoint                  | Access Control | Description                                                                                                                                                    | Attached to req                                    | Returned                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | -----: | :------------------------ | :------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -160,11 +166,11 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 |    PUT | `projectInvites/:id`         |      N/A       | The id should reference the project invite id | req.params: { `id` } req.body: { `key/value pairs` of the updated project invite } | This will return the updated record.                         |
 | DELETE | `projectInvites/:id`         |      N/A       | The id should reference the project invite id | req.params: { `id` }                                                               | Returns success message                                      |
 
-# Data Model
+## Data Model
 
-## users
+### users
 
-```
+```javascript
 {
   id: PK - AUTO increment,
   auth0Id: (required, unique) integer, references user's auth0 id
@@ -183,9 +189,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## user_projects
+### user_projects
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  userId: FK - (required) integer, references user's id who created the project,
@@ -203,9 +209,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## user_followers
+### user_followers
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  followingId: FK - (required) integer, references user id doing the the following,
@@ -216,9 +222,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## project_photos
+### project_photos
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  projectId: FK - (required) integer, references the project,
@@ -231,9 +237,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## heatmap
+### heatmap
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  userId: FK - (required) integer, references user's id,
@@ -247,9 +253,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## comments
+### comments
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  userId: FK - (required) integer, references user's id,
@@ -265,9 +271,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## starred_projects
+### starred_projects
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  userId: FK - (required) integer, references user's id,
@@ -279,9 +285,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## invite
+### invite
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  activeUserId: FK - (required) integer, references user id sending the invite,
@@ -306,9 +312,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## team
+### team
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  avatar: string, url to avatar image,
@@ -321,9 +327,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## team_member
+### team_member
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  userId: FK - (required) integer, references user's id,
@@ -337,9 +343,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## category
+### category
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  category: (required) string
@@ -348,9 +354,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## user_research
+### user_research
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  url: (required) string,
@@ -361,9 +367,9 @@ To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/grap
 
 ---
 
-## project_teams
+### project_teams
 
-```
+```javascript
 {
  id: PK - AUTO increment,
  email: (required) string,
@@ -403,7 +409,7 @@ In order for the app to function correctly, the user must set up their own envir
 
 Create a .env file that includes the following:
 
-```
+```bash
 * PORT
 
 * DATABASE_URL
@@ -435,7 +441,7 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
-**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+ **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
 
 - Check first to see if your issue has already been reported.
 - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
