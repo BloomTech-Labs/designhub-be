@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Sentry = require('@sentry/node');
-const server = require('./server');
+const app = require('./server');
 
 // ****************** SENTRY *************************
 
@@ -10,6 +10,6 @@ Sentry.init({ dsn: `${process.env.SENTRY_DSN}` });
 
 const PORT = process.env.PORT || 6969;
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Ayyyyy ${PORT} is up baby!`);
 });
