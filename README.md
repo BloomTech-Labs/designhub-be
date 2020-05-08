@@ -19,20 +19,24 @@ To get the server running locally:
 - **yarn** to install required dependencies
 - **yarn dev** to start the local server
 
-## Endpoints ( `/api/v1/...` )
 
-### USERS
+To view GQL Playground go to [localhost:8000/graphql](http://localhost:8000/graphql).
+
+### Endpoints ( `/api/v1/...` )
+
+## USERS
 
 | Method | Endpoint                 | Access Control | Description                                                                      | Attached to req                                                                                                                              | Returned                                                                                                      |
 | -----: | :----------------------- | :------------: | :------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
 |    GET | `/users`                 |      N/A       | Get list of users                                                                | N/A                                                                                                                                          | Returns list of users in ascending order                                                                      |
-|    GET | `/users/:id`             |      N/A       | Get single user by ID                                                            | {`id`} ->  from req.params                                                                                                                   | Returns found user                                                                                            |
-|    GET | `/users/check/:username` |      N/A       | Check if username currently exists in database (used for onboarding form)        | {`username`} ->  from req.params                                                                                                             | Returns username if it exists, or status 204 and an empty array if username does not exist                    |
+|    GET | `/users/:id`             |      N/A       | Get single user by ID                                                            | {`id`} -> from req.params                                                                                                                    | Returns found user                                                                                            |
+|    GET | `/users/check/:username` |      N/A       | Check if username currently exists in database (used for onboarding form)        | {`username`} -> from req.params                                                                                                              | Returns username if it exists, or status 204 and an empty array if username does not exist                    |
 |   POST | `/users`                 |      N/A       | You will use this endpoint everytime you log in. It will look up the user by sub | {`sub` (required), `avatar` (if exists) }                                                                                                    | If the user exists, it will return the the existing user. If no user found, it will create a new user account |
 |    PUT | `/users/:id`             |      N/A       | Update a user by ID                                                              | {`id`} -> from req.params && {`auth0Id` (required)} -> from req.body && {`updated key/value pairs`} -> from req.body (see user schema below) | Returns updated user                                                                                          |
 | DELETE | `/users/:id`             |      N/A       | Delete a single user                                                             | {`id`} -> from req.params                                                                                                                    | Returns message "User successfully deleted"                                                                   |
 
-### PROJECTS
+
+## PROJECTS
 
 | Method | Endpoint                   | Access Control | Description                 | Attached to req                                                                                          | Returned                                                |
 | -----: | :------------------------- | :------------: | :-------------------------- | :------------------------------------------------------------------------------------------------------- | :------------------------------------------------------ |
@@ -45,7 +49,7 @@ To get the server running locally:
 |    PUT | `/projects/:id`            |      N/A       | Updates a project           | { `id` } -> from req.params && {`updated key/value pairs`} -> from req.body (check project schema below) | Returns updated project                                 |
 | DELETE | `/projects/:id`            |      N/A       | Delete a single project     | { `id` } -> from req.params                                                                              | Returns success message                                 |
 
-### PROJECT PHOTOS
+## PROJECT PHOTO
 
 | Method | Endpoint                  | Access Control | Description                                                                                                                                                    | Attached to req                                    | Returned                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | -----: | :------------------------ | :------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -55,7 +59,7 @@ To get the server running locally:
 |   POST | `/photo/projects`         |      N/A       | The url will come from the response of the presigned url. Make sure that you are saving the key to the url column. Example: url:key, not url:url.              | req.body: { `projectId, url, description, title` } | This will return the new record you created.                                                                                                                                                                                                                                                                                                                                                                                                 |
 | DELETE | `/photo/projects/:id`     |      N/A       | The id should match the project_photos.id                                                                                                                      | req.params: { `id` }                               | This will return a message saying you successfully deleted the photo                                                                                                                                                                                                                                                                                                                                                                         |
 
-### COMMENTS
+## COMMENTS
 
 | Method | Endpoint                | Access Control | Description                                                                                                                                                                                | Attached to req                                                             | Returned                                                       |
 | -----: | :---------------------- | :------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------- |
@@ -64,7 +68,7 @@ To get the server running locally:
 |    PUT | `/comments/:id`         |      N/A       | The id should reference the comment id                                                                                                                                                     | req.params: { `id` } req.body: { `key/value pairs` of the updated comment } | This will return the updated record                            |
 | DELETE | `/comments/:id`         |      N/A       | The id in the req.params should reference the comments.id                                                                                                                                  | req.params: { `id`}                                                         | This will return a message that the comments record is deleted |
 
-### PHOTO COMMENTS
+## PHOTO COMMENTS
 
 | Method | Endpoint              | Access Control | Description                                                                                                                                                                                                                                                                               | Attached to req                                                             | Returned                                                                      |
 | -----: | :-------------------- | :------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
@@ -73,7 +77,7 @@ To get the server running locally:
 |    PUT | `/comments/:id`       |      N/A       | The id should reference the image id. (project_photos id)                                                                                                                                                                                                                                 | req.params: { `id` } req.body: { `key/value pairs` of the updated comment } | This will return the updated record.                                          |
 | DELETE | `/comments/:id`       |      N/A       | The id in the req.params should reference the comments id                                                                                                                                                                                                                                 | req.params: { `id` }                                                        | This will return a message that the comments record is deleted                |
 
-### FOLLOWERS
+## FOLLOWERS
 
 | Method | Endpoint                              | Access Control | Description                                                                                                                                                                      | Attached to req                           | Returned                                                                                                  |
 | -----: | :------------------------------------ | :------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------- | :-------------------------------------------------------------------------------------------------------- |
@@ -85,7 +89,7 @@ To get the server running locally:
 |   POST | `/followers`                          |      N/A       | The followingId should reference the person who is following another user. ( ref: users id ) The followedId should reference the person who is being followed. ( ref: users id ) | req.body: { `followingId, followedId` }   | It will return the follow record you created                                                              |
 |   POST | `/followers/unfollow/:id`             |      N/A       | The id in the req.body should reference the user who is doing the unfollowing. The id in the req.params should reference the person who is being unfollowed                      | req.body: { `id` } req.params: { `id` }   | This will return a message that the user is successfully unfollowed                                       |
 
-### HEATMAP
+## HEATMAP
 
 | Method | Endpoint             | Access Control | Description                                                                                                                                                          | Attached to req                                 | Returned                                                                                                                                             |
 | -----: | :------------------- | :------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -94,7 +98,7 @@ To get the server running locally:
 |   POST | `/heatmap`           |      N/A       | The userId should reference the users id. The projectId should reference the user_projects id. The contribution should be a description of what the contribution was | req.body: { `userId, projectId, contribution` } | It will return the heatmap record you created                                                                                                        |
 | DELETE | `/heatmap/:id`       |      N/A       | The id should reference the users id                                                                                                                                 | req.params: { `id` }                            | This will return a message that the heatmap record has been deleted                                                                                  |
 
-### STARRED
+## STARRED
 
 | Method | Endpoint           | Access Control | Description                                                                                                                   | Attached to req                         | Returned                                                           |
 | -----: | :----------------- | :------------: | :---------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- | :----------------------------------------------------------------- |
@@ -102,7 +106,7 @@ To get the server running locally:
 |   POST | `/star`            |      N/A       | The userId will reference the user that is doing the starring. The projectId will reference the project that is being starred | req.body: { `userId, projectId` }       | It will return the star record you created                         |
 |   POST | `/star/unstar/:id` |      N/A       | The id in the req.params should reference the project's id. The id in the body should reference the user's id                 | req.params: { `id` } req.body: { `id` } | This will return a message saying you unstarred the project        |
 
-### INVITE
+## INVITE
 
 | Method | Endpoint           | Access Control | Description                           | Attached to req                                                                                         | Returned                                                            |
 | -----: | :----------------- | :------------: | :------------------------------------ | :------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------ |
@@ -115,19 +119,19 @@ To get the server running locally:
 |    PUT | `/:id`             |      N/A       | The id should reference the invite id | req.params: { `id` } req.body: { `key/value pairs` of the updated invite }                              | This will return the updated record.                                |
 | DELETE | `/:id`             |      N/A       | The id should reference the invite id | req.params: { `id` }                                                                                    | Returns success message                                             |
 
-### SEARCHBAR
+## SEARCHBAR
 
 | Method | Endpoint  | Access Control | Description                                              | Attached to req            | Returned               |
 | -----: | :-------- | :------------: | :------------------------------------------------------- | :------------------------- | :--------------------- |
 |   POST | `/search` |      N/A       | Searches users and projects that are LIKE the searchText | req.body: { `searchText` } | Returns search results |
 
-### EXPLORE
+## EXPLORE
 
 | Method | Endpoint       | Access Control | Description                               | Attached to req      | Returned                                                                           |
 | -----: | :------------- | :------------: | :---------------------------------------- | :------------------- | :--------------------------------------------------------------------------------- |
 |    GET | `/explore/:id` |      N/A       | Populates Explore page on frontend client | req.params: { `id` } | Returns projects by followed users, recent projects by all users, popular projects |
 
-### CATEGORIES
+## CATEGORIES
 
 | Method | Endpoint                 | Access Control | Description                     | Attached to req                  | Returned                                |
 | -----: | :----------------------- | :------------: | :------------------------------ | :------------------------------- | :-------------------------------------- |
@@ -139,17 +143,17 @@ To get the server running locally:
 | DELETE | `/project/:id`           |      N/A       | Delete Category By Id           | req.params: { `id` }             | Delete category                         |
 |    PUT | `/project/:id`           |      N/A       | Update Category By Id           | req.params: { `id`, `category` } | Update category                         |
 
-### USER RESEARCH
+## USER RESEARCH
 
 | Method | Endpoint       | Access Control | Description                                                                                                                                                 | Attached to req                | Returned                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | -----: | :------------- | :------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |   POST | `/signed`      |      N/A       | The id should reference the project's id that you are posting the photo to. This ensures that the pdf will be placed in a folder based on the project's id. | req.body: {`id`}               | This endpoint will return a presigned url and a key. The URL will be used to make a put request to aws to store the pdf. The key will be used to store in our database's user_research table. You will pass it to another asynchronous method. Keep in mind that the key is the right half of the URL that we are reading the pdf from. This ensures that if we wanted to change cloud services, we could do so without losing any data |
 |   POST | `/`            |      N/A       | The url will come from the response of the presigned url. Make sure that you are saving the key to the url column. Example: url:key, not url:url.           | req.body: { `projectId, url` } | This will return the new record you created.                                                                                                                                                                                                                                                                                                                                                                                            |
-|    GET | `/:id`         |      N/A       | Get User Research By  Id                                                                                                                                    | req.params: { `id` }           | Returns user research                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|    GET | `/:id`         |      N/A       | Get User Research By Id                                                                                                                                     | req.params: { `id` }           | Returns user research                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |    GET | `/project/:id` |      N/A       | Get User Research By Project Id                                                                                                                             | req.params: { `id` }           | Returns user research assigned to project                                                                                                                                                                                                                                                                                                                                                                                               |
 | DELETE | `/:id`         |      N/A       | Delete User Research By Id                                                                                                                                  | req.params: { `id` }           | Delete user research                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
-### PROJECT INVITE
+## PROJECT INVITE
 
 | Method | Endpoint                     | Access Control | Description                                   | Attached to req                                                                    | Returned                                                     |
 | -----: | :--------------------------- | :------------: | :-------------------------------------------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------- |
@@ -442,7 +446,7 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 - Check first to see if your issue has already been reported.
 - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
 - Create a live example of the problem.
-- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
