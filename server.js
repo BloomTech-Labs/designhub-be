@@ -26,6 +26,10 @@ const exploreRouter = require('./resources/explore/exploreRouter');
 const projectInvitesRouter = require('./resources/projectInvites/projectInvitesRouter');
 const userResearchRouter = require('./resources/userResearch/userResearchRouter');
 const categoriesRouter = require('./resources/categories/categoriesRouter');
+const resolvers = require('./resolvers');
+const typeDefs = require('./schema');
+
+const db = require('./data/dbConfig');
 
 const db = require('./data/dbConfig');
 
@@ -58,35 +62,6 @@ app.use('/api/v1/explore', exploreRouter);
 app.use('/api/v1/projectInvites', projectInvitesRouter);
 app.use('/api/v1/research', userResearchRouter);
 app.use('/api/v1/categories', categoriesRouter);
-
-// Defines the types for our GQL schema
-const typeDefs = gql`
-  input FullGreetInput {
-    firstName: String!
-    lastName: String!
-  }
-
-  type Query {
-    hello: String!
-    greet(name: String!): String!
-    fullGreet(data: FullGreetInput!): String!
-  }
-`;
-
-// Defines the logic of our queries / mutations
-const resolvers = {
-  Query: {
-    hello() {
-      return 'Hello, world!';
-    },
-    greet(parent, args, ctx) {
-      return `Hello, ${args.name}!`;
-    },
-    fullGreet(_, { data }) {
-      return `Hello, ${data.firstName} ${data.lastName}! 💖`;
-    },
-  },
-};
 
 // Creates a new instance of apollo and feeds it out gql data
 const server = new ApolloServer({
