@@ -31,8 +31,6 @@ const typeDefs = require('./schema');
 
 const db = require('./data/dbConfig');
 
-const db = require('./data/dbConfig');
-
 // ***************** MIDDLEWARE **************************
 
 app.use(morgan('dev'));
