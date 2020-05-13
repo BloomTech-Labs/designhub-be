@@ -1,6 +1,6 @@
 require('dotenv').config();
-const pg = require('pg');
-pg.defaults.ssl = true;
+// const pg = require('pg');
+// pg.defaults.ssl = true;
 
 module.exports = {
   development: {
@@ -8,16 +8,17 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: './data/migrations'
+      directory: './data/migrations',
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './data/seeds',
     },
-    useNullAsDefault: true
+    // debug: true,
+    useNullAsDefault: true,
   },
 
   testing: {
@@ -25,16 +26,16 @@ module.exports = {
     connection: process.env.TEST_DATABASE_URL,
     migrations: {
       directory: './data/migrations',
-      tablename: 'knex_migrations'
+      tablename: 'knex_migrations',
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './data/seeds',
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   production: {
@@ -42,38 +43,15 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: './data/migrations'
+      directory: './data/migrations',
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './data/seeds',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
-
-  env: {
-    node: true,
-    commonjs: true,
-    es6: true
-  },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-  parserOptions: {
-    ecmaFeatures: {
-      ecmaVersion: 2018,
-      sourceType: 'module'
-    },
-    plugins: ['prettier'],
-    rules: {},
-    overrides: [
-      {
-        files: ['**/*.test.js'],
-        env: {
-          jest: true
-        }
-      }
-    ]
-  }
 };

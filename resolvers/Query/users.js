@@ -2,6 +2,7 @@ const db = require('../../data/dbConfig');
 
 async function users(parents, args, ctx) {
   return await db('users');
+  // return 'HEY!';
 }
 
 async function user(_, { id }) {
