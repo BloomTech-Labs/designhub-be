@@ -49,7 +49,7 @@ const typeDefs = gql`
     deleteProject(id: ID!): Boolean!
     addProjectPhoto(data: addProjectPhotoInput!): Project_photos!
     updateProjectPhoto(data: updateProjectPhotoInput!): Project_photos!
-    deleteProjectPhoto(id: ID!): Boolean!
+    deleteProjectPhotos(id: ID!): Boolean!
     addComments(data: addCommentsInput!): Comments!
     updateComments(data: updateCommentsInput!): Comments!
     deleteComments(id: ID!): Boolean!
