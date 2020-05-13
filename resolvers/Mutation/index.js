@@ -237,18 +237,18 @@ const Mutation = {
     return true;
   },
 
-  async adduserResearch(_, { data }) {
+  async addUserResearch(_, { data }) {
     return await db('user_research').insert(data).return('*');
   },
 
-  async adduserResearching(_, { data }) {
+  async addUserResearching(_, { data }) {
     return await db('user_research').insert(data).return('*');
   },
 
-  async deleteuserResearch(_, { id }) {
-    const deleteduserResearch = await db('user_research').del().where('id', id);
+  async deleteUserResearch(_, { id }) {
+    const deletedUserResearch = await db('user_research').del().where('id', id);
     try {
-      if (!deleteduserResearch) {
+      if (!deletedUserResearch) {
         throw new Error('This research does not exist! 😕');
       }
     } catch (err) {
