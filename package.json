@@ -1,83 +1,84 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "The back-end server for the Labs16 Design Hub Project",
-  "main": "index.js",
-  "scripts": {
-    "test": "cross-env DB_ENV=testing jest --verbose --runInBand --forceExit",
-    "test-redo": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing && npx knex seed:run --env=testing",
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
-    "db-remake": "psql -f remakeDatabase.sql",
-    "knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
-    "total-reset": "yarn db-remake && yarn knex-refresh",
-    "coverage": "jest --coverage --detectOpenHandles --forceExit || true"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/labs16-designhub/backend.git"
-  },
-  "keywords": [
-    "DesignHub",
-    "UX",
-    "PostgreSQL",
-    "Express",
-    "UI"
-  ],
-  "author": "Cecil John Tantay, Javontay McElroy, Bradley Ball, Ian Belknap, Zeke Kooyer, Michael VanSleen, Landon Bassett",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/labs16-designhub/backend/issues"
-  },
-  "homepage": "https://github.com/labs16-designhub/backend#readme",
-  "dependencies": {
-    "@sendgrid/mail": "^6.4.0",
-    "@sentry/node": "5.6.2",
-    "apollo-server-express": "^2.13.0",
-    "aws-sdk": "^2.528.0",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "express": "^4.17.1",
-    "express-jwt": "^5.3.1",
-    "express-jwt-authz": "^2.3.1",
-    "graphql": "^15.0.0",
-    "helmet": "^3.21.0",
-    "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^1.6.0",
-    "knex": "^0.21.1",
-    "knex-cleaner": "^1.3.0",
-    "moment": "^2.24.0",
-    "morgan": "^1.9.1",
-    "pg": "^8.1.0",
-    "uuid": "^3.3.3"
-  },
-  "devDependencies": {
-    "cross-env": "^6.0.0",
-    "jest": "^24.9.0",
-    "nodemon": "^1.19.2",
-    "prettier": "^2.0.5",
-    "supertest": "^4.0.2"
-  },
-  "jest": {
-    "clearMocks": true,
-    "displayName": "Design Hub X Server",
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "verbose": true,
-    "collectCoverageFrom": [
-      "**/*.js",
-      "!**/node_modules/**",
-      "!**/vendor/**",
-      "!**/__tests__/**"
-    ]
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "The back-end server for the Labs16 Design Hub Project",
+	"main": "index.js",
+	"scripts": {
+		"test": "cross-env DB_ENV=testing jest --verbose --runInBand --forceExit",
+		"test-redo": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing && npx knex seed:run --env=testing",
+		"dev": "nodemon index.js",
+		"start": "node index.js",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
+		"db-remake": "psql -U postgres -f remakeDatabase.sql",
+		"knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
+		"total-reset": "yarn db-remake && yarn knex-refresh",
+		"coverage": "jest --coverage --detectOpenHandles --forceExit || true"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/labs16-designhub/backend.git"
+	},
+	"keywords": [
+		"DesignHub",
+		"UX",
+		"PostgreSQL",
+		"Express",
+		"UI"
+	],
+	"author": "Cecil John Tantay, Javontay McElroy, Bradley Ball, Ian Belknap, Zeke Kooyer, Michael VanSleen, Landon Bassett",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/labs16-designhub/backend/issues"
+	},
+	"homepage": "https://github.com/labs16-designhub/backend#readme",
+	"dependencies": {
+		"@sendgrid/mail": "^6.4.0",
+		"@sentry/node": "5.6.2",
+		"apollo-server-express": "^2.13.0",
+		"aws-sdk": "^2.528.0",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.1.0",
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-prettier": "^3.1.3",
+		"express": "^4.17.1",
+		"express-jwt": "^5.3.1",
+		"express-jwt-authz": "^2.3.1",
+		"graphql": "^15.0.0",
+		"graphql-tools": "^5.0.0",
+		"helmet": "^3.21.0",
+		"jsonwebtoken": "^8.5.1",
+		"jwks-rsa": "^1.6.0",
+		"knex": "^0.21.1",
+		"knex-cleaner": "^1.3.0",
+		"moment": "^2.24.0",
+		"morgan": "^1.9.1",
+		"pg": "^8.1.0",
+		"uuid": "^3.3.3"
+	},
+	"devDependencies": {
+		"cross-env": "^6.0.0",
+		"jest": "^24.9.0",
+		"nodemon": "^1.19.2",
+		"prettier": "^2.0.5",
+		"supertest": "^4.0.2"
+	},
+	"jest": {
+		"clearMocks": true,
+		"displayName": "Design Hub X Server",
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": [
+			"/node_modules/"
+		],
+		"verbose": true,
+		"collectCoverageFrom": [
+			"**/*.js",
+			"!**/node_modules/**",
+			"!**/vendor/**",
+			"!**/__tests__/**"
+		]
+	}
 }
