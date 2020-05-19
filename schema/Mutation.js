@@ -17,7 +17,7 @@ const mutationTypes = gql`
     addFollower(data: addFollowerInput!): Followers!
     deleteFollower(id: ID!): Boolean!
     addHeatmap(data: addHeatmapInput!): Heatmap!
-    deleteHeatmap(id: ID!): Heatmap!
+    deleteHeatmap(userId: Int!): Heatmap!
     addStarred(data: addStarredInput!): Starred!
     deleteStarred(id: ID!): Boolean!
     addInvite(data: InviteInput): Invite!

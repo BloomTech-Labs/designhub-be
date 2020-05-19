@@ -58,7 +58,6 @@ const userTypes = gql`
   }
 
   type Heatmap {
-    id: ID!
     userId: Int
     projectId: Int
     imageId: Int
