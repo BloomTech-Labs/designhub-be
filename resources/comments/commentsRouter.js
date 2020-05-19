@@ -1,24 +1,24 @@
-const express = require('express');
-const router = express.Router();
-const commentsController = require('./commentsController');
+// const express = require('express');
+// const router = express.Router();
+// const commentsController = require('./commentsController');
 
-const secured = require('../utils/secured');
+// const secured = require('../utils/secured');
 
-// ********************* PHOTO COMMENTS *************************
-//***************************************************************
+// // ********************* PHOTO COMMENTS *************************
+// //***************************************************************
 
-router.post('/photo', secured, commentsController.createPhotoComment);
-router.get('/photo/:id', commentsController.getCommentsByImageId);
+// router.post('/photo', secured, commentsController.createPhotoComment);
+// router.get('/photo/:id', commentsController.getCommentsByImageId);
 
-// ********************* PROJECT COMMENTS *************************
-// ****************************************************************
-router.post('/project', secured, commentsController.createProjectComment);
-router.get('/project/:id', commentsController.getCommentsByProjectId);
+// // ********************* PROJECT COMMENTS *************************
+// // ****************************************************************
+// router.post('/project', secured, commentsController.createProjectComment);
+// router.get('/project/:id', commentsController.getCommentsByProjectId);
 
-// ************************ SHARED ***********************************//
-//****************************************************************** */
+// // ************************ SHARED ***********************************//
+// //****************************************************************** */
 
-router.put('/:id', secured, commentsController.updateCommentById);
-router.delete('/:id', secured, commentsController.deleteCommentById);
+// router.put('/:id', secured, commentsController.updateCommentById);
+// router.delete('/:id', secured, commentsController.deleteCommentById);
 
-module.exports = router;
+// module.exports = router;

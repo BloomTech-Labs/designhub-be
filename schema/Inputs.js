@@ -2,6 +2,19 @@ const { gql } = require('apollo-server-express');
 
 const inputTypes = gql`
   input UserInput {
+    auth0Id: String!
+    username: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String
+    location: String
+    bio: String
+    website: String
+    avatar: String
+  }
+
+  input updateUserInput {
     id: ID!
     auth0Id: String!
     username: String!
@@ -16,7 +29,6 @@ const inputTypes = gql`
   }
 
   input ProjectInput {
-    id: ID!
     userId: ID!
     privateProjects: String
     name: String!
@@ -27,7 +39,6 @@ const inputTypes = gql`
   }
 
   input ProjectPhotoInput {
-    id: ID!
     projectId: Int!
     url: String
     description: String!
@@ -35,7 +46,6 @@ const inputTypes = gql`
   }
 
   input CommentsInput {
-    id: ID!
     userId: Int!
     projectId: Int
     username: String!
@@ -52,7 +62,6 @@ const inputTypes = gql`
   }
 
   input addHeatmapInput {
-    id: ID!
     userId: Int!
     projectId: Int!
     imageId: Int
@@ -62,14 +71,12 @@ const inputTypes = gql`
   }
 
   input addStarredInput {
-    id: ID!
     userId: Int!
     projectId: Int!
     count: Int
   }
 
   input InviteInput {
-    id: ID!
     activeUserId: Int!
     invitedUserId: Int!
     starredProjectsId: Int
@@ -89,13 +96,11 @@ const inputTypes = gql`
   }
 
   input CategoryInput {
-    id: ID!
     categoryId: ID
     category: String!
   }
 
   input UserResearchInput {
-    id: ID!
     url: String
     projectId: String
   }
