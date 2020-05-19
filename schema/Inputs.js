@@ -2,6 +2,18 @@ const { gql } = require('apollo-server-express');
 
 const inputTypes = gql`
   input UserInput {
+    auth0Id: String!
+    username: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String
+    location: String
+    bio: String
+    website: String
+    avatar: String
+  }
+  input updateUserInput {
     id: ID!
     auth0Id: String!
     username: String!
@@ -16,7 +28,16 @@ const inputTypes = gql`
   }
 
   input ProjectInput {
-    id: ID!
+    userId: ID!
+    privateProjects: String
+    name: String!
+    description: String!
+    figma: String
+    invision: String
+    mainImg: String
+  }
+
+  input updateProjectInput {
     userId: ID!
     privateProjects: String
     name: String!
@@ -27,32 +48,45 @@ const inputTypes = gql`
   }
 
   input ProjectPhotoInput {
+    projectId: ID!
+    url: String
+    description: String!
+    title: String!
+  }
+
+  input updateProjectPhotoInput {
     id: ID!
-    projectId: Int!
+    projectId: ID
     url: String
     description: String!
     title: String!
   }
 
   input CommentsInput {
-    id: ID!
-    userId: Int!
-    projectId: Int
+    userId: ID
     username: String!
-    imageId: Int
     top: String
     left: String
     text: String!
   }
 
+  input updateCommentsInput {
+    id: ID!
+    userId: ID!
+    projectId: Int!
+    username: String!
+    imageId: ID
+    top: String
+    left: String
+    text: String
+  }
+
   input addFollowerInput {
-    id: ID
     followingId: Int!
     followedId: Int!
   }
 
   input addHeatmapInput {
-    id: ID!
     userId: Int!
     projectId: Int!
     imageId: Int
@@ -62,13 +96,30 @@ const inputTypes = gql`
   }
 
   input addStarredInput {
-    id: ID!
     userId: Int!
     projectId: Int!
     count: Int
   }
 
   input InviteInput {
+    activeUserId: Int!
+    invitedUserId: Int!
+    starredProjectsId: Int
+    commentsId: Int
+    projectId: Int
+    projectName: String
+    imageId: Int
+    activeUserAvatar: String!
+    mainImgUrl: String!
+    commentText: String
+    activeUserName: String
+    teamId: String!
+    followersId: Int
+    type: String!
+    message: String
+    unread: Boolean
+  }
+  input updateInviteInput {
     id: ID!
     activeUserId: Int!
     invitedUserId: Int!
@@ -87,15 +138,18 @@ const inputTypes = gql`
     message: String
     unread: Boolean
   }
-
   input CategoryInput {
+    categoryId: ID
+    category: String!
+  }
+
+  input updateCategoryInput {
     id: ID!
     categoryId: ID
     category: String!
   }
 
   input UserResearchInput {
-    id: ID!
     url: String
     projectId: String
   }

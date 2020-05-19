@@ -3,35 +3,35 @@ const { gql } = require('apollo-server-express');
 const userTypes = gql`
   type User {
     id: ID!
-    auth0Id: String!
-    username: String!
-    email: String!
-    phoneNumber: String!
+    auth0Id: String
+    username: String
+    email: String
+    phoneNumber: String
     firstName: String
-    lastName: String!
-    location: String!
-    bio: String!
-    website: String!
-    avatar: String!
-    created_at: String!
+    lastName: String
+    location: String
+    bio: String
+    website: String
+    avatar: String
+    created_at: String
   }
 
   type Projects {
-    id: ID!
-    userId: ID!
-    privateProjects: String!
-    name: String!
-    description: String!
-    figma: String!
-    invision: String!
-    created_at: String!
-    updated_at: String!
-    mainImg: String!
+    id: ID
+    userId: ID
+    privateProjects: String
+    name: String
+    description: String
+    figma: String
+    invision: String
+    created_at: String
+    updated_at: String
+    mainImg: String
   }
 
   type Project_photos {
     id: ID!
-    projectId: Int!
+    projectId: ID!
     url: String
     description: String
     title: String
@@ -39,8 +39,8 @@ const userTypes = gql`
   }
 
   type Comments {
-    id: ID!
-    userId: Int!
+    id: ID
+    userId: ID
     projectId: Int
     username: String!
     imageId: Int
@@ -58,7 +58,6 @@ const userTypes = gql`
   }
 
   type Heatmap {
-    id: ID!
     userId: Int
     projectId: Int
     imageId: Int
