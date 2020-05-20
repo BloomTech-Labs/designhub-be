@@ -13,7 +13,6 @@ const inputTypes = gql`
     website: String
     avatar: String
   }
-
   input updateUserInput {
     id: ID!
     auth0Id: String!
@@ -38,25 +37,51 @@ const inputTypes = gql`
     mainImg: String
   }
 
+  input updateProjectInput {
+    userId: ID!
+    privateProjects: String
+    name: String!
+    description: String!
+    figma: String
+    invision: String
+    mainImg: String
+  }
+
   input ProjectPhotoInput {
-    projectId: Int!
+    projectId: ID!
+    url: String
+    description: String!
+    title: String!
+  }
+
+  input updateProjectPhotoInput {
+    id: ID!
+    projectId: ID
     url: String
     description: String!
     title: String!
   }
 
   input CommentsInput {
-    userId: Int!
-    projectId: Int
+    userId: ID
     username: String!
-    imageId: Int
     top: String
     left: String
     text: String!
   }
 
+  input updateCommentsInput {
+    id: ID!
+    userId: ID!
+    projectId: Int!
+    username: String!
+    imageId: ID
+    top: String
+    left: String
+    text: String
+  }
+
   input addFollowerInput {
-    id: ID
     followingId: Int!
     followedId: Int!
   }
@@ -94,8 +119,32 @@ const inputTypes = gql`
     message: String
     unread: Boolean
   }
-
+  input updateInviteInput {
+    id: ID!
+    activeUserId: Int!
+    invitedUserId: Int!
+    starredProjectsId: Int
+    commentsId: Int
+    projectId: Int
+    projectName: String
+    imageId: Int
+    activeUserAvatar: String!
+    mainImgUrl: String!
+    commentText: String
+    activeUserName: String
+    teamId: String!
+    followersId: Int
+    type: String!
+    message: String
+    unread: Boolean
+  }
   input CategoryInput {
+    categoryId: ID
+    category: String!
+  }
+
+  input updateCategoryInput {
+    id: ID!
     categoryId: ID
     category: String!
   }

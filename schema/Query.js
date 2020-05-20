@@ -14,7 +14,7 @@ const queryTypes = gql`
     projectphoto: [Project_photos]!
     comments(projectId: Int!): [Comments]!
     getcomments: [Comments]!
-    photocomments(imageId: Int!): Comments!
+    photocomments(id: ID!): Comments!
     followersfollowing(followingId: Int!, followedId: Int!): Boolean!
     followercount(id: ID!): Followers!
     followingcount(id: ID!): Followers!
