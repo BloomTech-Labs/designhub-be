@@ -27,8 +27,29 @@ const testProjectsQuery = {
 	}
 };
 
+const testProjectQuery = {
+	id: 'get project id',
+	variables: { id: '2' },
+	context: {},
+	query: `
+	query Project($id: ID!) {
+		project(id: $id) {
+			description
+		}
+		
+	}
+	`,
+	expected: {
+		data: {
+			project: {
+				description: 'Dog'
+			}
+		}
+	}
+};
+
 describe('projectSchema', () => {
-	const cases = [ testProjectsQuery ];
+	const cases = [ testProjectsQuery, testProjectQuery ];
 
 	const mockSchema = makeExecutableSchema({ typeDefs });
 
