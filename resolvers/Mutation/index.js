@@ -19,7 +19,7 @@ const Mutation = {
 
   async deleteUser(_, { id }) {
     return new Promise(async (res, rej) => {
-      const deletedUser = await db('users').where({ id }).del();
+      const deletedUser = await db('users').where('id', id).del();
       if (!deletedUser) return rej(false);
       return res(true);
     });
@@ -32,191 +32,6 @@ const Mutation = {
   },
 
   async updateProject(_, { data }) {
-    const project = await db('user_projects').update(data).returning('*');
-    console.log(project);
-    return project[0];
-  },
-
-  async deleteProject(_, { id }) {
-    const deletedProject = await db('user_projects')
-      .del()
-      .where('id', id)
-      .first();
-    try {
-      if (!deletedProject) {
-        throw new Error('This project does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addProjectPhoto(_, { data }) {
-    return await db('project_photos').insert(data).return('*').first();
-  },
-
-  async updateProjectPhoto(_, { data }) {
-    return await db('project_photos')
-      .update(data)
-      .where('id', data.id)
-      .return('*');
-  },
-
-  async deleteProjectPhotos(_, { id }) {
-    const deletedProjectPhoto = await db('project_photos')
-      .del()
-      .where('id', id);
-    try {
-      if (!deletedProjectPhoto) {
-        throw new Error('This project does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addComments(_, { data }) {
-    return await db('comments').insert(data).return('*').first();
-  },
-
-  async updateComments(_, { data }) {
-    return await db('comments').update(data).where('id', data.id).return('*');
-  },
-
-  async deleteComments(_, { id }) {
-    const deletedComments = await db('comments').del().where('id', id);
-    try {
-      if (!deletedComments) {
-        throw new Error('This comment does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addPhotoComments(_, { data }) {
-    return await db('comments').insert(data).return('*').first();
-  },
-
-  async updatePhotoComments(_, { data }) {
-    return await db('comments')
-      .update(data)
-      .where('id', data.id)
-      .return('*')
-      .first();
-  },
-
-  async deletePhotoComments(_, { id }) {
-    const deletedPhotoComments = await db('comments').del().where('id', id);
-    try {
-      if (!deletedPhotoComments) {
-        throw new Error('This photo comment does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addFollower(_, { data }) {
-    return await db('user_followers').insert(data).return('*').first();
-  },
-
-  async deleteFollower(_, { id }) {
-    const deletedFollower = await db('user_followers')
-      .del()
-      .where('id', id)
-      .first();
-    try {
-      if (!deletedFollower) {
-        throw new Error('This photo comment does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addHeatmap(_, { data }) {
-    return await db('heatmap').insert(data).return('*');
-  },
-
-  async deleteHeatmap(_, { id }) {
-    try {
-      const deletedHeatmap = await db('comments').del().where('id', id).first();
-      if (!deletedHeatmap) {
-        throw new Error('This heatmap does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addStarred(_, { data }) {
-    return await db('starred_projects').insert(data).return('*').first();
-  },
-
-  async deleteStarred(_, { id }) {
-    const deletedStarred = await db('starred_projects')
-      .del()
-      .where('id', id)
-      .first();
-    try {
-      if (!deletedStarred) {
-        throw new Error('This project does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
-  },
-
-  async addInvite(_, { data }) {
-    return await db('invite').insert(data).return('*').first();
-  },
-
-  async addInviteFollow(_, { data }) {
-    return await db('invite').insert(data).return('*').first();
-  },
-
-  async addInviteStarred(_, { data }) {
-    return await db('invite').insert(data).return('*').first();
-  },
-
-  async addInviteComments(_, { data }) {
-    return await db('invite').insert(data).return('*').first();
-  },
-
-  async updateInvites(_, { data }) {
-    return await db('invite')
-      .update(data)
-      .where('id', data.id)
-      .return('*')
-      .first();
-  },
-
-  async deleteInvite(_, { id }) {
-    const deletedInvite = await db('invite').del().where('id', id);
-    try {
-      if (!deletedInvite) {
-        throw new Error('This project does not exist! 😕');
-      }
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    return true;
     const project = await db('user_projects').update(data).returning('*');
     console.log(project);
     return project[0];
@@ -237,17 +52,18 @@ const Mutation = {
   },
 
   async updateProjectPhoto(_, { data }) {
-    const projectPhoto = await db('project_photos').update(data).returning('*');
+    const projectPhoto = await db('project_photos')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(projectPhoto);
     return projectPhoto[0];
   },
 
   async deleteProjectPhotos(_, { id }) {
     return new Promise(async (res, rej) => {
-      const deletedProjectPhoto = await db('project_photos')
-        .where('id', id)
-        .del();
-      if (!deletedProjectPhoto) return rej(false);
+      const deletedPhoto = await db('project_photos').where('id', id).del();
+      if (!deletedPhoto) return rej(false);
       return res(true);
     });
   },
@@ -259,7 +75,10 @@ const Mutation = {
   },
 
   async updateComments(_, { data }) {
-    const comments = await db('comments').update(data).returning('*');
+    const comments = await db('comments')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(comments);
     return comments[0];
   },
@@ -268,6 +87,29 @@ const Mutation = {
     return new Promise(async (res, rej) => {
       const deletedComments = await db('comments').where('id', id).del();
       if (!deletedComments) return rej(false);
+      return res(true);
+    });
+  },
+
+  async addPhotoComments(_, { data }) {
+    const comments = await db('comments').insert(data).returning('*');
+    console.log(comments);
+    return comments[0];
+  },
+
+  async updatePhotoComments(_, { data }) {
+    const comments = await db('comments')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
+    console.log(comments);
+    return comments[0];
+  },
+
+  async deletePhotoComments(_, { id }) {
+    return new Promise(async (res, rej) => {
+      const deletedPhotoComments = await db('comments').where('id', id).del();
+      if (!deletedPhotoComments) return rej(false);
       return res(true);
     });
   },

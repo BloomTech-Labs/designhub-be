@@ -56,17 +56,16 @@ const inputTypes = gql`
 
   input updateProjectPhotoInput {
     id: ID!
-    projectId: ID
+    projectId: ID!
     url: String
     description: String!
     title: String!
   }
 
   input CommentsInput {
-    userId: ID
+    userId: ID!
     username: String!
-    top: String
-    left: String
+    projectId: Int!
     text: String!
   }
 
@@ -75,10 +74,26 @@ const inputTypes = gql`
     userId: ID!
     projectId: Int!
     username: String!
-    imageId: ID
+    text: String!
+  }
+
+  input PhotoCommentsInput {
+    userId: ID!
+    username: String!
+    imageId: ID!
+    text: String!
+    top: String!
+    left: String!
+  }
+
+  input updatePhotoCommentsInput {
+    userId: ID!
+    id: ID!
+    username: String!
+    imageId: Int!
+    text: String!
     top: String
     left: String
-    text: String
   }
 
   input addFollowerInput {

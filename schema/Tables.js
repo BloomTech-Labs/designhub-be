@@ -42,7 +42,7 @@ const userTypes = gql`
     id: ID
     userId: ID
     projectId: Int
-    username: String!
+    username: String
     imageId: Int
     top: String
     left: String
