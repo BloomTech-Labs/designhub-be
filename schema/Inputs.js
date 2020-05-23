@@ -65,6 +65,7 @@ const inputTypes = gql`
   input CommentsInput {
     userId: ID
     username: String!
+    projectId: Int!
     top: String
     left: String
     text: String!
