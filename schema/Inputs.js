@@ -97,8 +97,8 @@ const inputTypes = gql`
   }
 
   input addFollowerInput {
-    followingId: Int!
-    followedId: Int!
+    followingId: ID!
+    followedId: ID!
   }
 
   input addHeatmapInput {
@@ -111,62 +111,34 @@ const inputTypes = gql`
   }
 
   input addStarredInput {
-    userId: Int!
-    projectId: Int!
+    userId: Int
+    projectId: Int
     count: Int
   }
 
   input InviteInput {
-    activeUserId: Int!
-    invitedUserId: Int!
-    starredProjectsId: Int
-    commentsId: Int
-    projectId: Int
-    projectName: String
-    imageId: Int
-    activeUserAvatar: String!
-    mainImgUrl: String!
-    commentText: String
-    activeUserName: String
-    teamId: String!
-    followersId: Int
-    type: String!
-    message: String
-    unread: Boolean
+    email: String!
+    projectId: Int!
   }
+
   input updateInviteInput {
     id: ID!
-    activeUserId: Int!
-    invitedUserId: Int!
-    starredProjectsId: Int
-    commentsId: Int
-    projectId: Int
-    projectName: String
-    imageId: Int
-    activeUserAvatar: String!
-    mainImgUrl: String!
-    commentText: String
-    activeUserName: String
-    teamId: String!
-    followersId: Int
-    type: String!
-    message: String
-    unread: Boolean
+    email: String!
+    projectId: Int!
   }
+
   input CategoryInput {
-    categoryId: ID
     category: String!
   }
 
   input updateCategoryInput {
     id: ID!
-    categoryId: ID
     category: String!
   }
 
   input UserResearchInput {
-    url: String
-    projectId: String
+    url: String!
+    projectId: String!
   }
 `;
 

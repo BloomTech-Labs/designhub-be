@@ -49,7 +49,7 @@ async function following(_, { id }) {
     if (!data) throw new Error('User ID does not exist! 😕');
     if (data.length === 0)
       throw new Error('This user is not following anyone! 😲');
-    return data;
+    return data[0];
   } catch (err) {
     console.log(err);
     return err;
@@ -60,10 +60,11 @@ async function follower(_, { id }) {
   console.log('ID', id);
   try {
     const data = await db('user_followers').where('followedId', id);
+    console.log(data);
     if (!data) throw new Error('User ID does not exist! 😕');
     if (data.length === 0)
       throw new Error('This user is not following anyone! 😲');
-    return data;
+    return data[0];
   } catch (err) {
     console.log(err);
     return err;

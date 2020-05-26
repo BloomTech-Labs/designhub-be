@@ -5,7 +5,7 @@ async function researchbyid(_, { id }) {
   try {
     const data = await db('user_research').where({ id: id });
     if (!data) throw new Error('User ID does not exist! 😕');
-    return data;
+    return data[0];
   } catch (err) {
     console.log(err);
     return err;
@@ -17,7 +17,7 @@ async function researchbyproject(_, { projectId }) {
   try {
     const data = await db('user_research').where({ projectId: projectId });
     if (!data) throw new Error('User ID does not exist! 😕');
-    return data;
+    return data[0];
   } catch (err) {
     console.log(err);
     return err;
