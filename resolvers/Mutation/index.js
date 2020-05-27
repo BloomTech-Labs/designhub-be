@@ -52,17 +52,18 @@ const Mutation = {
   },
 
   async updateProjectPhoto(_, { data }) {
-    const projectPhoto = await db('project_photos').update(data).returning('*');
+    const projectPhoto = await db('project_photos')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(projectPhoto);
     return projectPhoto[0];
   },
 
   async deleteProjectPhotos(_, { id }) {
     return new Promise(async (res, rej) => {
-      const deletedProjectPhoto = await db('project_photos')
-        .where('id', id)
-        .del();
-      if (!deletedProjectPhoto) return rej(false);
+      const deletedPhoto = await db('project_photos').where('id', id).del();
+      if (!deletedPhoto) return rej(false);
       return res(true);
     });
   },
@@ -74,7 +75,10 @@ const Mutation = {
   },
 
   async updateComments(_, { data }) {
-    const comments = await db('comments').update(data).returning('*');
+    const comments = await db('comments')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(comments);
     return comments[0];
   },
@@ -83,6 +87,29 @@ const Mutation = {
     return new Promise(async (res, rej) => {
       const deletedComments = await db('comments').where('id', id).del();
       if (!deletedComments) return rej(false);
+      return res(true);
+    });
+  },
+
+  async addPhotoComments(_, { data }) {
+    const comments = await db('comments').insert(data).returning('*');
+    console.log(comments);
+    return comments[0];
+  },
+
+  async updatePhotoComments(_, { data }) {
+    const comments = await db('comments')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
+    console.log(comments);
+    return comments[0];
+  },
+
+  async deletePhotoComments(_, { id }) {
+    return new Promise(async (res, rej) => {
+      const deletedPhotoComments = await db('comments').where('id', id).del();
+      if (!deletedPhotoComments) return rej(false);
       return res(true);
     });
   },
@@ -154,7 +181,10 @@ const Mutation = {
   },
 
   async updateInvites(_, { data }) {
-    const invite = await db('invite').update(data).returning('*');
+    const invite = await db('invite')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(invite);
     return invite[0];
   },
@@ -191,22 +221,23 @@ const Mutation = {
   },
 
   async addCategory(_, { data }) {
-    const category = await db('project_categories').insert(data).returning('*');
+    const category = await db('category_names').insert(data).returning('*');
     console.log(category);
     return category[0];
   },
 
   async updateCategory(_, { data }) {
-    const category = await db('project_categories').update(data).returning('*');
+    const category = await db('category_names')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(category);
     return category[0];
   },
 
   async deleteCategory(_, { id }) {
     return new Promise(async (res, rej) => {
-      const deleteCategory = await db('project_categories')
-        .where('id', id)
-        .del();
+      const deleteCategory = await db('category_names').where('id', id).del();
       if (!deleteCategory) return rej(false);
       return res(true);
     });
@@ -239,13 +270,19 @@ const Mutation = {
   },
 
   async updateProjectInvite(_, { data }) {
-    const projectInvite = await db('project_teams').update(data).returning('*');
+    const projectInvite = await db('project_teams')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(projectInvite);
     return projectInvite[0];
   },
 
   async updateProjectInvites(_, { data }) {
-    const projectInvite = await db('project_teams').update(data).returning('*');
+    const projectInvite = await db('project_teams')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
     console.log(projectInvite);
     return projectInvite[0];
   },

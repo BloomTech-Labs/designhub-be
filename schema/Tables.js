@@ -42,7 +42,7 @@ const userTypes = gql`
     id: ID
     userId: ID
     projectId: Int
-    username: String!
+    username: String
     imageId: Int
     top: String
     left: String
@@ -51,10 +51,10 @@ const userTypes = gql`
   }
 
   type Followers {
-    id: ID
-    followingId: Int
-    followedId: Int
-    created_at: String
+    id: ID!
+    followingId: String!
+    followedId: String!
+    created_at: String!
   }
 
   type Heatmap {
@@ -67,9 +67,9 @@ const userTypes = gql`
   }
 
   type Starred {
-    id: ID!
-    userId: Int!
-    projectId: Int!
+    id: ID
+    userId: Int
+    projectId: Int
     count: Int
     created_at: String
   }
@@ -84,10 +84,10 @@ const userTypes = gql`
     projectName: String
     imageId: Int
     activeUserAvatar: String
+    activeUsername: String
     mainImgUrl: String
     commentText: String
-    activeUserName: String
-    teamId: String
+    teamId: Int
     followersId: Int
     type: String
     message: String
@@ -97,7 +97,6 @@ const userTypes = gql`
 
   type Categories {
     id: ID!
-    categoryId: ID!
     category: String
   }
 
@@ -109,11 +108,11 @@ const userTypes = gql`
   }
 
   type Project_invite {
-    id: ID
-    email: String
-    projectId: Int
-    created_at: String
-    updated_at: String
+    id: ID!
+    email: String!
+    projectId: Int!
+    created_at: String!
+    updated_at: String!
   }
 
   type Explore {

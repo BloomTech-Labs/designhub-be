@@ -14,10 +14,13 @@ const mutationTypes = gql`
     addComments(data: CommentsInput!): Comments!
     updateComments(data: updateCommentsInput!): Comments!
     deleteComments(id: ID!): Boolean!
+    addPhotoComments(data: PhotoCommentsInput!): Comments!
+    updatePhotoComments(data: updatePhotoCommentsInput!): Comments!
+    deletePhotoComments(id: ID!): Boolean!
     addFollower(data: addFollowerInput!): Followers!
     deleteFollower(id: ID!): Boolean!
     addHeatmap(data: addHeatmapInput!): Heatmap!
-    deleteHeatmap(userId: Int!): Heatmap!
+    deleteHeatmap(id: ID!): Boolean!
     addStarred(data: addStarredInput!): Starred!
     deleteStarred(id: ID!): Boolean!
     addInvite(data: InviteInput): Invite!
@@ -35,7 +38,7 @@ const mutationTypes = gql`
     deleteUserResearch(id: ID!): Boolean!
     addProjectInvite(data: InviteInput): Project_invite!
     updateProjectInvite(data: updateInviteInput): Project_invite!
-    updateProjectInvites(data: InviteInput): Project_invite!
+    updateProjectInvites(data: updateInviteInput): Project_invite!
     deleteProjectInvite(id: ID!): Boolean!
   }
   type Search {
