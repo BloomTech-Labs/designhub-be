@@ -27,6 +27,26 @@ const testProjectsQuery = {
 	}
 };
 
+const testProjectPhotoQuery = {
+	id: 'get project photo id',
+	variables: { id: 1 },
+	context: {},
+	query: `
+	query {
+		projectphoto($id:ID!) {
+		  projectId(id:$id)
+		}
+		}
+	`,
+	expected: {
+		data: {
+			projectphoto: {
+				projectId: '1'
+			}
+		}
+	}
+};
+
 const testProjectQuery = {
 	id: 'get project id',
 	variables: { id: '2' },
@@ -49,7 +69,7 @@ const testProjectQuery = {
 };
 
 describe('projectSchema', () => {
-	const cases = [ testProjectsQuery, testProjectQuery ];
+	const cases = [ testProjectsQuery, testProjectQuery, testProjectPhotoQuery ];
 
 	const mockSchema = makeExecutableSchema({ typeDefs });
 
