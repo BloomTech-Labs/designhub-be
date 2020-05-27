@@ -81,3 +81,23 @@ describe('userSchema', () => {
 		});
 	});
 });
+
+const testCategoryQuery = {
+	id: 'get category',
+	variables: { id: '1' },
+	context: {},
+	query: `
+        query User($id: ID!){
+            user(id:$id){
+                username
+            }
+        }
+    `,
+	expected: {
+		data: {
+			user: {
+				username: 'Hello World'
+			}
+		}
+	}
+};
