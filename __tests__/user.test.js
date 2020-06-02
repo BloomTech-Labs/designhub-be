@@ -5,7 +5,7 @@ const typeDefs = require('../schema');
 const { makeExecutableSchema, addMockFunctionsToSchema, mockServer } = require('graphql-tools');
 
 const testUsersQuery = {
-	id: 'test user string',
+	id: 'get all users',
 	variables: {},
 	context: {},
 	query: `
@@ -29,7 +29,7 @@ const testUsersQuery = {
 	}
 };
 const testUserQuery = {
-	id: 'test user string',
+	id: 'get user',
 	variables: { id: '1' },
 	context: {},
 	query: `
