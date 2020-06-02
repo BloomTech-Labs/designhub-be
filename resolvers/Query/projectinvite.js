@@ -3,7 +3,7 @@ const db = require('../../data/dbConfig');
 async function allprojectinvites(parents, args, ctx) {
   try {
     const data = await db('invite');
-    if (!data) throw new Error('User ID does not exist! 😕');
+    if (!data) throw new Error('No invites exist! 😕');
     return data;
   } catch (err) {
     console.log(err);
