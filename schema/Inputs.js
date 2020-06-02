@@ -117,14 +117,42 @@ const inputTypes = gql`
   }
 
   input InviteInput {
-    email: String!
-    projectId: Int!
+    activeUserId: Int!
+    invitedUserId: Int!
+    starredProjectsId: Int
+    commentsId: Int
+    projectId: Int
+    projectName: String
+    imageId: Int
+    activeUserAvatar: String!
+    activeUsername: String!
+    mainImgUrl: String
+    commentText: String
+    teamId: Int
+    followersId: Int
+    type: String
+    message: String
+    unread: Boolean
   }
 
   input updateInviteInput {
     id: ID!
-    email: String!
-    projectId: Int!
+    activeUserId: Int!
+    invitedUserId: Int!
+    starredProjectsId: Int
+    commentsId: Int
+    projectId: Int
+    projectName: String
+    imageId: Int
+    activeUserAvatar: String!
+    activeUsername: String!
+    mainImgUrl: String
+    commentText: String
+    teamId: Int
+    followersId: Int
+    type: String
+    message: String
+    unread: Boolean
   }
 
   input CategoryInput {
