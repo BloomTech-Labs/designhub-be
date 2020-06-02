@@ -1,3 +1,5 @@
+// const { gCall } = require('../_test-utils_/gCall');
+// const { gql } = require('apollo-server-express');
 const { graphql } = require('graphql');
 const typeDefs = require('../schema');
 const {
@@ -5,57 +7,62 @@ const {
   addMockFunctionsToSchema,
 } = require('graphql-tools');
 
-const testProjectsQuery = {
-  id: 'test projects string',
+const testCommentQuery = {
+  id: 'test comments string',
   variables: {},
   context: {},
   query: `
         query {
-            projects{
-                name
+            getcomments{
+                text
             }
         }
     `,
   expected: {
     data: {
-      projects: [
+      getcomments: [
         {
-          name: 'Hello World',
+          text: 'Hello World',
         },
         {
-          name: 'Hello World',
+          text: 'Hello World',
         },
       ],
     },
   },
 };
-const testProjectQuery = {
-  id: 'test project string',
-  variables: { id: '1' },
+const testCommentsQuery = {
+  id: 'test comment string',
+  variables: { id: 1 },
   context: {},
   query: `
-        query project($id: ID!){
-            project(id:$id){
-                name
+        query comments($id: Int!){
+            comments(projectId:$id){
+                text
             }
         }
     `,
   expected: {
     data: {
-      project: {
-        name: 'Hello World',
-      },
+      comments: [
+        {
+          text: 'Hello World',
+        },
+        {
+          text: 'Hello World',
+        },
+      ],
     },
   },
 };
 
-describe('projectSchema', () => {
-  // it('gets all projects', async () => {
+describe('commentSchema', () => {
+  // it('gets all comments', async () => {
   const mockSchema = makeExecutableSchema({
     typeDefs,
   });
 
-  const cases = [testProjectsQuery, testProjectQuery];
+  const cases = [testCommentsQuery, testCommentQuery];
   addMockFunctionsToSchema({
     schema: mockSchema,
     mocks: {

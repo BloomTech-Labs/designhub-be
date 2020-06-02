@@ -1,7 +1,14 @@
 const db = require('../../data/dbConfig');
 
 async function allprojectinvites(parents, args, ctx) {
-  return await db('project_teams');
+  try {
+    const data = await db('invite');
+    if (!data) throw new Error('No invites exist! 😕');
+    return data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 }
 
 async function projectinvitesbyid(_, { id }) {

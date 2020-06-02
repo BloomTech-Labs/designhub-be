@@ -5,57 +5,38 @@ const {
   addMockFunctionsToSchema,
 } = require('graphql-tools');
 
-const testProjectsQuery = {
-  id: 'test projects string',
-  variables: {},
+const testHeatmapQuery = {
+  id: 'test invite string',
+  variables: { id: '1' },
   context: {},
   query: `
-        query {
-            projects{
-                name
+        query getinvite($id: ID!){
+                getinvite(id: $id){
+                    message
+                }
             }
-        }
     `,
   expected: {
     data: {
-      projects: [
+      getinvite: [
         {
-          name: 'Hello World',
+          message: 'Hello World',
         },
         {
-          name: 'Hello World',
+          message: 'Hello World',
         },
       ],
     },
   },
 };
-const testProjectQuery = {
-  id: 'test project string',
-  variables: { id: '1' },
-  context: {},
-  query: `
-        query project($id: ID!){
-            project(id:$id){
-                name
-            }
-        }
-    `,
-  expected: {
-    data: {
-      project: {
-        name: 'Hello World',
-      },
-    },
-  },
-};
 
-describe('projectSchema', () => {
-  // it('gets all projects', async () => {
+describe('inviteSchema', () => {
+  // it('gets all invite', async () => {
   const mockSchema = makeExecutableSchema({
     typeDefs,
   });
 
-  const cases = [testProjectsQuery, testProjectQuery];
+  const cases = [testHeatmapQuery];
   addMockFunctionsToSchema({
     schema: mockSchema,
     mocks: {

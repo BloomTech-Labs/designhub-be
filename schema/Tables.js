@@ -83,8 +83,8 @@ const userTypes = gql`
     projectId: Int
     projectName: String
     imageId: Int
-    activeUserAvatar: String
-    activeUsername: String
+    activeUserAvatar: String!
+    activeUsername: String!
     mainImgUrl: String
     commentText: String
     teamId: Int

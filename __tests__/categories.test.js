@@ -1,61 +1,64 @@
+// const { gCall } = require('../_test-utils_/gCall');
+// const { gql } = require('apollo-server-express');
 const { graphql } = require('graphql');
 const typeDefs = require('../schema');
 const {
   makeExecutableSchema,
   addMockFunctionsToSchema,
+  mockServer,
 } = require('graphql-tools');
 
-const testProjectsQuery = {
-  id: 'test projects string',
+const testCategoriesQuery = {
+  id: 'test categories string',
   variables: {},
   context: {},
   query: `
         query {
-            projects{
-                name
+            getallcats{
+                id
             }
         }
     `,
   expected: {
     data: {
-      projects: [
+      getallcats: [
         {
-          name: 'Hello World',
+          id: '1',
         },
         {
-          name: 'Hello World',
+          id: '1',
         },
       ],
     },
   },
 };
-const testProjectQuery = {
-  id: 'test project string',
+const testCategoryQuery = {
+  id: 'test category string',
   variables: { id: '1' },
   context: {},
   query: `
-        query project($id: ID!){
-            project(id:$id){
-                name
+        query getcatbyid($id: ID!){
+            getcatbyid(id:$id){
+                id
             }
         }
     `,
   expected: {
     data: {
-      project: {
-        name: 'Hello World',
+      getcatbyid: {
+        id: '1',
       },
     },
   },
 };
 
-describe('projectSchema', () => {
-  // it('gets all projects', async () => {
+describe('categoriesSchema', () => {
+  // it('gets all categories', async () => {
   const mockSchema = makeExecutableSchema({
     typeDefs,
   });
 
-  const cases = [testProjectsQuery, testProjectQuery];
+  const cases = [testCategoriesQuery, testCategoryQuery];
   addMockFunctionsToSchema({
     schema: mockSchema,
     mocks: {
