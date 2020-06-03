@@ -1,273 +1,353 @@
-// const go = require('../utils/crud');
-// const db = require('../../data/dbConfig');
+const go = require('../utils/crud');
+const db = require('../../data/dbConfig');
 
-// const userMatches = require('../utils/userMatches');
+const userMatches = require('../utils/userMatches');
 
-// //get all category names: /api/v1/categories/all
-// exports.getAllCategoryNames = async (req, res) => {
-//     try {
-//       const categoryNames = await db('category_names');
+//get all category names: /api/v1/categories/all
+exports.getAllCategoryNames = async (req, res) => {
+  try {
+    const categoryNames = await db('category_names');
 
-//       return res.status(200).json(categoryNames);
-//     } catch (err) {
-//       return res.status(500).json({ message: 'There was an error retrieving the category names from the database.' });
-//     }
-//   };
+    return res.status(200).json(categoryNames);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({
+        message:
+          'There was an error retrieving the category names from the database.',
+      });
+  }
+};
 
-// //all categories that have projects assigned: /api/v1/categories/projects/all
-// exports.getAssignedProjectCategories = async (req, res) => {
+//all categories that have projects assigned: /api/v1/categories/projects/all
+exports.getAssignedProjectCategories = async (req, res) => {
+  try {
+    const projectCategories = await db('project_categories')
+      .join(
+        'category_names',
+        'project_categories.categoryId',
+        '=',
+        'category_names.id'
+      )
+      .select(
+        'category_names.id',
+        'category_names.category',
+        'project_categories.projectId'
+      );
 
-//     try {
-//       const projectCategories = await db('project_categories')
-//       .join('category_names', 'project_categories.categoryId', '=', 'category_names.id')
-//       .select('category_names.id', 'category_names.category', 'project_categories.projectId');
+    if (projectCategories.length < 0) {
+      res
+        .status(404)
+        .json({ message: 'No projects have been assigned a category.' });
+    }
 
-//       if(projectCategories.length < 0){
-//         res.status(404).json({ message: 'No projects have been assigned a category.' });
-//       }
+    return res.status(200).json(projectCategories);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({
+        message:
+          'There was an error retrieving the project categories from the database.',
+      });
+  }
+};
 
-//       return res.status(200).json(projectCategories);
+//add a category to a project /api/v1/categories/project/add
+exports.addCategoryToAProject = async (req, res) => {
+  // projectId
+  // userId
+  // categoryId
 
-//     } catch (err) {
-//       return res.status(500).json({ message: 'There was an error retrieving the project categories from the database.' });
-//     }
-//   };
+  if (!req.body.projectId) {
+    return res.status(400).json({ message: 'A valid project id is required' });
+  }
+  if (!req.body.userId) {
+    return res.status(400).json({ message: 'A valid user id is required' });
+  }
+  if (!req.body.categoryId) {
+    return res.status(400).json({ message: 'A valid category id required' });
+  }
 
-// //add a category to a project /api/v1/categories/project/add
-// exports.addCategoryToAProject = async (req, res) => {
-//     // projectId
-//     // userId
-//     // categoryId
+  const { projectId, userId, categoryId } = req.body;
 
-//     if (!req.body.projectId) {
-//       return res.status(400).json({ message: 'A valid project id is required' });
-//     }
-//     if (!req.body.userId) {
-//       return res.status(400).json({ message: 'A valid user id is required' });
-//     }
-//     if (!req.body.categoryId) {
-//       return res.status(400).json({ message: 'A valid category id required' });
-//     }
+  const [project] = await go.getById('user_projects', projectId);
 
-//     const { projectId, userId, categoryId } = req.body;
+  // Does the project exist?
+  if (!project) {
+    return res
+      .status(404)
+      .json({ message: 'A project with that ID does not exist!' });
+  }
 
-//     const [project] = await go.getById('user_projects', projectId);
+  // Is this person allowed to add categories to this project?
+  if (!(await userMatches(req.user, project.userId))) {
+    return res
+      .status(401)
+      .json({ message: 'You may not add categories to this project!' });
+  }
+  try {
+    //if the category was already added to the project
+    const categories = await db('project_categories')
+      .where('categoryId', categoryId)
+      .andWhere('projectId', projectId)
+      .andWhere('userId', userId);
 
-//     // Does the project exist?
-//     if (!project) {
-//       return res
-//         .status(404)
-//         .json({ message: 'A project with that ID does not exist!' });
-//     }
+    if (categories.length > 0) {
+      return res
+        .status(401)
+        .json({ message: `You already added this category to this project!` });
+    }
 
-//     // Is this person allowed to add categories to this project?
-//     if (!(await userMatches(req.user, project.userId))) {
-//       return res
-//         .status(401)
-//         .json({ message: 'You may not add categories to this project!' });
-//     }
-//     try {
+    const [categoryTag] = await go.createOne('project_categories', '*', {
+      projectId,
+      userId,
+      categoryId,
+    });
 
-//       //if the category was already added to the project
-//       const categories = await db('project_categories')
-//         .where('categoryId', categoryId)
-//         .andWhere('projectId', projectId)
-//         .andWhere('userId', userId);
+    return res.status(201).json(categoryTag);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message:
+        'An error occured in the database while adding the category to the project.',
+    });
+  }
+};
 
-//       if (categories.length > 0) {
-//         return res
-//           .status(401)
-//           .json({ message: `You already added this category to this project!` });
-//       }
+//all categories that a user assigned to all their projects /api/v1/categories/user/:id
+exports.getCategoriesByUserId = async (req, res) => {
+  try {
+    const [user] = await db('users')
+      .select('id')
+      .where('auth0Id', req.user.sub);
 
-//       const [categoryTag] = await go.createOne('project_categories', '*', {
-//         projectId,
-//         userId,
-//         categoryId
-//       });
+    const categories = await db('project_categories')
+      .join(
+        'category_names',
+        'category_names.id',
+        '=',
+        'project_categories.categoryId'
+      )
+      .where('userId', user.id)
+      .select(
+        'project_categories.id',
+        'project_categories.projectId',
+        'project_categories.userId',
+        'project_categories.categoryId',
+        'category_names.category'
+      );
 
-//       return res.status(201).json(categoryTag);
-//     } catch (err) {
-//       console.log(err);
-//       return res.status(500).json({
-//         message: 'An error occured in the database while adding the category to the project.'
-//       });
-//     }
-//   };
+    res.status(200).json(categories);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({
+        message:
+          'An error occured while retrieving the user categories from the database.',
+      });
+  }
+};
 
-// //all categories that a user assigned to all their projects /api/v1/categories/user/:id
-// exports.getCategoriesByUserId = async (req, res) => {
-//     try {
-//       const [user] = await db('users')
-//         .select('id')
-//         .where('auth0Id', req.user.sub);
+// /api/v1/categories/:id
+exports.getCategoryByCategoryId = async (req, res) => {
+  const categoryId = req.params.id;
 
-//       const categories = await db('project_categories')
-//       .join('category_names', 'category_names.id', '=', 'project_categories.categoryId')
-//       .where('userId', user.id)
-//       .select('project_categories.id', 'project_categories.projectId', 'project_categories.userId',
-//               'project_categories.categoryId', 'category_names.category');
+  try {
+    const category = await db('category_names').where(
+      'category_names.id',
+      categoryId
+    );
 
-//       res.status(200).json(categories);
+    res.status(200).json(category);
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        message:
+          'An error occured while retrieving the category from the database.',
+      });
+  }
+};
 
-//     } catch (err) {
-//       console.log(err);
-//       res.status(500).json({ message: 'An error occured while retrieving the user categories from the database.' });
-//     }
-// };
+//get all categories assigned to a project /api/v1/categories/projects/:id
+exports.getCategoriesByProjectId = async (req, res) => {
+  const projectId = req.params.id;
 
-// // /api/v1/categories/:id
-// exports.getCategoryByCategoryId = async (req, res) => {
-//     const categoryId = req.params.id;
+  try {
+    const project = await go.getById('user_projects', projectId);
 
-//     try {
+    if (project.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'A project with that id does not exist.' });
+    }
 
-//     const category = await db('category_names')
-//     .where('category_names.id', categoryId);
+    const categories = await db('project_categories')
+      .join(
+        'category_names',
+        'project_categories.categoryId',
+        '=',
+        'category_names.id'
+      )
+      .where('projectId', projectId)
+      .select(
+        'project_categories.id as projectCategoryId',
+        'project_categories.projectId',
+        'project_categories.userId',
+        'project_categories.categoryId',
+        'category_names.id',
+        'category_names.category'
+      );
 
-//     res.status(200).json(category);
-//     }
-//     catch (err) {
-//       res.status(500).json({ message: 'An error occured while retrieving the category from the database.' })
-//     }
+    if (categories.length === 0) {
+      res
+        .status(200)
+        .json({ message: 'There are no categories assigned to this project.' });
+    }
 
-// }
+    res.status(200).json(categories);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({
+        message:
+          'An error occured while retrieving the project categories from the database.',
+      });
+  }
+};
 
-// //get all categories assigned to a project /api/v1/categories/projects/:id
-// exports.getCategoriesByProjectId = async (req, res) => {
-//     const projectId = req.params.id;
+//delete a category from a project by project_category id /api/v1/categories/project/:id
+exports.deleteCategoryFromProject = async (req, res) => {
+  const id = req.params.id;
 
-//     try {
-//       const project = await go.getById('user_projects', projectId);
+  try {
+    const category = await go.getById('project_categories', id);
 
-//       if (project.length === 0) {
-//         return res
-//           .status(404)
-//           .json({ message: 'A project with that id does not exist.' });
-//       }
+    if (category.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'That category is not assigned to this project.' });
+    }
 
-//       const categories = await db('project_categories')
-//       .join('category_names', 'project_categories.categoryId', '=', 'category_names.id')
-//       .where('projectId', projectId)
-//       .select('project_categories.id as projectCategoryId', 'project_categories.projectId', 'project_categories.userId',
-//               'project_categories.categoryId', 'category_names.id', 'category_names.category');
+    const project = await go.getById('user_projects', category[0].projectId);
 
-//       if(categories.length === 0){
-//         res.status(200).json({message: 'There are no categories assigned to this project.' });
-//       }
+    if (await userMatches(req.user, project[0].userId)) {
+      await go.destroyById('project_categories', id);
+      return res
+        .status(200)
+        .json({ message: 'This category has been deleted from your project.' });
+    } else {
+      return res
+        .status(401)
+        .json({
+          message:
+            'You are not authorized to delete this category from the project.',
+        });
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({
+        message:
+          'An error occurred in the database while deleting this category from the project.',
+      });
+  }
+};
 
-//       res.status(200).json(categories);
-//     } catch (err) {
-//       console.log(err);
-//       res.status(500).json({ message: 'An error occured while retrieving the project categories from the database.' });
-//     }
-//   };
+//update a category for a project by project_category id /api/v1/categories/project/:id
+exports.updateProjectCategoryById = async (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
 
-// //delete a category from a project by project_category id /api/v1/categories/project/:id
-// exports.deleteCategoryFromProject = async (req, res) => {
+  try {
+    const category = await go.getById('project_categories', id);
 
-//     const id = req.params.id;
+    if (category.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'That category is not assigned to this project.' });
+    }
 
-//     try {
-//       const category = await go.getById('project_categories', id);
+    const project = await go.getById('user_projects', category[0].projectId);
 
-//       if (category.length === 0) {
-//         return res
-//           .status(404)
-//           .json({ message: 'That category is not assigned to this project.' });
-//       }
+    if (await userMatches(req.user, project[0].userId)) {
+      await go.updateById('project_categories', changes, id);
+      const updatedProjectCategory = await go.getById('project_categories', id);
+      return res.status(200).json(updatedProjectCategory);
+    } else {
+      return res
+        .status(401)
+        .json({
+          message:
+            'You are not authorized to update categories for this project.',
+        });
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({
+        message:
+          'An error occurred in the database while updating the category for this project.',
+      });
+  }
+};
 
-//       const project = await go.getById('user_projects', category[0].projectId);
+//get all projects assigned to a category /api/v1/categories/projects/category/:id
+exports.getProjectsByCategoryId = async (req, res) => {
+  const categoryId = req.params.id;
+  //get the category id
+  //search the categories table to see if tht category exists
+  //if it exists, use the project ids that match the category id to search the projects table and return projects
 
-//       if (await userMatches(req.user, project[0].userId)) {
-//           await go.destroyById('project_categories', id)
-//           return res.status(200).json({ message: 'This category has been deleted from your project.' });
-//       } else {
-//         return res
-//           .status(401)
-//           .json({ message: 'You are not authorized to delete this category from the project.' });
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       res
-//         .status(500)
-//         .json({ message: 'An error occurred in the database while deleting this category from the project.' });
-//     }
-// };
+  try {
+    const searchData = await go.getById('category_names', categoryId);
 
-// //update a category for a project by project_category id /api/v1/categories/project/:id
-// exports.updateProjectCategoryById = async (req, res) => {
-//   const id = req.params.id;
-//   const changes = req.body;
+    if (searchData.length === 0) {
+      return res.status(404).json({ message: 'That category does not exist.' });
+    }
 
-//   try {
-//     const category = await go.getById('project_categories', id);
+    //const [project] = await go.getById('user_projects', searchData[0].projectId);
+    const projects = await db('user_projects')
+      .join(
+        'project_categories',
+        'user_projects.id',
+        '=',
+        'project_categories.projectId'
+      )
+      .join(
+        'category_names',
+        'category_names.id',
+        '=',
+        'project_categories.categoryId'
+      )
+      .where('project_categories.categoryId', categoryId)
+      .andWhere('user_projects.privateProjects', '=', false)
+      .select(
+        'user_projects.id',
+        'user_projects.userId',
+        'user_projects.privateProjects',
+        'user_projects.name',
+        'user_projects.description',
+        'user_projects.figma',
+        'user_projects.invision',
+        'user_projects.mainImg',
+        'user_projects.created_at',
+        'user_projects.updated_at'
+      )
+      .orderBy('id', 'asc');
 
-//     if (category.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ message: 'That category is not assigned to this project.' });
-//     }
-
-//     const project = await go.getById('user_projects', category[0].projectId);
-
-//       if (await userMatches(req.user, project[0].userId)) {
-//           await go.updateById('project_categories', changes, id);
-//           const updatedProjectCategory = await go.getById('project_categories', id);
-//           return res.status(200).json(updatedProjectCategory);
-//       } else {
-//         return res
-//           .status(401)
-//           .json({ message: 'You are not authorized to update categories for this project.' });
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       res
-//         .status(500)
-//         .json({ message: 'An error occurred in the database while updating the category for this project.' });
-//     }
-
-// };
-
-// //get all projects assigned to a category /api/v1/categories/projects/category/:id
-// exports.getProjectsByCategoryId = async (req, res) => {
-//   const categoryId = req.params.id;
-//   //get the category id
-//   //search the categories table to see if tht category exists
-//   //if it exists, use the project ids that match the category id to search the projects table and return projects
-
-//   try {
-//     const searchData = await go.getById('category_names', categoryId);
-
-//     if (searchData.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ message: 'That category does not exist.' });
-//     }
-
-//     //const [project] = await go.getById('user_projects', searchData[0].projectId);
-//     const projects = await db('user_projects')
-//     .join('project_categories', 'user_projects.id', '=', 'project_categories.projectId')
-//     .join('category_names', 'category_names.id', '=', 'project_categories.categoryId')
-//     .where( 'project_categories.categoryId', categoryId )
-//     .andWhere('user_projects.privateProjects', '=', false)
-//     .select(
-//       'user_projects.id',
-//       'user_projects.userId',
-//       'user_projects.privateProjects',
-//       'user_projects.name',
-//       'user_projects.description',
-//       'user_projects.figma',
-//       'user_projects.invision',
-//       'user_projects.mainImg',
-//       'user_projects.created_at',
-//       'user_projects.updated_at'
-//     )
-//     .orderBy('id', 'asc');
-
-//     res.status(200).json(projects);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: 'There was an error retrieving the searched projects from the database.' });
-//   }
-// };
+    res.status(200).json(projects);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({
+        message:
+          'There was an error retrieving the searched projects from the database.',
+      });
+  }
+};
