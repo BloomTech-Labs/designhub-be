@@ -155,6 +155,17 @@ const inputTypes = gql`
     unread: Boolean
   }
 
+  input addProjectInviteInput {
+    email: String!
+    projectId: Int!
+  }
+
+  input updateProjectInviteInput {
+    id: ID!
+    email: String!
+    projectId: Int!
+  }
+
   input CategoryInput {
     category: String!
   }
