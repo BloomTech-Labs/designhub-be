@@ -36,9 +36,9 @@ const mutationTypes = gql`
     addUserResearch(data: UserResearchInput): User_research!
     addUserResearching(data: UserResearchInput): User_research!
     deleteUserResearch(id: ID!): Boolean!
-    addProjectInvite(data: InviteInput): Project_invite!
-    updateProjectInvite(data: updateInviteInput): Project_invite!
-    updateProjectInvites(data: updateInviteInput): Project_invite!
+    addProjectInvite(data: addProjectInviteInput): Project_invite!
+    updateProjectInvite(data: updateProjectInviteInput): Project_invite!
+    updateProjectInvites(data: updateProjectInviteInput): Project_invite!
     deleteProjectInvite(id: ID!): Boolean!
   }
   type Search {

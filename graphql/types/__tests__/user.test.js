@@ -1,68 +1,64 @@
 // const { gCall } = require('../_test-utils_/gCall');
 // const { gql } = require('apollo-server-express');
 const { graphql } = require('graphql');
-const typeDefs = require('../schema');
+const typeDefs = require('../../../schema');
 const {
   makeExecutableSchema,
   addMockFunctionsToSchema,
+  mockServer,
 } = require('graphql-tools');
 
-const testCommentQuery = {
-  id: 'test comments string',
+const testUsersQuery = {
+  id: 'get all users',
   variables: {},
   context: {},
   query: `
         query {
-            getcomments{
-                text
+            users{
+                username
             }
         }
     `,
   expected: {
     data: {
-      getcomments: [
+      users: [
         {
-          text: 'Hello World',
+          username: 'Hello World',
         },
         {
-          text: 'Hello World',
+          username: 'Hello World',
         },
       ],
     },
   },
 };
-const testCommentsQuery = {
-  id: 'test comment string',
-  variables: { id: 1 },
+const testUserQuery = {
+  id: 'get user',
+  variables: { id: '1' },
   context: {},
   query: `
-        query comments($id: Int!){
-            comments(projectId:$id){
-                text
+        query User($id: ID!){
+            user(id:$id){
+                username
             }
         }
     `,
   expected: {
     data: {
-      comments: [
-        {
-          text: 'Hello World',
-        },
-        {
-          text: 'Hello World',
-        },
-      ],
+      user: {
+        username: 'Hello World',
+      },
     },
   },
 };
 
-describe('commentSchema', () => {
-  // it('gets all comments', async () => {
+describe('userSchema', () => {
+  // it('gets all users, yo!', async () => {
   const mockSchema = makeExecutableSchema({
     typeDefs,
   });
 
-  const cases = [testCommentsQuery, testCommentQuery];
+  const cases = [testUsersQuery, testUserQuery];
   addMockFunctionsToSchema({
     schema: mockSchema,
     mocks: {
@@ -73,6 +69,13 @@ describe('commentSchema', () => {
       Array: () => [],
       String: () => 'Hello World',
     },
+  });
+
+  test('has valid typeDefs', async () => {
+    expect(async () => {
+      const MockServer = mockServer(typeDefs);
+      await MockServer.query(`{__schema{types{name}}}`);
+    }).not.toThrow();
   });
 
   cases.forEach((obj) => {
