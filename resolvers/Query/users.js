@@ -6,8 +6,8 @@ async function users(parents, args, ctx) {
 }
 
 async function user(_, { id }) {
-  console.log('ID', id);
-  return await db('users').where({ id: id }).first();
+  console.log('auth0ID', id);
+  return await db('users').where({ auth0Id: id }).first();
 }
 
 async function username(_, { username }) {
