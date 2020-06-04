@@ -39,6 +39,7 @@
 		"apollo-server-express": "^2.13.0",
 		"aws-sdk": "^2.528.0",
 		"body-parser": "^1.19.0",
+		"chai": "^4.2.0",
 		"cors": "^2.8.5",
 		"dotenv": "^8.1.0",
 		"eslint": "^6.8.0",
@@ -61,6 +62,7 @@
 	},
 	"devDependencies": {
 		"cross-env": "^6.0.0",
+		"easygraphql-tester": "^5.1.6",
 		"jest": "^24.9.0",
 		"nodemon": "^1.19.2",
 		"prettier": "^2.0.5",
