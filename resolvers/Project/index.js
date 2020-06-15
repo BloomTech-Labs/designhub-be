@@ -6,16 +6,24 @@ const Project = {
       try {
         const comments = await db('comments').where({ projectId: project.id });
         if (!comments) throw new Error('Something went wrong... 💩');
-        console.log(comments);
+        // console.log(comments);
         return comments;
       } catch (err) {
         console.log(err);
         return err;
       }
     },
-    // async photos() {
-    //   return;
-    // },
+    async photos(project) {
+      try {
+        const photos = await db('photos').where({ projectId: project.id });
+        if (!photos) throw new Error('Something went wrong... 💩');
+        // console.log(photos);
+        return photos;
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    },
   },
 };
 

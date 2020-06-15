@@ -1,15 +1,14 @@
 const { gql } = require('apollo-server-express');
 const queryTypes = require('./Query');
-// const mutationTypes = require('./Mutation');
+const mutationTypes = require('./Mutation');
 const tableTypes = require('./Tables');
-// const inputTypes = require('./Inputs');
+const inputTypes = require('./Inputs');
 
 const typeDefs = gql`
-  ${queryTypes}
-  ${tableTypes}
+  ${queryTypes},
+  ${tableTypes},
+  ${mutationTypes},
+  ${inputTypes},
 `;
-
-// ${mutationTypes}
-// ${inputTypes}
 
 module.exports = typeDefs;

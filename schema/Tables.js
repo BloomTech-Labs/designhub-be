@@ -12,11 +12,12 @@ const userTypes = gql`
     website: String
     avatar: String!
     projects: [Project]!
-    # followers: [Follower]!
+    followers: [User]!
   }
 
   type Project {
     id: ID!
+    userId: ID!
     private: Boolean!
     name: String!
     description: String!
@@ -25,12 +26,13 @@ const userTypes = gql`
     mainImg: String!
     created_at: String!
     updated_at: String
-    # photos: [ProjectPhoto]!
+    photos: [ProjectPhoto]!
     comments: [Comment]!
   }
 
   type ProjectPhoto {
     id: ID!
+    projectId: ID!
     url: String!
     description: String!
     title: String!
@@ -42,12 +44,6 @@ const userTypes = gql`
     text: String!
     created_at: String!
     user: User!
-  }
-
-  type Follower {
-    id: ID!
-    user: User!
-    created_at: String!
   }
 `;
 

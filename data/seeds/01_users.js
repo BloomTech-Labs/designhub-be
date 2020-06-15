@@ -28,6 +28,7 @@ exports.seed = function (knex) {
             'I love designing and always looking for ways to improve and innovate. 🤓 #Usersmatter! #LambdaBound #UXEngineer',
           website: 'https://mansleen.io',
           avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
+          created_at: '2019-09-19T17:20:25.355Z',
         },
         {
           id: 'auth0|5dc999e4d958d80e7bb7b597',

@@ -10,6 +10,11 @@ exports.seed = function (knex) {
           userId: 'google-oauth2|115383560506192673006',
           projectId: '1',
         },
+        {
+          text: 'This is another comment',
+          userId: 'google-oauth2|115383560506192673006',
+          projectId: '2',
+        },
       ]);
     });
 };
