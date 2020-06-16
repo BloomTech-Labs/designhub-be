@@ -52,7 +52,6 @@ const inputTypes = gql`
   input CommentsInput {
     userId: String!
     projectId: ID!
-    username: String!
     text: String!
   }
 
@@ -60,7 +59,6 @@ const inputTypes = gql`
     id: ID!
     userId: String!
     projectId: ID!
-    username: String!
     text: String!
   }
 

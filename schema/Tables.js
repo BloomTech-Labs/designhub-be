@@ -41,6 +41,9 @@ const userTypes = gql`
 
   type Comment {
     id: ID!
+    username: String!
+    userId: String!
+    projectId: ID!
     text: String!
     created_at: String!
     user: User!
