@@ -6,6 +6,9 @@ const queryTypes = gql`
     user(id: ID!): User!
     projects: [Project]!
     project(id: ID!): Project!
+    search(searchText: String): Search
+    searchUsers(searchText: String!): [User]!
+    searchProjects(searchText: String!): [Project]!
   }
 `;
 
