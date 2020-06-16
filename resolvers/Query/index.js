@@ -1,5 +1,6 @@
 const { users, user } = require('./Users');
 const { project, projects } = require('./Projects');
+const { searchUsers, searchProjects, search } = require('./Search');
 
 const Query = {
   Query: {
@@ -7,6 +8,9 @@ const Query = {
     user,
     project,
     projects,
+    search,
+    searchUsers,
+    searchProjects,
   },
 };
 

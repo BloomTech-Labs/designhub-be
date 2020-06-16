@@ -17,10 +17,6 @@ const mutationTypes = gql`
     addFollower(data: AddFollowerInput!): Boolean!
     deleteFollower(id: ID!): Boolean!
   }
-  # type Search {
-  #   user: [User]
-  #   project: [Project]
-  # }
 `;
 
 module.exports = mutationTypes;

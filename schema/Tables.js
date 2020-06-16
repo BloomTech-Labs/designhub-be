@@ -48,6 +48,11 @@ const userTypes = gql`
     created_at: String!
     user: User!
   }
+
+  type Search {
+    users: [User]!
+    projects: [Project]!
+  }
 `;
 
 module.exports = userTypes;
