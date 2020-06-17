@@ -3,8 +3,8 @@ const { gql } = require('apollo-server-express');
 const inputTypes = gql`
   input UserInput {
     id: String!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     username: String!
     email: String!
     location: String
