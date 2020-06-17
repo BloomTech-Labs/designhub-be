@@ -4,6 +4,8 @@ const { ValidationError } = require('apollo-server-express');
 const Mutation = {
   async addUser(_, { data }) {
     try {
+      const checkUser = await db('users').where({ id: data.id }).first();
+      if (checkUser) return checkUser;
       const user = await db('users').insert(data).returning('*');
       console.log(user);
       return user[0];

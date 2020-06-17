@@ -3,14 +3,14 @@ const { gql } = require('apollo-server-express');
 const userTypes = gql`
   type User {
     id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     username: String!
     email: String!
     location: String
     bio: String
     website: String
-    avatar: String!
+    avatar: String
     projects: [Project]!
     followers: [User]!
   }
