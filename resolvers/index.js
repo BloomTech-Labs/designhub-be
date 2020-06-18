@@ -10,7 +10,6 @@ const resolvers = {
   Project,
   Comment,
   Mutation,
-  // Search,
 };
 
 module.exports = resolvers;
