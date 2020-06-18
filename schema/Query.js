@@ -4,6 +4,7 @@ const queryTypes = gql`
   type Query {
     users: [User]!
     user(id: ID!): User!
+    doesUserExist(id: ID!): Boolean!
     projects: [Project]!
     project(id: ID!): Project!
     search(searchText: String): Search
