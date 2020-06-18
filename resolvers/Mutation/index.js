@@ -100,41 +100,35 @@ const Mutation = {
   },
 
   async addFollower(_, { data }) {
-    const followers = await db('followers').insert(data).returning('*');
-    console.log(followers);
-    return followers[0];
+    try {
+      const doesExist = await db('followers').where({
+        followerId: data.followerId,
+        followingId: data.followingId,
+      });
+      console.log('does exist', doesExist);
+      if (doesExist.length >= 1)
+        throw new Error('User is already following this person! 🤡');
+      const followers = await db('followers').insert(data).returning('*');
+      if (!followers) return false;
+      return true;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   },
 
-  async deleteFollower(_, { id }) {
+  async deleteFollower(_, { data }) {
     return new Promise(async (res, rej) => {
-      const deletedFollower = await db('followers').where('id', id).del();
-      if (!deletedFollower) return rej(false);
+      const followers = await db('followers')
+        .where({
+          followerId: data.followerId,
+          followingId: data.followingId,
+        })
+        .del();
+      console.log('followers', followers);
       return res(true);
     });
   },
-
-  // async search(_, { text }) {
-  //   const projectText = text.toLowerCase();
-  //   const userText = text.replace(/\s+/g, '').toLowerCase();
-  //   try {
-  //     if (!text) throw new ValidationError('Must add text to search!! 🙃');
-  //     const projects = await db('projects')
-  //       .select('*')
-  //       .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
-  //       .andWhere('privateProjects', false);
-
-  //     const users = await db('users')
-  //       .select('*')
-  //       .whereRaw(`LOWER(username) LIKE ?`, [`%${userText}%`])
-  //       .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
-  //         `%${userText}%`,
-  //       ]);
-  //     return { projects, users };
-  //   } catch (err) {
-  //     console.log(err);
-  //     return err;
-  //   }
-  // },
 };
 
 module.exports = { Mutation };

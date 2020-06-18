@@ -15,7 +15,7 @@ const mutationTypes = gql`
     updateComments(data: UpdateCommentsInput!): Comment!
     deleteComments(id: ID!): Boolean!
     addFollower(data: AddFollowerInput!): Boolean!
-    deleteFollower(id: ID!): Boolean!
+    deleteFollower(data: AddFollowerInput!): Boolean!
   }
 `;
 

@@ -64,7 +64,7 @@ const inputTypes = gql`
 
   input AddFollowerInput {
     followingId: ID!
-    followedId: ID!
+    followerId: ID!
   }
 `;
 module.exports = inputTypes;
