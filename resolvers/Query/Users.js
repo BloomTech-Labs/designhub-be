@@ -16,4 +16,10 @@ async function user(_, { id }) {
   }
 }
 
-module.exports = { users, user };
+async function doesUserExist(_, { id }) {
+  const user = await db('users').where({ id }).first();
+  if (!user) return false;
+  return true;
+}
+
+module.exports = { users, user, doesUserExist };
