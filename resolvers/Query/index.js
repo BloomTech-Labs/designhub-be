@@ -1,6 +1,7 @@
 const { users, user, doesUserExist } = require('./Users');
 const { project, projects } = require('./Projects');
 const { searchUsers, searchProjects, search } = require('./Search');
+const { heatmapById, heatmapByUserId } = require('./Heatmap');
 
 const Query = {
   Query: {
@@ -12,6 +13,8 @@ const Query = {
     search,
     searchUsers,
     searchProjects,
+    heatmapById,
+    heatmapByUserId,
   },
 };
 

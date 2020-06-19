@@ -53,6 +53,16 @@ const userTypes = gql`
     users: [User]!
     projects: [Project]!
   }
+
+  type Heatmap {
+    id: ID!
+    userId: String!
+    projectId: Int!
+    imageId: Int!
+    count: Int!
+    date: String!
+    contribution: String!
+  }
 `;
 
 module.exports = userTypes;

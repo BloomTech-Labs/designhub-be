@@ -10,6 +10,8 @@ const queryTypes = gql`
     search(searchText: String): Search
     searchUsers(searchText: String!): [User]!
     searchProjects(searchText: String!): [Project]!
+    heatmapById(id: ID!): Heatmap!
+    heatmapByUserId(userId: ID!): [Heatmap]!
   }
 `;
 

@@ -66,5 +66,24 @@ const inputTypes = gql`
     followingId: ID!
     followerId: ID!
   }
+
+  input AddHeatmapInput {
+    userId: String!
+    projectId: Int!
+    imageId: Int!
+    count: Int!
+    date: String!
+    contribution: String!
+  }
+
+  input UpdateHeatmapInput {
+    id: ID!
+    userId: String!
+    projectId: Int!
+    imageId: Int!
+    count: Int!
+    date: String!
+    contribution: String!
+  }
 `;
 module.exports = inputTypes;

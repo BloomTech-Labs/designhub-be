@@ -131,6 +131,29 @@ const Mutation = {
       return res(true);
     });
   },
+
+  async addHeatmap(_, { data }) {
+    const heatmap = await db('heatmap').insert(data).returning('*');
+    console.log(heatmap);
+    return comments[0];
+  },
+
+  async updateHeatmap(_, { data }) {
+    const heatmap = await db('heatmap')
+      .update(data)
+      .where('id', data.id)
+      .returning('*');
+    console.log(heatmap);
+    return comments[0];
+  },
+
+  async deleteHeatmap(_, { id }) {
+    return new Promise(async (res, rej) => {
+      const deletedHeatmap = await db('heatmap').where('id', id).del();
+      if (!deletedHeatmap) return rej(false);
+      return res(true);
+    });
+  },
 };
 
 module.exports = { Mutation };

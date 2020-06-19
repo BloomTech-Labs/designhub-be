@@ -16,6 +16,9 @@ const mutationTypes = gql`
     deleteComments(id: ID!): Boolean!
     addFollower(data: AddFollowerInput!): Boolean!
     deleteFollower(data: AddFollowerInput!): Boolean!
+    addHeatmap(data: AddHeatmapInput!): Heatmap!
+    updateHeatmap(data: UpdateHeatmapInput!): Heatmap!
+    deleteHeatmap(id: ID!): Boolean!
   }
 `;
 
