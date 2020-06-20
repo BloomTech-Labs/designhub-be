@@ -1,11 +1,13 @@
-// const gCall = require('../../__utils__/gCall');
-const users = require('../../__utils__/usersResponse');
 const { createTestClient } = require('apollo-server-testing');
+
 const { ApolloServer } = require('apollo-server-express');
+
 const typeDefs = require('../../schema');
 const resolvers = require('../../resolvers');
 
 const knex = require('../../__utils__/dbConfig');
+
+const users = require('../../__utils__/usersResponse');
 
 let server;
 
