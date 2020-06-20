@@ -91,4 +91,28 @@ const user = {
   avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
 };
 
-module.exports = { users, user };
+const addUser = {
+  id: 'abc1225475645456',
+  firstName: 'Testers',
+  lastName: 'McTestersons',
+  username: 'IAmATest',
+  email: '1234563testing@test.com',
+  location: 'Pittsburgh,PA',
+  bio: 'Just a man looking at a girl',
+  website: 'www.1234test.com',
+  avatar: 'www.11334test.com',
+};
+
+const updateUser = {
+  id: 'abc1225475645456',
+  firstName: 'Testerson',
+  lastName: 'McTestersonny',
+  username: 'IAmATestforUpdate',
+  email: '1234563testing@testupdate.com',
+  location: 'Pittsburgh,PA',
+  bio: 'Just a man looking at a girl who is testing',
+  website: 'www.1234testupdate.com',
+  avatar: 'www.11334testupdate.com',
+};
+
+module.exports = { users, user, addUser, updateUser };
