@@ -7,7 +7,7 @@ const resolvers = require('../../resolvers');
 
 const knex = require('../../__utils__/dbConfig');
 
-const users = require('../../__utils__/usersResponse');
+const { users, user } = require('../../__utils__/usersResponse');
 
 let server;
 
@@ -18,6 +18,10 @@ beforeAll(async () => {
   });
   await knex.migrate.latest();
   return knex.seed.run();
+});
+
+afterAll(() => {
+  return knex.migrate.rollback().then(() => knex.destroy());
 });
 
 const usersQuery = `
@@ -36,6 +40,22 @@ const usersQuery = `
   }
 `;
 
+const userQuery = `
+query User($id: ID!) {
+  user(id: $id) {
+    id
+    firstName
+    lastName
+    username
+    email
+    location
+    bio
+    website
+    avatar
+  }
+}
+`;
+
 describe('Users Resolvers 🌸', () => {
   it('Gets all users 🤡', async () => {
     const { query } = createTestClient(server);
@@ -48,6 +68,24 @@ describe('Users Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         users,
+      },
+    });
+  });
+
+  it('Gets 1 user 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: userQuery,
+      variables: {
+        id: 'google-oauth2|115383560506192673006',
+      },
+    });
+
+    console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        user,
       },
     });
   });

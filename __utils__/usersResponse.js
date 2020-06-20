@@ -78,4 +78,17 @@ const users = [
   },
 ];
 
-module.exports = users;
+const user = {
+  id: 'google-oauth2|115383560506192673006',
+  firstName: 'Michael',
+  lastName: 'Vansleen',
+  username: 'mansleen',
+  email: 'mansleen@designhub.com',
+  location: 'Denver, CO',
+  bio:
+    'I love designing and always looking for ways to improve and innovate. 🤓 #Usersmatter! #LambdaBound #UXEngineer',
+  website: 'https://mansleen.io',
+  avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
+};
+
+module.exports = { users, user };
