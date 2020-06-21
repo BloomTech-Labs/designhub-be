@@ -13,6 +13,7 @@ const {
   addUser,
   updateUser,
 } = require('../../__utils__/usersResponse');
+const { doesUserExist } = require('../../resolvers/Query/Users');
 
 let server;
 
@@ -61,6 +62,12 @@ query User($id: ID!) {
 }
 `;
 
+const userExistQuery = `
+query doesUserExist($id:ID!){
+  doesUserExist(id:$id)
+}
+`;
+
 const addUserMutation = `
 mutation addUser($data: UserInput!){
   addUser(data:$data){
@@ -99,6 +106,18 @@ mutation deleteUser($id:ID!){
 }
 `;
 
+const addFollowerMutation = `
+mutation addFollower($data: AddFollowerInput!){
+  addFollower(data:$data)
+}
+`;
+
+const deleteFollowerMutation = `
+mutation deleteFollower($data: AddFollowerInput!){
+  deleteFollower(data:$data)
+}
+`;
+
 describe('Users Resolvers 🌸', () => {
   it('Gets all users 🤡', async () => {
     const { query } = createTestClient(server);
@@ -129,6 +148,24 @@ describe('Users Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         user,
+      },
+    });
+  });
+
+  it('Does user exist 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: userExistQuery,
+      variables: {
+        id: 'google-oauth2|115383560506192673006',
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        doesUserExist: true,
       },
     });
   });
@@ -199,6 +236,48 @@ describe('Users Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         deleteUser: true,
+      },
+    });
+  });
+
+  it('Adds Follower 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      mutation: addFollowerMutation,
+      variables: {
+        data: {
+          followerId: 'google-oauth2|115383560506192673006',
+          followingId: 'auth0|5d83b8d3d8e1cf0df49647e3',
+        },
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        addFollower: true,
+      },
+    });
+  });
+
+  it('Deletes Follower 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      mutation: deleteFollowerMutation,
+      variables: {
+        data: {
+          followerId: 'google-oauth2|115383560506192673006',
+          followingId: 'auth0|5d83b8d3d8e1cf0df49647e3',
+        },
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        deleteFollower: true,
       },
     });
   });

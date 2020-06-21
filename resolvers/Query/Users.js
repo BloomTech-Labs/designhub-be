@@ -6,7 +6,7 @@ async function users() {
 
 async function user(_, { id }) {
   try {
-    console.log('id', id);
+    // console.log('id', id);
     const user = await db('users').where({ id }).first();
     if (!user) throw new Error('No user with this id exists... 💩');
     return user;

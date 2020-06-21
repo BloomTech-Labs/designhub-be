@@ -7,7 +7,7 @@ const Mutation = {
       const checkUser = await db('users').where({ id: data.id }).first();
       if (checkUser) return checkUser;
       const user = await db('users').insert(data).returning('*');
-      console.log(user);
+      // console.log(user);
       return user[0];
     } catch (err) {
       console.log(err);
@@ -20,7 +20,7 @@ const Mutation = {
       .update(data)
       .where('id', data.id)
       .returning('*');
-    console.log(user);
+    // console.log(user);
     return user[0];
   },
 
