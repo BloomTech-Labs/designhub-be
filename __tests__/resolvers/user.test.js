@@ -12,6 +12,7 @@ const {
   user,
   addUser,
   updateUser,
+  failedUserId,
 } = require('../../__utils__/usersResponse');
 
 let server;
@@ -149,6 +150,16 @@ describe('Users Resolvers 🌸', () => {
         user,
       },
     });
+    const failedRes = await query({
+      query: userQuery,
+      variables: {
+        id: 'abcjkh',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No user with this id exists... 💩'
+    );
   });
 
   it('Does user exist 🤡', async () => {
@@ -165,6 +176,21 @@ describe('Users Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         doesUserExist: true,
+      },
+    });
+
+    const failedRes = await query({
+      query: userExistQuery,
+      variables: {
+        id: 'asdsdfsdf',
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(failedRes).toMatchObject({
+      data: {
+        doesUserExist: false,
       },
     });
   });

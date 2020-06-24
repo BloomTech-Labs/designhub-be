@@ -42,7 +42,6 @@ mutation updateComments($data: UpdateCommentsInput!){
     updateComments(data:$data){
       id
       userId
-      username
       projectId
       text
     }
@@ -84,7 +83,6 @@ describe('Comments Resolvers 🌸', () => {
         data: {
           id: '3',
           userId: 'abc122547564545642',
-          username: 'IAmATester',
           projectId: '3',
           text: 'I am a test comment for update again!',
         },

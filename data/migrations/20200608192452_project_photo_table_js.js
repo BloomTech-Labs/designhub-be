@@ -5,7 +5,7 @@ exports.up = function (knex) {
     tbl.string('description');
     tbl.string('title');
     tbl.text('url');
-    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+    tbl.datetime('created_at').defaultTo(knex.fn.now());
   });
 };
 

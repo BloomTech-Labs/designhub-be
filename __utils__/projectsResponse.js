@@ -29,6 +29,28 @@ const project = {
   mainImg: 'https://i.imgur.com/EMlwt0i.png',
 };
 
+const nestedProject = {
+  comments: [
+    {
+      id: '1',
+      projectId: '1',
+      text: 'This is a comment',
+    },
+  ],
+};
+
+const nestedPhoto = {
+  photos: [
+    {
+      id: '1',
+      projectId: '1',
+      url: 'www.testing.com',
+      description: 'Hello there',
+      title: 'Testing is this thing on?',
+    },
+  ],
+};
+
 const addProject = {
   userId: 'abc1225475645456',
   private: true,
@@ -45,4 +67,11 @@ const updateProject = {
   mainImg: 'wwwkjhbnkjnbcxcasdf',
 };
 
-module.exports = { projects, project, addProject, updateProject };
+module.exports = {
+  projects,
+  project,
+  addProject,
+  updateProject,
+  nestedProject,
+  nestedPhoto,
+};

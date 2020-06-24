@@ -18,7 +18,7 @@ exports.up = function (knex) {
       .references('photos.id')
       .onDelete('CASCADE');
     tbl.integer('count').defaultTo(1);
-    tbl.string('date');
+    tbl.datetime('date').defaultTo(knex.fn.now());
     tbl.text('contribution');
   });
 };

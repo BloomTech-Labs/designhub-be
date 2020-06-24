@@ -10,6 +10,8 @@ const knex = require('../../__utils__/dbConfig');
 const {
   projects,
   project,
+  nestedProject,
+  nestedPhoto,
   addProject,
   updateProject,
 } = require('../../__utils__/projectsResponse');
@@ -56,6 +58,32 @@ const projectQuery = `
     }
   }
   `;
+
+const nestedProjectQuery = `
+query project($id:ID!){
+  project(id:$id){
+    comments{
+			id
+    	projectId
+      text
+    }
+  }
+}
+`;
+
+const nestedPhotoQuery = `
+query project($id:ID!){
+  project(id:$id){
+    photos{
+      id
+      projectId
+      url
+      description
+      title
+    }
+  }
+}
+`;
 
 const addProjectMutation = `
   mutation addProject($data: ProjectInput!){
@@ -111,6 +139,36 @@ describe('Projects Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         project,
+      },
+    });
+  });
+
+  it('Checks nested with comments 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: nestedProjectQuery,
+      variables: {
+        id: '1',
+      },
+    });
+    expect(res).toMatchObject({
+      data: {
+        project: nestedProject,
+      },
+    });
+  });
+
+  it('Checks nested with comments 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: nestedPhotoQuery,
+      variables: {
+        id: '1',
+      },
+    });
+    expect(res).toMatchObject({
+      data: {
+        project: nestedPhoto,
       },
     });
   });

@@ -13,7 +13,6 @@ exports.seed = function (knex) {
           projectId: 1,
           imageId: 1,
           count: 2,
-          date: '2020-06-23T19:53:58-04:00',
           contribution: 'A lot... Like... A lot, a lot...',
         },
       ]);

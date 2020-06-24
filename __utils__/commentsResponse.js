@@ -7,7 +7,6 @@ const addComments = {
 const updateComments = {
   id: '3',
   userId: 'abc122547564545642',
-  username: 'IAmATester',
   projectId: '3',
   text: 'I am a test comment for update again!',
 };

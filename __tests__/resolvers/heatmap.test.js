@@ -31,7 +31,6 @@ query heatmapById($id:ID!){
       projectId
       imageId
       count
-      date
       contribution
     }
   }
