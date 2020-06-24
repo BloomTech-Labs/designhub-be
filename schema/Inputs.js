@@ -76,7 +76,6 @@ const inputTypes = gql`
     date: String!
     contribution: String!
   }
-
   input UpdateHeatmapInput {
     id: ID!
     userId: String!

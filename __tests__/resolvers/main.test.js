@@ -13,7 +13,6 @@ const {
   addUser,
   updateUser,
 } = require('../../__utils__/usersResponse');
-const { doesUserExist } = require('../../resolvers/Query/Users');
 
 let server;
 
