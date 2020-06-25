@@ -171,10 +171,10 @@ describe('Projects Resolvers 🌸', () => {
     const failedRes = await query({
       query: nestedProjectQuery,
       variables: {
-        id: '7',
+        id: '10',
       },
     });
-    // console.log('Failed response ***', failedRes.errors[0].message);
+    console.log('Failed response ***', failedRes.errors[0].message);
     expect(failedRes.errors[0].message).toMatch(
       'No project with this id exists... 💩'
     );
@@ -197,10 +197,10 @@ describe('Projects Resolvers 🌸', () => {
     const failedRes = await query({
       query: nestedPhotoQuery,
       variables: {
-        id: '7',
+        id: '10',
       },
     });
-    // console.log('Failed response ***', failedRes.errors[0].message);
+    console.log('Failed response ***', failedRes.errors[0].message);
     expect(failedRes.errors[0].message).toMatch(
       'No project with this id exists... 💩'
     );

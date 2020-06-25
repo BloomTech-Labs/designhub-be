@@ -59,7 +59,6 @@ const userTypes = gql`
     projectId: Int!
     imageId: Int!
     count: Int!
-    date: String!
     contribution: String!
   }
 `;

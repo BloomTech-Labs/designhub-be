@@ -14,7 +14,7 @@
 		"db-remake": "psql -U postgres -f remakeDatabase.sql",
 		"knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
 		"total-reset": "yarn db-remake && yarn knex-refresh",
-		"coverage": "jest --coverage --detectOpenHandles --forceExit || true"
+		"coverage": "cross-env NODE_ENV=testing jest --coverage --detectOpenHandles --forceExit || true"
 	},
 	"repository": {
 		"type": "git",

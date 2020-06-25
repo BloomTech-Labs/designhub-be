@@ -8,7 +8,6 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('heatmap').insert([
         {
-          id: 1,
           userId: 'auth0|5d83b8d3d8e1cf0df49647e3',
           projectId: 1,
           imageId: 1,

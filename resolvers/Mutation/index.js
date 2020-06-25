@@ -34,7 +34,7 @@ const Mutation = {
 
   async addProject(_, { data }) {
     const project = await db('projects').insert(data).returning('*');
-    console.log(project);
+    // console.log(project);
     return project[0];
   },
 
@@ -43,7 +43,7 @@ const Mutation = {
       .update(data)
       .where('id', data.id)
       .returning('*');
-    console.log(project);
+    // console.log(project);
     return project[0];
   },
 
@@ -57,7 +57,7 @@ const Mutation = {
 
   async addProjectPhoto(_, { data }) {
     const projectPhoto = await db('photos').insert(data).returning('*');
-    console.log(projectPhoto);
+    // console.log(projectPhoto);
     return projectPhoto[0];
   },
 
@@ -66,7 +66,7 @@ const Mutation = {
       .update(data)
       .where('id', data.id)
       .returning('*');
-    console.log(projectPhoto);
+    // console.log(projectPhoto);
     return projectPhoto[0];
   },
 
@@ -80,7 +80,7 @@ const Mutation = {
 
   async addComments(_, { data }) {
     const comments = await db('comments').insert(data).returning('*');
-    console.log(comments);
+    // console.log(comments);
     return comments[0];
   },
 
@@ -89,7 +89,7 @@ const Mutation = {
       .update(data)
       .where('id', data.id)
       .returning('*');
-    console.log(comments);
+    // console.log(comments);
     return comments[0];
   },
 
@@ -107,7 +107,7 @@ const Mutation = {
         followerId: data.followerId,
         followingId: data.followingId,
       });
-      console.log('does exist', doesExist);
+      // console.log('does exist', doesExist);
       if (doesExist.length >= 1)
         throw new Error('User is already following this person! 🤡');
       const followers = await db('followers').insert(data).returning('*');
@@ -127,7 +127,7 @@ const Mutation = {
           followingId: data.followingId,
         })
         .del();
-      console.log('followers', followers);
+      // console.log('followers', followers);
       return res(true);
     });
   },
@@ -135,7 +135,7 @@ const Mutation = {
   async addHeatmap(_, { data }) {
     const heatmap = await db('heatmap').insert(data).returning('*');
     console.log(heatmap);
-    return comments[0];
+    return heatmap[0];
   },
 
   async updateHeatmap(_, { data }) {
@@ -144,7 +144,7 @@ const Mutation = {
       .where('id', data.id)
       .returning('*');
     console.log(heatmap);
-    return comments[0];
+    return heatmap[0];
   },
 
   async deleteHeatmap(_, { id }) {

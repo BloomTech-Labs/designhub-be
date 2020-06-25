@@ -5,7 +5,7 @@ async function projects(parents, args, ctx) {
 }
 
 async function project(_, { id }) {
-  console.log('id', id);
+  // console.log('id', id);
   try {
     const project = await db('projects').where({ id }).first();
     if (!project) throw new Error('No project with this id exists... 💩');
