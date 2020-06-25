@@ -5,7 +5,7 @@ const inputTypes = gql`
     id: String!
     firstName: String
     lastName: String
-    username: String!
+    username: String
     email: String!
     location: String
     bio: String

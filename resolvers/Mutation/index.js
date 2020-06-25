@@ -1,5 +1,5 @@
 const db = require('../../data/dbConfig');
-const { ValidationError } = require('apollo-server-express');
+// const { ValidationError } = require('apollo-server-express');
 
 const Mutation = {
   async addUser(_, { data }) {
