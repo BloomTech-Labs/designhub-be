@@ -141,6 +141,17 @@ describe('Projects Resolvers 🌸', () => {
         project,
       },
     });
+
+    const failedRes = await query({
+      query: projectQuery,
+      variables: {
+        id: '7',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No project with this id exists... 💩'
+    );
   });
 
   it('Checks nested with comments 🤡', async () => {
@@ -156,9 +167,20 @@ describe('Projects Resolvers 🌸', () => {
         project: nestedProject,
       },
     });
+
+    const failedRes = await query({
+      query: nestedProjectQuery,
+      variables: {
+        id: '7',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No project with this id exists... 💩'
+    );
   });
 
-  it('Checks nested with comments 🤡', async () => {
+  it('Checks nested with photo 🤡', async () => {
     const { query } = createTestClient(server);
     const res = await query({
       query: nestedPhotoQuery,
@@ -171,6 +193,17 @@ describe('Projects Resolvers 🌸', () => {
         project: nestedPhoto,
       },
     });
+
+    const failedRes = await query({
+      query: nestedPhotoQuery,
+      variables: {
+        id: '7',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No project with this id exists... 💩'
+    );
   });
 
   it('Adds projects 🤡', async () => {

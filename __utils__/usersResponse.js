@@ -115,15 +115,4 @@ const updateUser = {
   avatar: 'www.11334testupdate.com',
 };
 
-const failedUserId = {
-  errors: [
-    {
-      message: 'No user with this id exists... �',
-      locations: [Array],
-      path: [Array],
-      extensions: [Object],
-    },
-  ],
-};
-
-module.exports = { users, user, addUser, updateUser, failedUserId };
+module.exports = { users, user, addUser, updateUser };

@@ -6,4 +6,14 @@ const heatmapById = {
   contribution: 'A lot... Like... A lot, a lot...',
 };
 
-module.exports = { heatmapById };
+const heatmapByUserId = [
+  {
+    id: '1',
+    projectId: 1,
+    imageId: 1,
+    count: 2,
+    contribution: 'A lot... Like... A lot, a lot...',
+  },
+];
+
+module.exports = { heatmapById, heatmapByUserId };

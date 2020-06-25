@@ -12,7 +12,6 @@ const {
   user,
   addUser,
   updateUser,
-  failedUserId,
 } = require('../../__utils__/usersResponse');
 
 let server;

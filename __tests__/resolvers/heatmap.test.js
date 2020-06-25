@@ -7,7 +7,10 @@ const resolvers = require('../../resolvers');
 
 const knex = require('../../__utils__/dbConfig');
 
-const { heatmapById } = require('../../__utils__/heatmapResponse');
+const {
+  heatmapById,
+  heatmapByUserId,
+} = require('../../__utils__/heatmapResponse');
 
 let server;
 
@@ -36,6 +39,18 @@ query heatmapById($id:ID!){
   }
 `;
 
+const heatmapByUserIdQuery = `
+query heatmapByUserId($userId:ID!){
+  heatmapByUserId(userId:$userId){
+    id
+    projectId
+    imageId
+    count
+    contribution
+  }
+}
+`;
+
 describe('Heatmap Resolvers 🌸', () => {
   it('Gets heatmap by Id 🤡', async () => {
     const { query } = createTestClient(server);
@@ -51,6 +66,24 @@ describe('Heatmap Resolvers 🌸', () => {
     expect(res).toMatchObject({
       data: {
         heatmapById,
+      },
+    });
+  });
+
+  it('Gets heatmap by  user Id 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: heatmapByUserIdQuery,
+      variables: {
+        userId: 'auth0|5d83b8d3d8e1cf0df49647e3',
+      },
+    });
+
+    console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        heatmapByUserId,
       },
     });
   });

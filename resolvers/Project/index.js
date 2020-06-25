@@ -5,7 +5,7 @@ const Project = {
     async comments(project) {
       try {
         const comments = await db('comments').where({ projectId: project.id });
-        if (!comments) throw new Error('Something went wrong... 💩');
+        if (!comments) throw new Error('No project with this id exists... 💩');
         // console.log(comments);
         return comments;
       } catch (err) {
@@ -16,7 +16,7 @@ const Project = {
     async photos(project) {
       try {
         const photos = await db('photos').where({ projectId: project.id });
-        if (!photos) throw new Error('Something went wrong... 💩');
+        if (!photos) throw new Error('No project with this id exists... 💩');
         // console.log(photos);
         return photos;
       } catch (err) {
