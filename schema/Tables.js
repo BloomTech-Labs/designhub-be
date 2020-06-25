@@ -5,7 +5,7 @@ const userTypes = gql`
     id: ID!
     firstName: String
     lastName: String
-    username: String!
+    username: String
     email: String!
     location: String
     bio: String
