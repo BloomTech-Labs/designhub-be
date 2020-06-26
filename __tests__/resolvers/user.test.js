@@ -10,6 +10,8 @@ const knex = require('../../__utils__/dbConfig');
 const {
   users,
   user,
+  nestedUser,
+  nestedFollower,
   addUser,
   updateUser,
 } = require('../../__utils__/usersResponse');
@@ -64,6 +66,39 @@ query User($id: ID!) {
 const userExistQuery = `
 query doesUserExist($id:ID!){
   doesUserExist(id:$id)
+}
+`;
+
+const nestedUserQuery = `
+query User($id: ID!) {
+  user(id: $id) {
+    projects{
+      id
+      userId
+      private
+      name
+      description
+      mainImg
+    }
+  }
+}
+`;
+
+const nestedFollowerQuery = `
+query User($id: ID!) {
+  user(id: $id) {
+    followers{
+      id
+      firstName
+      lastName
+      username
+      email
+      location
+      bio
+      website
+      avatar
+    }
+  }
 }
 `;
 
@@ -192,6 +227,64 @@ describe('Users Resolvers 🌸', () => {
         doesUserExist: false,
       },
     });
+  });
+
+  it('Checks nested with projects 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: nestedUserQuery,
+      variables: {
+        id: 'auth0|5d83b8d3d8e1cf0df49647e3',
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        user: nestedUser,
+      },
+    });
+
+    const failedRes = await query({
+      query: nestedUserQuery,
+      variables: {
+        id: 'asdasdasdasd',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No user with this id exists... 💩'
+    );
+  });
+
+  it('Checks nested with followers 🤡', async () => {
+    const { query } = createTestClient(server);
+    const res = await query({
+      query: nestedFollowerQuery,
+      variables: {
+        id: 'auth0|5d83b8d3d8e1cf0df49647e3',
+      },
+    });
+
+    // console.log('TEST RESPONSE ***', res);
+
+    expect(res).toMatchObject({
+      data: {
+        user: nestedFollower,
+      },
+    });
+
+    const failedRes = await query({
+      query: nestedFollowerQuery,
+      variables: {
+        id: 'asdasdasdasd',
+      },
+    });
+    // console.log('Failed response ***', failedRes.errors[0].message);
+    expect(failedRes.errors[0].message).toMatch(
+      'No user with this id exists... 💩'
+    );
   });
 
   it('Adds user 🤡', async () => {

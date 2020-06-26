@@ -6,7 +6,7 @@ const Comment = {
       try {
         const user = await db('users').where({ id: comment.userId }).first();
         if (!user) throw new Error('Something went wrong... 💩');
-        // console.log(user);
+        console.log(user);
         return user;
       } catch (err) {
         console.log(err);

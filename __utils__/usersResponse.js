@@ -91,6 +91,45 @@ const user = {
   avatar: 'https://avatars3.githubusercontent.com/u/40153979?s=400&v=4',
 };
 
+const nestedUser = {
+  projects: [
+    {
+      id: '1',
+      userId: 'auth0|5d83b8d3d8e1cf0df49647e3',
+      private: false,
+      name: 'My Public Post',
+      description: 'Description',
+      mainImg: 'https://i.imgur.com/EMlwt0i.png',
+    },
+    {
+      id: '2',
+      userId: 'auth0|5d83b8d3d8e1cf0df49647e3',
+      private: false,
+      name: 'My Other Public Post',
+      description: 'Other Description',
+      mainImg: 'https://i.imgur.com/jidEDG6.png',
+    },
+  ],
+};
+
+const nestedFollower = {
+  followers: [
+    {
+      id: 'auth0|5dc999e4d958d80e7bb7b597',
+      firstName: 'Kimmi',
+      lastName: 'Lang',
+      username: 'test',
+      email: 'test@test.com',
+      location: 'San Francisco, CA',
+      bio:
+        'I am a UX Designer for DesignHub. I love creating fun and lively user interactions and experiences that are unique. Give me a follow and see more of my work!!',
+      website: 'https://kimmilangux.io',
+      avatar:
+        'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
+    },
+  ],
+};
+
 const addUser = {
   id: 'abc1225475645456',
   firstName: 'Testers',
@@ -115,4 +154,11 @@ const updateUser = {
   avatar: 'www.11334testupdate.com',
 };
 
-module.exports = { users, user, addUser, updateUser };
+module.exports = {
+  users,
+  user,
+  nestedUser,
+  nestedFollower,
+  addUser,
+  updateUser,
+};

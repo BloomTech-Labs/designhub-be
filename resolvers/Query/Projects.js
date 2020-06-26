@@ -11,7 +11,7 @@ async function project(_, { id }) {
     if (!project) throw new Error('No project with this id exists... 💩');
     return project;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }
