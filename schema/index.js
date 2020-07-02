@@ -5,9 +5,10 @@ const tableTypes = require('./Tables');
 const inputTypes = require('./Inputs');
 
 const typeDefs = gql`
-  ${queryTypes}
-  ${mutationTypes}
-  ${tableTypes}
-  ${inputTypes}
+  ${queryTypes},
+  ${tableTypes},
+  ${mutationTypes},
+  ${inputTypes},
 `;
+
 module.exports = typeDefs;

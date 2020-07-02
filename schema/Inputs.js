@@ -2,25 +2,11 @@ const { gql } = require('apollo-server-express');
 
 const inputTypes = gql`
   input UserInput {
-    auth0Id: String!
-    username: String!
+    id: String!
+    firstName: String
+    lastName: String
+    username: String
     email: String!
-    firstName: String!
-    lastName: String!
-    phoneNumber: String
-    location: String
-    bio: String
-    website: String
-    avatar: String
-  }
-  input updateUserInput {
-    id: ID!
-    auth0Id: String!
-    username: String!
-    email: String!
-    firstName: String!
-    lastName: String!
-    phoneNumber: String
     location: String
     bio: String
     website: String
@@ -29,7 +15,7 @@ const inputTypes = gql`
 
   input ProjectInput {
     userId: ID!
-    privateProjects: String
+    private: Boolean!
     name: String!
     description: String!
     figma: String
@@ -37,8 +23,9 @@ const inputTypes = gql`
     mainImg: String
   }
 
-  input updateProjectInput {
-    userId: ID!
+  input UpdateProjectInput {
+    id: ID!
+    userId: String!
     privateProjects: String
     name: String!
     description: String!
@@ -49,136 +36,52 @@ const inputTypes = gql`
 
   input ProjectPhotoInput {
     projectId: ID!
-    url: String
     description: String!
     title: String!
+    url: String!
   }
 
-  input updateProjectPhotoInput {
+  input UpdateProjectPhotoInput {
     id: ID!
     projectId: ID!
-    url: String
     description: String!
     title: String!
+    url: String!
   }
 
   input CommentsInput {
-    userId: ID!
-    username: String!
-    projectId: Int!
+    userId: String!
+    projectId: ID!
     text: String!
   }
 
-  input updateCommentsInput {
+  input UpdateCommentsInput {
     id: ID!
-    userId: ID!
-    projectId: Int!
-    username: String!
+    userId: String!
+    projectId: ID!
     text: String!
   }
 
-  input PhotoCommentsInput {
-    userId: ID!
-    username: String!
-    imageId: ID!
-    text: String!
-    top: String!
-    left: String!
-  }
-
-  input updatePhotoCommentsInput {
-    userId: ID!
-    id: ID!
-    username: String!
-    imageId: Int!
-    text: String!
-    top: String
-    left: String
-  }
-
-  input addFollowerInput {
+  input AddFollowerInput {
     followingId: ID!
-    followedId: ID!
+    followerId: ID!
   }
 
-  input addHeatmapInput {
-    userId: Int!
+  input AddHeatmapInput {
+    userId: String!
     projectId: Int!
-    imageId: Int
-    count: Int
-    date: String
+    imageId: Int!
+    count: Int!
     contribution: String!
   }
 
-  input addStarredInput {
-    userId: Int
-    projectId: Int
-    count: Int
-  }
-
-  input InviteInput {
-    activeUserId: Int!
-    invitedUserId: Int!
-    starredProjectsId: Int
-    commentsId: Int
-    projectId: Int
-    projectName: String
-    imageId: Int
-    activeUserAvatar: String!
-    activeUsername: String!
-    mainImgUrl: String
-    commentText: String
-    teamId: Int
-    followersId: Int
-    type: String
-    message: String
-    unread: Boolean
-  }
-
-  input updateInviteInput {
+  input UpdateHeatmapInput {
     id: ID!
-    activeUserId: Int!
-    invitedUserId: Int!
-    starredProjectsId: Int
-    commentsId: Int
-    projectId: Int
-    projectName: String
-    imageId: Int
-    activeUserAvatar: String!
-    activeUsername: String!
-    mainImgUrl: String
-    commentText: String
-    teamId: Int
-    followersId: Int
-    type: String
-    message: String
-    unread: Boolean
-  }
-
-  input addProjectInviteInput {
-    email: String!
+    userId: String!
     projectId: Int!
-  }
-
-  input updateProjectInviteInput {
-    id: ID!
-    email: String!
-    projectId: Int!
-  }
-
-  input CategoryInput {
-    category: String!
-  }
-
-  input updateCategoryInput {
-    id: ID!
-    category: String!
-  }
-
-  input UserResearchInput {
-    url: String!
-    projectId: String!
+    imageId: Int!
+    count: Int!
+    contribution: String!
   }
 `;
-
 module.exports = inputTypes;
