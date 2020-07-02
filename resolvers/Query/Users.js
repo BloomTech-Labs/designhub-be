@@ -18,7 +18,7 @@ async function user(_, { id }) {
 
 async function doesUserExist(_, { id }) {
   const user = await db('users').where({ id }).first();
-  if (!user) return false;
+  if (!user || !user.username) return false;
   return true;
 }
 
