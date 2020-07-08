@@ -38,6 +38,7 @@ query Projects {
       private
       name
       description
+      category
       figma
       invision
       mainImg
@@ -52,6 +53,7 @@ const projectQuery = `
       private
       name
       description
+      category
       figma
       invision
       mainImg
@@ -92,6 +94,7 @@ const addProjectMutation = `
       private
       name
       description
+      category
       mainImg
     }
   }
@@ -104,6 +107,7 @@ const updateProjectMutation = `
         userId
         name
         description
+        category
         mainImg
         }
     }
@@ -219,6 +223,7 @@ describe('Projects Resolvers 🌸', () => {
           private: true,
           name: 'testing',
           description: 'i am a tester for the update',
+          category: 'Web Design',
           mainImg: 'wwwkjhbnkjnbcxc',
         },
       },
@@ -241,6 +246,7 @@ describe('Projects Resolvers 🌸', () => {
           userId: 'abc1225475645456',
           name: 'testing updates',
           description: 'i am a tester for the update again',
+          category: 'UI Design',
           mainImg: 'wwwkjhbnkjnbcxcasdf',
         },
       },

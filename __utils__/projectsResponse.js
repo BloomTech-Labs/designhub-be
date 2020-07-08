@@ -4,6 +4,7 @@ const projects = [
     private: false,
     name: 'My Public Post',
     description: 'Description',
+    category: 'Web Design',
     figma: null,
     invision: null,
     mainImg: 'https://i.imgur.com/EMlwt0i.png',
@@ -13,6 +14,7 @@ const projects = [
     private: false,
     name: 'My Other Public Post',
     description: 'Other Description',
+    category: 'Web Design',
     figma: null,
     invision: null,
     mainImg: 'https://i.imgur.com/jidEDG6.png',
@@ -24,6 +26,7 @@ const project = {
   private: false,
   name: 'My Public Post',
   description: 'Description',
+  category: 'Web Design',
   figma: null,
   invision: null,
   mainImg: 'https://i.imgur.com/EMlwt0i.png',
@@ -56,6 +59,7 @@ const addProject = {
   private: true,
   name: 'testing',
   description: 'i am a tester for the update',
+  category: 'Web Design',
   mainImg: 'wwwkjhbnkjnbcxc',
 };
 
@@ -64,6 +68,7 @@ const updateProject = {
   userId: 'abc1225475645456',
   name: 'testing updates',
   description: 'i am a tester for the update again',
+  category: 'UI Design',
   mainImg: 'wwwkjhbnkjnbcxcasdf',
 };
 

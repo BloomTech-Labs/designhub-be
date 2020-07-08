@@ -21,6 +21,7 @@ const userTypes = gql`
     private: Boolean!
     name: String!
     description: String!
+    category: String!
     figma: String
     invision: String
     mainImg: String!
