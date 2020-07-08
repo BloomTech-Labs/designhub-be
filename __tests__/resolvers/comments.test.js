@@ -102,14 +102,21 @@ describe('Comments Resolvers 🌸', () => {
         comment: nestedUser,
       },
     });
-    const failedRes = await query({
-      query: commentQuery,
-      variables: {
-        id: '9',
-      },
-    });
+    // const failedRes = await query({
+    //   query: commentQuery,
+    //   variables: {
+    //     id: '9',
+    //   },
+    // });
     // console.log('Failed response ***', failedRes.errors[0].message);
-    expect(failedRes.errors[0].message).toMatch('No data to display!... 💩');
+    await expect(
+      query({
+        query: commentQuery,
+        variables: {
+          id: '9',
+        },
+      })
+    ).rejects.toThrow();
   });
 
   it('Gets comment nested with user 🤡', async () => {

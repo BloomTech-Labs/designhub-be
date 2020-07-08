@@ -9,7 +9,7 @@ const Project = {
         // console.log(comments);
         return comments;
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         return err;
       }
     },
@@ -20,7 +20,7 @@ const Project = {
         // console.log(photos);
         return photos;
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         return err;
       }
     },
