@@ -16,4 +16,14 @@ async function project(_, { id }) {
   }
 }
 
-module.exports = { projects, project };
+async function category(_, { category }) {
+  console.log('category', category);
+  try {
+    const projectCat = await db('projects').where({ category });
+    return projectCat;
+  } catch (err) {
+    return err;
+  }
+}
+
+module.exports = { projects, project, category };
