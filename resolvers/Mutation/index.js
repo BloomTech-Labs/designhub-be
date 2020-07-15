@@ -154,6 +154,29 @@ const Mutation = {
       return res(true);
     });
   },
+
+  async search(_, { searchText }) {
+    const userText = searchText.replace(/\s+/g, '').toLowerCase();
+    const projectText = searchText.toLowerCase();
+    try {
+      const users = await db('users')
+        .select('*')
+        .whereRaw(`LOWER(username) LIKE ?`, [`%${userText}%`])
+        .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
+          `%${userText}%`,
+        ]);
+
+      const projects = await db('projects')
+        .select('*')
+        .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
+        .andWhere('private', false);
+
+      return { projects, users };
+    } catch (err) {
+      // console.log(err);
+      return err;
+    }
+  },
 };
 
 module.exports = { Mutation };

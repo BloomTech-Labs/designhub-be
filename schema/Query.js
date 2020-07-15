@@ -9,9 +9,6 @@ const queryTypes = gql`
     project(id: ID!): Project!
     category(category: String!): [Project]!
     comment(id: ID!): Comment!
-    search(searchText: String): Search
-    searchUsers(searchText: String!): [User]!
-    searchProjects(searchText: String!): [Project]!
     heatmapById(id: ID!): Heatmap!
     heatmapByUserId(userId: ID!): [Heatmap]!
   }

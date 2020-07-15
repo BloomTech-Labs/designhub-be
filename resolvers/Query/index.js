@@ -1,6 +1,6 @@
 const { users, user, doesUserExist } = require('./Users');
 const { project, projects, category } = require('./Projects');
-const { searchUsers, searchProjects, search } = require('./Search');
+// const { searchUsers, searchProjects, search } = require('./Search');
 const { heatmapById, heatmapByUserId } = require('./Heatmap');
 const { comment } = require('./Comment');
 
@@ -13,9 +13,9 @@ const Query = {
     projects,
     category,
     comment,
-    search,
-    searchUsers,
-    searchProjects,
+    // search,
+    // searchUsers,
+    // searchProjects,
     heatmapById,
     heatmapByUserId,
   },
