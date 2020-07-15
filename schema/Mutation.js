@@ -19,6 +19,7 @@ const mutationTypes = gql`
     addHeatmap(data: AddHeatmapInput!): Heatmap!
     updateHeatmap(data: UpdateHeatmapInput!): Heatmap!
     deleteHeatmap(id: ID!): Boolean!
+    search(searchText: String): Search
   }
 `;
 
