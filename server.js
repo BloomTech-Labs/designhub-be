@@ -20,7 +20,12 @@ app.use(express.json());
 // ***************** TEST ENDPOINT ***************
 
 app.get('/', async (req, res) => {
-  res.send('<h1>She works</h1>');
+  res.send(`
+  <body style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Server is up and running!</h1>
+    <p>The GraphQL API is located at <a href="/graphql">/graphql</a></p>
+  </body>
+  `);
 });
 
 // Creates a new instance of apollo and
@@ -28,6 +33,8 @@ app.get('/', async (req, res) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
 });
 
 // wraps our GQL server with our entire
