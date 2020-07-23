@@ -44,6 +44,7 @@ jobs:
           AUDIENCE_URL: ${{ secrets.AUDIENCE_URL }}
           AUTH0URI: ${{ secrets.AUTH0URI }}
           TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          CI: true
         with:
           # Run our `coverage` script in our `package.json`
           coverageCommand: yarn coverage
