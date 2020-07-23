@@ -5,6 +5,7 @@ exports.up = function (knex) {
     tbl.boolean('private').defaultTo(false);
     tbl.string('name').notNullable();
     tbl.text('description');
+    tbl.text('category');
     tbl.string('figma');
     tbl.string('invision');
     tbl.string('mainImg');

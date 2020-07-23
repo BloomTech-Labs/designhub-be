@@ -11,7 +11,7 @@ async function user(_, { id }) {
     if (!user) throw new Error('No user with this id exists... 💩');
     return user;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }

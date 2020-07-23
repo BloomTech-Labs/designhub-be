@@ -133,7 +133,7 @@ describe('Heatmap Resolvers 🌸', () => {
         userId: 'auth0|5dc999e4d958d80e7bb7b597',
       },
     });
-    console.log('Failed response ***', failedRes.errors[0].message);
+    // console.log('Failed response ***', failedRes.errors[0].message);
     expect(failedRes.errors[0].message).toMatch('No data to display!... 💩');
   });
 

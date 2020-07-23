@@ -18,7 +18,7 @@ async function search(_, { searchText }) {
 
     return { projects, users };
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }

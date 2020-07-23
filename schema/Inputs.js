@@ -6,7 +6,7 @@ const inputTypes = gql`
     firstName: String
     lastName: String
     username: String
-    email: String!
+    email: String
     location: String
     bio: String
     website: String
@@ -18,6 +18,7 @@ const inputTypes = gql`
     private: Boolean!
     name: String!
     description: String!
+    category: String
     figma: String
     invision: String
     mainImg: String
@@ -29,6 +30,7 @@ const inputTypes = gql`
     privateProjects: String
     name: String!
     description: String!
+    category: String
     figma: String
     invision: String
     mainImg: String

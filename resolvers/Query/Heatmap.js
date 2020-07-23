@@ -7,7 +7,7 @@ async function heatmapById(_, { id }) {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }
@@ -18,7 +18,7 @@ async function heatmapByUserId(_, { userId }) {
     if (data == 0) throw new Error('No data to display!... 💩');
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }

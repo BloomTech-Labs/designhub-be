@@ -5,9 +5,7 @@ const { ApolloServer } = require('apollo-server-express');
 
 // middleware imports
 const express = require('express');
-// const morgan = require('morgan');
-// const cors = require('cors');
-// const helmet = require('helmet');
+
 const app = express();
 
 // ***************** GRAPHQL *********************
@@ -17,15 +15,17 @@ const typeDefs = require('./schema');
 
 // ***************** MIDDLEWARE ******************
 
-// app.use(morgan('dev'));
 app.use(express.json());
-// app.use(cors());
-// app.use(helmet());
 
 // ***************** TEST ENDPOINT ***************
 
 app.get('/', async (req, res) => {
-  res.send('<h1>She works</h1>');
+  res.send(`
+  <body style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Server is up and running!</h1>
+    <p>The GraphQL API is located at <a href="/graphql">/graphql</a></p>
+  </body>
+  `);
 });
 
 // Creates a new instance of apollo and
@@ -33,6 +33,8 @@ app.get('/', async (req, res) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
 });
 
 // wraps our GQL server with our entire

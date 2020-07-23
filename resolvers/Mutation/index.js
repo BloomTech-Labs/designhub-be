@@ -10,7 +10,7 @@ const Mutation = {
       // console.log(user);
       return user[0];
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return err;
     }
   },
@@ -114,7 +114,7 @@ const Mutation = {
       if (!followers) return false;
       return true;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return err;
     }
   },
@@ -134,7 +134,7 @@ const Mutation = {
 
   async addHeatmap(_, { data }) {
     const heatmap = await db('heatmap').insert(data).returning('*');
-    console.log(heatmap);
+    // console.log(heatmap);
     return heatmap[0];
   },
 
@@ -143,7 +143,7 @@ const Mutation = {
       .update(data)
       .where('id', data.id)
       .returning('*');
-    console.log(heatmap);
+    // console.log(heatmap);
     return heatmap[0];
   },
 
@@ -153,6 +153,29 @@ const Mutation = {
       if (!deletedHeatmap) return rej(false);
       return res(true);
     });
+  },
+
+  async search(_, { searchText }) {
+    const userText = searchText.replace(/\s+/g, '').toLowerCase();
+    const projectText = searchText.toLowerCase();
+    try {
+      const users = await db('users')
+        .select('*')
+        .whereRaw(`LOWER(username) LIKE ?`, [`%${userText}%`])
+        .orWhereRaw(`LOWER(CONCAT("firstName", "lastName")) LIKE ?`, [
+          `%${userText}%`,
+        ]);
+
+      const projects = await db('projects')
+        .select('*')
+        .whereRaw(`LOWER(name) LIKE ?`, [`%${projectText}%`])
+        .andWhere('private', false);
+
+      return { projects, users };
+    } catch (err) {
+      // console.log(err);
+      return err;
+    }
   },
 };
 

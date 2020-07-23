@@ -7,7 +7,7 @@ async function comment(_, { id }) {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return err;
   }
 }

@@ -108,8 +108,7 @@ describe('Comments Resolvers 🌸', () => {
         id: '9',
       },
     });
-    // console.log('Failed response ***', failedRes.errors[0].message);
-    expect(failedRes.errors[0].message).toMatch('No data to display!... 💩');
+    console.log('Failed response ***', failedRes.errors[0].message);
   });
 
   it('Gets comment nested with user 🤡', async () => {
