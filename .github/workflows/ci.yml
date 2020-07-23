@@ -7,7 +7,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - break-everything
 
 # The jobs that will be run, usually in parallel
 jobs:
@@ -37,6 +37,13 @@ jobs:
         env:
           # An environment variable, the value is a GitHub repo secret
           CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          AUDIENCE_URL: ${{ secrets.AUDIENCE_URL }}
+          AUTH0URI: ${{ secrets.AUTH0URI }}
+          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         with:
           # Run our `coverage` script in our `package.json`
           coverageCommand: yarn coverage
